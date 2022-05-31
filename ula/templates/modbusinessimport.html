@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>new business</title>
+    <style type="text/css">
+            /*表格样式*/
+            table {
+                width: 30%;
+                background: #ccc;
+                margin: 10px auto;
+                border-collapse: collapse;
+                /*border-collapse:collapse合并内外边距
+                (去除表格单元格默认的2个像素内外边距*/
+            }
+            th,td {
+                height: 25px;
+                line-height: 25px;
+                text-align: left;
+                border: 1px solid #ccc;
+            }
+            th {
+                background:#328aa4;
+                color:#fff;
+                font-weight: normal;
+            }
+
+            tr:nth-child(1n){
+                 background:#eee;
+             }
+            tr:nth-child(2n) {
+                background: #fff;
+            }
+
+            td a {
+                color: #06f;
+                text-decoration: none;
+            }
+            td a:hover {
+                color: #06f;
+                text-decoration: underline;
+            }
+
+
+
+
+
+
+    </style>
+
+    <script type="text/javascript">
+        function setSelected(selectID,value){
+            select = document.getElementById(selectID);
+                for (var i = 0; i < select.options.length; i++){
+                if (select.options[i].value == value){
+                    select.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+
+        function formatDate(dateID, dateString){
+            var d = new Date(dateString);
+            month = ''+ (d.getMonth()+1);
+            day = ''+d.getDate();
+            year= d.getFullYear();
+
+           if (month.length < 2){
+                  month = '0'+ month;
+           }
+           if (day.length < 2){
+                day = '0'+ day;
+           }
+           dateString1 = [year,month,day].join('-');
+           dateObj = document.getElementById(dateID);
+           dateObj.value=dateString1;
+        }
+
+        function setCheckbox(checkboxID, checkboxString){
+           checkboxObj = document.getElementById(checkboxID);
+           if (checkboxString =="YES"){
+              document.getElementById(checkboxID).checked = true;
+           }
+           if (checkboxString =="NO"){
+              document.getElementById(checkboxID).checked = false;
+           }
+        }
+
+        function uploadMultiFiles(filesID){
+            var fileObj=document.getElementById("filesID");
+            var formData=new FormData();
+            var fileList=fileObj.files;
+            console.log(fileList.length);
+            for (const file of inputFile.files) {
+                formData.append("files", file);
+            }
+            for(let i=0;i<fileList.length;i++) {
+                var file=fileList[i];
+                formData.append("file"+i,file);
+                console.log(file.name+file.lastModifiedDate);
+            }
+
+        }
+
+
+
+        function getShortFileName(longFilename){
+            return longFilename.substr(longFilename.lastIndexOf(longFilename)+1);
+        }
+
+        function calCostVentaOrigen(){
+            calCostLocal();
+            calCostHBLDestino();
+            var cost_org=document.getElementById("cost_org").value;
+            var sale_org=document.getElementById("sale_org").value;
+            document.getElementById("set_org").value = (parseFloat(sale_org)+parseFloat(cost_org))/2;
+            document.getElementById("topaid_org").value=parseFloat(document.getElementById("set_org").value)+parseFloat(document.getElementById("local_org").value);
+            document.getElementById("topaid_org_description").value = document.getElementById("set_org").value+"+"+document.getElementById("local_org").value;
+            document.getElementById("venta_dest").value = sale_org;
+            calVenta();
+        }
+        function calCostLocal(){
+            if (document.getElementById("clientname").value == "亚美ASIAMERIC"){
+                document.getElementById("local_org").value="370";
+            }else{
+                document.getElementById("local_org").value="0";
+            }
+        }
+        function calCostHBLDestino(){
+            if (document.getElementById("shipping_line").value=="MSC"){
+                document.getElementById("costhbl_dest_description").value="90+125+102";
+                document.getElementById("costhbl_dest").value=90+125+102;
+            }else if (document.getElementById("shipping_line").value=="MSK"){
+                document.getElementById("costhbl_dest_description").value="90+125+55";
+                document.getElementById("costhbl_dest").value=90+125+55;
+            }else if (document.getElementById("shipping_line").value=="YML"){
+                document.getElementById("costhbl_dest_description").value="90+142+120";
+                document.getElementById("costhbl_dest").value=90+142+120;
+            }else if (document.getElementById("shipping_line").value=="OOCL"){
+                document.getElementById("costhbl_dest_description").value="90+218+55";
+                document.getElementById("costhbl_dest").value=90+218+55;
+            }else if (document.getElementById("shipping_line").value=="CMA"){
+                document.getElementById("costhbl_dest_description").value="90+120+50";
+                document.getElementById("costhbl_dest").value=90+120+50;
+            }else if (document.getElementById("shipping_line").value=="EMC"){
+                document.getElementById("costhbl_dest_description").value="90+120+100";
+                document.getElementById("costhbl_dest").value=90+120+100;
+            }else{
+                document.getElementById("costhbl_dest_description").value="90+X+X";
+                document.getElementById("costhbl_dest").value="";
+            }
+        }
+
+
+        function calVenta(){
+            addi_cost=0;
+            document.getElementById("toinvoice_dest_description").value=document.getElementById("venta_dest").value;
+            document.getElementById("toinvoice_dest").value = document.getElementById("venta_dest").value;
+
+
+            if (document.getElementById("shipping_line").value=="MSC"){
+                document.getElementById("toinvoice_dest_description").value +="+300+125";
+                document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+300+125;
+                if (document.getElementById("clientname").value=="骏和WS CARGO" && parseFloat(document.getElementById("num_hbls").value)>10){
+                    addi_cost=(parseFloat(document.getElementById("num_hbls").value)-10)*25;
+                    document.getElementById("toinvoice_dest_description").value +="+"+String(addi_cost);
+                    document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+addi_cost;
+                }else if (document.getElementById("clientname").value=="骏和WS CARGO" && document.getElementById("num_hbls").value==""){
+                    document.getElementById("toinvoice_dest_description").value +="+"+"X";
+                    document.getElementById("toinvoice_dest").value="";
+                }else{;}
+            }else if (document.getElementById("shipping_line").value=="MSK"){
+                document.getElementById("toinvoice_dest_description").value +="+300+125";
+                document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+300+125;
+                if (document.getElementById("clientname").value=="骏和WS CARGO" && parseFloat(document.getElementById("num_hbls").value)>10){
+                    addi_cost=(parseFloat(document.getElementById("num_hbls").value)-10)*25;
+                    document.getElementById("toinvoice_dest_description").value +="+"+String(addi_cost);
+                    document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+addi_cost;
+                }else if (document.getElementById("clientname").value=="骏和WS CARGO" && document.getElementById("num_hbls").value==""){
+                    document.getElementById("toinvoice_dest_description").value +="+X";
+                    document.getElementById("toinvoice_dest").value="";
+                }else{;}
+            }else if (document.getElementById("shipping_line").value=="YML"){
+                document.getElementById("toinvoice_dest_description").value +="+300+142";
+                document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+300+142;
+                if (document.getElementById("clientname").value=="骏和WS CARGO" && parseFloat(document.getElementById("num_hbls").value)>10){
+                    addi_cost=(parseFloat(document.getElementById("num_hbls").value)-10)*25;
+                    document.getElementById("toinvoice_dest_description").value +="+"+String(addi_cost);
+                    document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+addi_cost;
+                }else if (document.getElementById("clientname").value=="骏和WS CARGO" && document.getElementById("num_hbls").value==""){
+                    document.getElementById("toinvoice_dest_description").value +="+X";
+                    document.getElementById("toinvoice_dest").value="";
+                }else{;}
+            }else if (document.getElementById("shipping_line").value=="OOCL"){
+                document.getElementById("toinvoice_dest_description").value +="+300+125+85";
+                document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+300+125+85;
+                if (document.getElementById("clientname").value=="骏和WS CARGO" && parseFloat(document.getElementById("num_hbls").value)>10){
+                    addi_cost=(parseFloat(document.getElementById("num_hbls").value)-10)*25;
+                    document.getElementById("toinvoice_dest_description").value +="+"+String(addi_cost);
+                    document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+addi_cost;
+                }else if (document.getElementById("clientname").value=="骏和WS CARGO" && document.getElementById("num_hbls").value==""){
+                    document.getElementById("toinvoice_dest_description").value +="+X";
+                    document.getElementById("toinvoice_dest").value="";
+                }else{;}
+            }else if (document.getElementById("shipping_line").value=="CMA"){
+                document.getElementById("toinvoice_dest_description").value +="+300+125";
+                document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+300+125;
+                if (document.getElementById("clientname").value=="骏和WS CARGO" && parseFloat(document.getElementById("num_hbls").value)>10){
+                    addi_cost=(parseFloat(document.getElementById("num_hbls").value)-10)*25;
+                    document.getElementById("toinvoice_dest_description").value +="+"+String(addi_cost);
+                    document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+addi_cost;
+                }else if (document.getElementById("clientname").value=="骏和WS CARGO" && document.getElementById("num_hbls").value==""){
+                    document.getElementById("toinvoice_dest_description").value +="+X";
+                    document.getElementById("toinvoice_dest").value="";
+                }else{;}
+            }else if (document.getElementById("shipping_line").value=="EMC"){
+                document.getElementById("toinvoice_dest_description").value +="+300+125";
+                document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+300+125;
+                if (document.getElementById("clientname").value=="骏和WS CARGO" && parseFloat(document.getElementById("num_hbls").value)>10){
+                    addi_cost=(parseFloat(document.getElementById("num_hbls").value)-10)*25;
+                    document.getElementById("toinvoice_dest_description").value +="+"+String(addi_cost);
+                    document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+addi_cost;
+                }else if (document.getElementById("clientname").value=="骏和WS CARGO" && document.getElementById("num_hbls").value==""){
+                    document.getElementById("toinvoice_dest_description").value +="+X";
+                    document.getElementById("toinvoice_dest").value="";
+                }else{;}
+            }else{
+                document.getElementById("toinvoice_dest_description").value +="+300+125";
+                document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+300+125;
+                if (document.getElementById("clientname").value=="骏和WS CARGO" && parseFloat(document.getElementById("num_hbls").value)>10){
+                    addi_cost=(parseFloat(document.getElementById("num_hbls").value)-10)*25;
+                    document.getElementById("toinvoice_dest_description").value +="+"+String(addi_cost);
+                    document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+addi_cost;
+                }else if (document.getElementById("clientname").value=="骏和WS CARGO" && document.getElementById("num_hbls").value==""){
+                    document.getElementById("toinvoice_dest_description").value +="+X";
+                    document.getElementById("toinvoice_dest").value="";
+                }else{;}
+            }
+            if (document.getElementById("clientname").value=="亚美ASIAMERIC"){
+                document.getElementById("toinvoice_dest_description").value +="+370";
+                document.getElementById("toinvoice_dest").value=parseFloat(document.getElementById("toinvoice_dest").value)+370;
+            }
+            document.getElementById("profit").value = parseFloat(document.getElementById("toinvoice_dest").value)-parseFloat(document.getElementById("costhbl_dest").value)-parseFloat(document.getElementById("topaid_org").value);
+
+        }
+
+        function calCostVentaDestino(){
+            //calCostLocal();
+            //calCostHBLDestino();
+            var cost_org=document.getElementById("cost_org").value;
+            var sale_org=document.getElementById("sale_org").value;
+            document.getElementById("set_org").value = (parseFloat(sale_org)+parseFloat(cost_org))/2;
+            document.getElementById("topaid_org").value=parseFloat(document.getElementById("set_org").value)+parseFloat(document.getElementById("local_org").value);
+            document.getElementById("topaid_org_description").value = document.getElementById("set_org").value+"+"+document.getElementById("local_org").value;
+            //document.getElementById("venta_dest").value = sale_org;
+            calVenta();
+        }
+
+
+    </script>
+</head>
+<body>
+<form id="delbusiness-form" method="post" action="/ula/delbusiness/">
+    {% csrf_token %}
+    <input id="idbusinessfordelete" name="idbusinessfordelete" value="{{businessinfo.id}}"
+           type="hidden" class="form
+           -control">
+    <input type="submit" value="Delete/删除" class="btn btn-primary pull-right"/>
+    <p></p>
+</form>
+<form id="prealerta-form" method="post" action="/ula/prealerta/">
+    {% csrf_token %}
+    <input id="idbusinessforprealerta" name="idbusinessforprealerta" value="{{businessinfo.id}}"
+           type="hidden" class="form-control">
+
+    <input id="toinv_desc_forprealerta" name="toinv_desc_forprealerta" value="{{businessinfo.toinvoice_dest_description}}"
+           type="hidden" class="form-control">
+
+    <input id="toinv_forprealerta" name="toinv_forprealerta" value="{{businessinfo.toinvoice_dest}}"
+           type="hidden" class="form-control">
+
+    <input type="submit" value="Generar Pre-Alerta" class="btn btn-primary pull-right"/>
+    <p></p>
+</form>
+<form id="newbusiness-form" method="post" action="/ula/savebusinessimport/" enctype="multipart/form-data">
+    <input id="userSelectBID" name="userSelectBID" value="{{businessinfo.id}}"
+           type="hidden" class="form-control">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Business Information:</legend>
+        <table align="left">
+            <tbody>
+            <tr>
+                <td>
+                    <fieldset>
+                        <legend>MODIFY A BUSINESS:</legend>
+                        <label for="id">N°/编号：</label>
+                        <input readonly id="id" name="id"
+                               value="{{ businessinfo.id }}"
+                               type="text" class="form-control">
+                        <br>
+                        <label for="clientname">Client/客户：</label>
+                        <select id="clientname" name="clientname" class="form-control" onchange={calCostLocal();}>
+                            <option value="" selected>Pls Select Clients</option>
+                            <option value="亚美ASIAMERIC">亚美ASIAMERIC</option>
+                            <option value="骏和WS CARGO">骏和WS CARGO</option>
+                            <option value="盛腾服装NUEVO SIGLO">盛腾服装NUEVO SIGLO</option>
+                            <option value="亚洲贸易HIPER ASIA">亚洲贸易HIPER ASIA</option>
+                            <option value="四叶草S-Y-C">四叶草S-Y-C</option>
+                            <option value="宾泉国际龚总KANG KANG">宾泉国际龚总KANG KANG</option>
+                            <option value="宾泉国际WATGEN">宾泉国际WATGEN</option>
+                            <option value="洪姐HONG">洪姐HONG</option>
+                            <option value="OMAS">OMAS</option>
+                            <option value="YAO">YAO</option>
+                        </select>
+                        <script>
+                            setSelected("clientname","{{businessinfo.clientname}}");
+
+                        </script>
+                        <br>
+                        <label for="week">Week/周：</label>
+                        <input id="week" name="week" value="{{businessinfo.week}}" type="week" class="form-control">
+                        <br>
+                        <label for="estimated_load_date">ETL/预计装箱日期：</label>
+                        <input id="estimated_load_date" name="estimated_load_date" type="date" class="form-control">
+                        <br>
+                        <label for="pre_etd">ETD/预计开船日期：</label>
+                        <input id="pre_etd" name="pre_etd" type="date" class="form-control">
+                        <br>
+                        <label for="etd">ETD Real/实际开船日期：</label>
+                        <input id="etd" name="etd" type="date" class="form-control">
+                        <br>
+                        <label for="eta">ETA/预计到港日期：</label>
+                        <input id="eta" name="eta" type="date" class="form-control">
+                        <script>
+                            formatDate("estimated_load_date","{{businessinfo.estimated_load_date}}");
+                            formatDate("pre_etd","{{businessinfo.pre_etd}}");
+                            formatDate("etd","{{businessinfo.etd}}");
+                            formatDate("eta","{{businessinfo.eta}}");
+
+                        </script>
+                        <br>
+                        <label for="vessel_voyage">Vessel Voyage/船名航次：</label>
+                        <input id="vessel_voyage" name="vessel_voyage" value="{{ businessinfo.vessel_voyage }}"
+                               type="text" class="form-control" required> *
+                        <br>
+                        <label for="pol">POL/起运港：</label>
+                        <select id="pol" name="pol" class="form-control" required>
+                            <option value="" selected>Pls Select POL</option>
+                            <option value="NINGBO">NINGBO</option>
+                        </select> *
+                        <br>
+                        <label for="pod">POD/目的港：</label>
+                        <select id="pod" name="pod" class="form-control" required>
+                            <option value="" selected>Pls Select POD</option>
+                            <option value="SAN ANTONIO">SAN ANTONIO</option>
+                            <option value="VALPARAISO">VALPARAISO</option>
+                        </select> *
+                        <br>
+                        <label for="businessinfocol"> Note/备注：</label>
+                        <textarea id="businessinfocol" name="businessinfocol"
+                                  class="form-control" rows="4" cols="30" placeholder="Please Input Descriptions...">
+                        </textarea>
+                        <script>
+                            setSelected("pol","{{businessinfo.pol}}");
+                            setSelected("pod","{{businessinfo.pod}}");
+                            document.getElementById("businessinfocol").value = "{{businessinfo.businessinfocol}}";
+
+                        </script>
+                        <br>
+                        <label for="numctrs">Ctrs Numeber/箱量</label>
+                        <input id="numctrs" name="numctrs" value="{{businessinfo.numctrs}}" type="number"
+                               class="form-control" size=2
+                               placeholder="ej...1"
+                               required> *
+                        <br>
+                        <label for="type_ctrs">Ctrs Type/箱型：</label>
+                        <select id="type_ctrs" name="type_ctrs" class="form-control" required>
+                            <option value="" selected>Pls Select Ctrs-Type</option>
+                            <option value="40HQ">40HQ</option>
+                            <option value="40NR">40HR</option>
+                            <option value="20GP">20GP</option>
+                        </select> *
+                        <script>
+                            setSelected("type_ctrs","{{businessinfo.type_ctrs}}");
+
+                        </script>
+                        <br>
+                        <label for="booking_no">#Booking/订舱号：</label>
+                        <input id="booking_no" name="booking_no" value="{{businessinfo.booking_no}}"
+                               type="text" class="form-control" required> *
+                        <br>
+                        <label for="master_no">#Master/主单号：</label>
+                        <input id="master_no" name="master_no" value="{{businessinfo.master_no}}" type="text"
+                               class="form-control">
+                        <br>
+                        <label>MBL File/主单文件:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.mblfile}}" download="">{{businessinfo.mblfile}}</a>
+                        <br>
+                        <label for="first_hbl_no">#First HBL/首子单号:</label>
+                        <input id="first_hbl_no" name="first_hbl_no" value="{{businessinfo.first_hbl_no}}" type="text" class="form-control">
+                        <br>
+                        <label for="hbl_memo">HBL MEMO/子单备注:</label>
+                        <input id="hbl_memo" name="hbl_memo" value="{{businessinfo.hbl_memo}}" type="text" class="form-control">
+                        <br>
+
+                        <label for="num_hbls">Num HBL/子单数量(FCL/FCL):</label>
+                        <input id="num_hbls" name="num_hbls" value="{{businessinfo.num_hbls}}" type="number"
+                               class="form-control" size=2
+                               placeholder="ej...1" onchange={calCostVentaDestino();}>
+                        <br>
+                        <label>HBL Files/子单附件:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.hblfiles}}" download="">{{businessinfo.hblfiles}}</a>
+                        <br>
+                        <label for="container_no">Container/箱号：</label>
+                        <input id="container_no" name="container_no" value="{{businessinfo.container_no}}" type="text"
+                               class="form-control">
+                        <br>
+                        <label for="shipping_line">Line/船司：</label>
+                        <select id="shipping_line" name="shipping_line" class="form-control" required onchange={calCostHBLDestino();}>
+                            <option value="" selected>Pls Select Ocean Lines</option>
+                            <option value="MSC">MSC</option>
+                            <option value="CMA">CMA</option>
+                            <option value="MSK">MSK</option>
+                            <option value="EMC">EMC</option>
+                            <option value="COSCO">COSCO</option>
+                            <option value="OOCL">OOCL</option>
+                            <option value="ONE">ONE</option>
+                            <option value="YML">YML</option>
+                            <option value="HPL">HPL</option>
+                        </select> *
+                        <br>
+                        <label for="freeddday">Free D&D/免箱期：</label>
+                        <input id="freeddday" name="freeddday" value="{{businessinfo.freeddday}}" type="number"
+                               class="form-control" placeholder="ej...14"
+                               required> *
+                        <br>
+                        <label for="bl_type">BL Type/提单类型：</label>
+                        <select id="bl_type" name="bl_type" class="form-control">
+                            <option value="" selected>Pls Select BL Type</option>
+                            <option value="MBL">MBL</option>
+                            <option value="HBL">HBL</option>
+                        </select>
+                        <br>
+                        <label for="release_type">Release Type/放单类型：</label>
+                        <select id="release_type" name="release_type" class="form-control">
+                            <option value="" selected>Pls Select MBL Release Type</option>
+                            <option value="提单原件BL ORIGINAL">提单原件BL ORIGINAL</option>
+                            <option value="SWB">SWB</option>
+                            <option value="目的港打印Emision En Destino">目的港打印Emision En Destino</option>
+                            <option value="Tele-Release">Tele-Release</option>
+                        </select>
+                        <script>
+                            setSelected("shipping_line","{{businessinfo.shipping_line}}");
+                            setSelected("bl_type","{{businessinfo.bl_type}}");
+                            setSelected("release_type","{{businessinfo.release_type}}");
+
+                        </script>
+                        <p></p>
+                        <div align="right">
+                            <input type="submit" value="Modify/保存" class="btn btn-primary pull-right"/>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Upload Bill of Lading Attachment:</legend>
+                        <label for="mblfile">Master BL File：</label>
+
+                        <input type="file" id="mblfile" name="mblfile" accept=".pdf">
+
+                        <br>
+                        <label for="hblfiles">House BL File：</label>
+                        <input type="file" id="hblfiles" name="hblfiles" accept=".zip,.pdf">
+
+                    </fieldset>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table align="left">
+            <tbody>
+            <tr>
+                <td>
+                    <fieldset>
+                        <legend>Origen Operation information(China):</legend>
+                        <label for="cost_org">O.F. Cost/成本运价：</label>
+                        <input id="cost_org" name="cost_org" value="{{businessinfo.cost_org}}" type="number"
+                               class="form-control"
+                               placeholder="ej...10000" onclick={calCostVentaDestino();} onchange={calCostVentaDestino();}>
+                        <br>
+                        <label for="sale_org">O.F. Sale/销售运价：</label>
+                        <input id="sale_org" name="sale_org" value="{{businessinfo.sale_org}}" type="number"
+                               class="form-control"
+                               placeholder="ej...11000" onclick={calCostVentaDestino();} onchange={calCostVentaDestino();}>
+                        <br>
+                        <label for="set_org">S.O.F. Cost Origin/结算运价：</label>
+                        <input id="set_org" name="set_org" value="{{businessinfo.set_org}}" type="number"
+                               class="form-control"
+                               readonly>
+                        <br>
+                        <label for="local_org">Local Cost Origin/起运港当地费用：</label>
+                        <input id="local_org" name="local_org" value="{{businessinfo.local_org}}" type="number"
+                               class="form-control" onchange={calCostVentaDestino();}>
+                        <br>
+                        <label for="topaid_org_description">Deal Payment Detail/结算价付款明细：</label>
+                        <input id="topaid_org_description" name="topaid_org_description"
+                               value="{{businessinfo.topaid_org_description}}" type="text"
+                               class="form-control" readonly>
+                        <br>
+                        <label for="topaid_org">Deal Payment Amount/结算价付款金额：</label>
+                        <input id="topaid_org" name="topaid_org" value="{{businessinfo.topaid_org}}" type="number"
+                               class="form-control"
+                               readonly>
+                        <br>
+                        <label>D.P. Voucher/结算付款凭证:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.dp_voucher}}" download="">{{businessinfo.dp_voucher}}</a>
+                        <br>
+                        <label>D.P. Invoice/结算发票:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.dp_invoice}}" download="">{{businessinfo.dp_invoice}}</a>
+                        <br>
+                        <label for="topaid_status">* Deal Payment Status/结算价付款状态：</label>
+                        <input id="topaid_status" name="topaid_status" type="checkbox" value="YES" class="form-control">
+                        <script>
+                               setCheckbox("topaid_status","{{businessinfo.topaid_status}}");
+
+                        </script>
+                        <br>
+                        <label for="dp_voucher">Upload D.P. Voucher：</label>
+                        <input type="file" id="dp_voucher" name="dp_voucher" accept=".zip,.pdf">
+                        <br>
+                        <label for="dp_invoice">Upload D.P. Invoice：</label>
+                        <input type="file" id="dp_invoice" name="dp_invoice" accept=".zip,.pdf">
+
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>HBL Operation information(Pluscargo):</legend>
+                        <label for="costhbl_dest_description">HBL Payment Detail/子单付款明细：</label>
+                        <input id="costhbl_dest_description" name="costhbl_dest_description"
+                               value="{{businessinfo.costhbl_dest_description}}" type="text"
+                               class="form-control" placeholder="ej...90+125+102">
+                        <br>
+                        <label for="costhbl_dest">HBL Payment Amount/子单付款金额：</label>
+                        <input id="costhbl_dest" name="costhbl_dest" value="{{businessinfo.costhbl_dest}}" type="number"
+                               class="form-control" onchange={calCostVentaDestino();}>
+                        <br>
+                        <label>H.P. Voucher/HBL付款凭证:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.hp_voucher}}" download="">{{businessinfo.hp_voucher}}</a>
+                        <br>
+
+                        <label for="costhbl_dest_status">* HBL Payment Status/子单付款状态：</label>
+                        <input id="costhbl_dest_status" name="costhbl_dest_status" type="checkbox" value="YES"
+                               class="form-control">
+                        <br>
+                        <label>H.P. Invoice/HBL发票:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.hp_invoice}}" download="">{{businessinfo.hp_invoice}}</a>
+                        <br>
+                        <label>HBLs Canjeados/子单换单文件:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.hbls_canjeados}}" download="">{{businessinfo.hbls_canjeados}}</a>
+
+                        <br>
+                        <label for="hbl_canjeado_status">* HBL Canjeado Status/换单状态：</label>
+                        <input id="hbl_canjeado_status" name="hbl_canjeado_status" type="checkbox" value="YES"
+                               class="form-control">
+                        <script>
+                               setCheckbox("costhbl_dest_status","{{businessinfo.costhbl_dest_status}}");
+                               setCheckbox("hbl_canjeado_status","{{businessinfo.hbl_canjeado_status}}");
+                        </script>
+
+                        <br>
+                        <label for="hp_voucher">Upload H.P. Voucher：</label>
+                        <input type="file" id="hp_voucher" name="hp_voucher" accept=".zip,.pdf">
+
+                        <br>
+                        <label for="hp_invoice">Upload H.P. Invoice：</label>
+                        <input type="file" id="hp_invoice" name="hp_invoice" accept=".zip,.pdf">
+
+                        <br>
+                        <label for="hbls_canjeados">Upload HBLs Canjeados：</label>
+                        <input type="file" id="hbls_canjeados" name="hbls_canjeados" accept=".zip,.pdf">
+                    </fieldset>
+                    <fieldset>
+                        <legend>Management information(United Logistic Chile):</legend>
+                        <label for="venta_dest">O.F.D.V/目的港运价：</label>
+                        <input id="venta_dest" name="venta_dest" value="{{businessinfo.venta_dest}}" type="number"
+                               class="form-control"
+                               placeholder="ej...11100" onclick={document.getElementById("venta_dest").value=document.getElementById("sale_org").value;calCostVentaDestino();}
+                               onchange={calCostVentaDestino();}>
+                        <br>
+                        <label for="toinvoice_dest_description">Inv. Income Detail/发票价收款明细：</label>
+                        <input id="toinvoice_dest_description" name="toinvoice_dest_description"
+                               value="{{businessinfo.toinvoice_dest_description}}" type="text"
+                               class="form-control" placeholder="ej...11100+370+300+125" readonly>
+                        <br>
+                        <label for="toinvoice_dest">Inv. Income Amount/发票价收款金额：</label>
+                        <input id="toinvoice_dest" name="toinvoice_dest" value="{{businessinfo.toinvoice_dest}}"
+                               type="number" class="form-control" readonly>
+                        <br>
+                        <label>Rec. Income Voucher/收款凭证:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.income_voucher}}" download="">{{businessinfo.income_voucher}}</a>
+                        <br>
+                        <label for="profit">Profit/毛利：</label>
+                        <input id="profit" name="profit" value="{{businessinfo.profit}}" type="number"
+                               class="form-control" readonly>
+                        <br>
+                        <label>Rec. Income Invoice/收款发票:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.income_invoice}}" download="">{{businessinfo.income_invoice}}</a>
+                        <br>
+                        <label for="toinvoice_dest_status">* Inv. Income Status/发票价收款状态：</label>
+                        <input id="toinvoice_dest_status" name="toinvoice_dest_status" type="checkbox" value="YES"
+                               class="form-control">
+                        <script>
+                               setCheckbox("toinvoice_dest_status","{{businessinfo.toinvoice_dest_status}}");
+
+                        </script>
+                        <br>
+                        <label for="income_voucher">Upload Rec. Income Voucher：</label>
+                        <input type="file" id="income_voucher" name="income_voucher" accept=".zip,.pdf">
+                        <br>
+                        <label for="income_invoice">Upload Rec. Income Invoice：</label>
+                        <input type="file" id="income_invoice" name="income_invoice" accept=".zip,.pdf">
+                    </fieldset>
+                    <fieldset>
+                        <legend>Operation Management information:</legend>
+
+                        <label>HBLs Firmados/子单签字文件:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.hbls_firmados}}" download="">{{businessinfo.hbls_firmados}}</a>
+
+                        <br>
+                        <label>HBLs Canjeados/子单换单文件:</label>
+                        <a HREF="{{MEDIA_URL}}{{businessinfo.hbls_canjeados}}" download="">{{businessinfo.hbls_canjeados}}</a>
+                        <br>
+
+                        <label for="devolution_ctrs_inidate">INI Devol_Ctrs/目的港提柜日期：</label>
+                        <input id="devolution_ctrs_inidate" name="devolution_ctrs_inidate" type="date"
+                               class="form-control">
+                        <br>
+                        <label for="devolution_ctrs_findate">END Devol_Ctrs/目的港还柜日期：</label>
+                        <input id="devolution_ctrs_findate" name="devolution_ctrs_findate" type="date"
+                               class="form-control">
+                        <br>
+                        <label for="operation_status">* Status Finnish Op./操作是否已经完成：</label>
+                        <input id="operation_status" name="operation_status" type="checkbox" value="YES"
+                               class="form-control">
+                        <script>
+                               formatDate("devolution_ctrs_inidate","{{businessinfo.devolution_ctrs_inidate}}");
+                               formatDate("devolution_ctrs_findate","{{businessinfo.devolution_ctrs_findate}}");
+                               setCheckbox("operation_status","{{businessinfo.operation_status}}");
+
+                        </script>
+                        <br>
+                        <label for="hbls_firmados">Upload HBLs Firmados：</label>
+                        <input type="file" id="hbls_firmados" name="hbls_firmados" accept=".zip,.pdf">
+
+
+                    </fieldset>
+                </td>
+            </tbody>
+        </table>
+
+
+    </fieldset>
+
+</form>
+</body>
+</html>

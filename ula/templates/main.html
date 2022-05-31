@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>无标题文档</title>
+    <style type="text/css">
+            /*表格样式*/
+            table {
+                width: 98%;
+                background: #ccc;
+                margin: 10px auto;
+                border-collapse: collapse;
+                /*border-collapse:collapse合并内外边距
+                (去除表格单元格默认的2个像素内外边距*/
+            }
+            th,td {
+                height: 25px;
+                line-height: 25px;
+                text-align: center;
+                border: 1px solid #ccc;
+            }
+            th {
+                background:#0064c8;
+                color:#fff;
+                font-weight: normal;
+            }
+
+            tr:nth-child(1n){
+                 background:#eee;
+             }
+            tr:nth-child(2n) {
+                background: #fff;
+            }
+
+            tr:hover {
+                background: #c0c0c0;
+                color:#fff;
+            }
+            td a {
+                color: #06f;
+                text-decoration: none;
+            }
+            td a:hover {
+                color: #06f;
+                text-decoration: underline;
+            }
+
+
+
+    </style>
+    <script>
+        function setCheckbox(checkboxID, checkboxString){
+           checkboxObj = document.getElementById(checkboxID);
+           if (checkboxString =="YES"){
+              document.getElementById(checkboxID).checked = true;
+           }
+           if (checkboxString =="NO"){
+              document.getElementById(checkboxID).checked = false;
+           }
+        }
+
+
+        function setSelected(selectID,value){
+            select = document.getElementById(selectID);
+                for (var i = 0; i < select.options.length; i++){
+                if (select.options[i].value == value){
+                    select.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+<fieldset>
+    <legend>Area de function:</legend>
+
+    <form id="export-form" name="export-form" method="post" action="export/">
+        {% csrf_token %}
+        <input id="smtExpOrigen" name="smtExpOrigen" type="submit" value="Export Origen Data/起始港数据导出"
+               class="btn btn-primary pull-right">
+
+        <input id="smtExpCompany" name="smtExpCompany" type="submit" value="Export Company Data/公司数据导出"
+               class="btn btn-primary pull-right">
+    </form>
+    <p></p>
+    <form id="search-form" name="search-form" method="post" action="search/">
+        {% csrf_token %}
+
+        <lebel for="finish_estado">Incluye Registros Estados Finales:</lebel>
+        <input id="finish_estado" name="finish_estado" value="YES"  type="checkbox" class="form-control"
+               onclick={document.forms["search-form"].submit();} >
+        <br>
+        <lebel for="cond_Cliente">Cliente:</lebel>
+        <select id="cond_Cliente" name="cond_Cliente"  class="form-control"
+                onchange={document.forms["search-form"].submit();}>
+            <option value="" selected>Pls Select Clients</option>
+            <option value="亚美ASIAMERIC">亚美ASIAMERIC</option>
+            <option value="骏和WS CARGO">骏和WS CARGO</option>
+            <option value="盛腾服装NUEVO SIGLO">盛腾服装NUEVO SIGLO</option>
+            <option value="亚洲贸易HIPER ASIA">亚洲贸易HIPER ASIA</option>
+            <option value="四叶草S-Y-C">四叶草S-Y-C</option>
+            <option value="宾泉国际龚总KANG KANG">宾泉国际龚总KANG KANG</option>
+            <option value="宾泉国际WATGEN">宾泉国际WATGEN</option>
+            <option value="洪姐HONG">洪姐HONG</option>
+            <option value="OMAS">OMAS</option>
+            <option value="YAO">YAO</option>
+        </select>
+        <script>
+            setCheckbox("finish_estado","{{finish_estado}}");
+            setSelected("cond_Cliente","{{cond_Cliente}}");
+        </script>
+    </form>
+
+
+</fieldset>
+
+
+<p></p>
+<form id="main-list" name="main-list" method="post" action="newBusinessExport/">
+    {% csrf_token %}
+    <table>
+        <tbody>
+        <tr>
+            <input type="submit" value="Create One/新增"
+                   class="btn btn-primary pull-right"/>
+        </tr>
+        <tr style="font-family:arial; font-size:13px">
+            <th>N°</th>
+            <th>Client/客户</th>
+            <th>Week/周</th>
+            <!--th>ETL/预计装箱日期</th>
+            <th>ETD/预计开船日期</th>
+            <th>ETD Real/实际开船日期</th-->
+            <th>ETA/预计到港日期</th>
+            <th>Vessel Voyage/船名航次</th>
+            <th>POL/起运港</th>
+            <th>POD/目的港</th>
+            <th>N,T de Ctrs/箱型箱量</th>
+            <th>#Booking/订舱号</th>
+            <th>#Master/主单号</th>
+            <!--th>#First HBL/首子单号</th>
+            <th>HBL MEMO/子单备注</th-->
+            <th>Num HBL/子单数量</th>
+            <th>#Container/箱号</th>
+            <th>Line/船司</th>
+            <th>Free D&D</th>
+            <!--th>O.F. Cost/成本运价</th>
+            <th>O.F. Sale/销售运价</th>
+            <th>Cost Origin/结算运价</th>
+            <th>Local Cost Origin/起运港当地费用</th>
+            <th>O.F.D.V/目的港运价</th-->
+            <th>Pluscargo/Destino</th>
+            <!--th>HBL Payment Amount/子单付款金额</th>
+            <th>HBL Payment Status/子单付款状态</th-->
+            <th>Ocean Freight/Origen</th>
+            <!--th>Deal Payment Amount/结算价付款金额</th>
+            <th>Deal Payment Status/结算价付款状态</th-->
+            <th>Factura Detalle/发票明细</th>
+            <!--th>Inv. Income Amount/发票价收款金额</th>
+            <th>Inv. Income Status/发票价收款状态</th-->
+            <th>Profit/毛利</th>
+            <!--th>HBL Canjeado Status/换单状态</th>
+            <th>INI Devol_Ctrs/目的港提柜日期</th>
+            <th>END Devol_Ctrs/目的港还柜日期</th-->
+            <th>Status</th>
+            <!--th>BL Type/提单类型</th>
+            <th>Release Type/放单类型</th-->
+        </tr>
+        <input id="userSelectBID" name="userSelectBID" value="" type="hidden" class="form-control">
+        {% for business in businessLists %}
+        <tr style="font-family:arial; font-size:11px"
+            onclick={document.getElementById('userSelectBID').value={{business.id}};document.forms["main-list"].submit();}>
+            <td>{{ business.id }}</td>
+            <td>{{ business.clientname }}</td>
+            <td>{{ business.week }}</td>
+            <!--td>{{ business.estimated_load_date }}</td>
+            <td>{{ business.pre_etd }}</td>
+            <td>{{ business.etd }}</td-->
+            <td>{{ business.eta }}</td>
+            <td>{{ business.vessel_voyage }}</td>
+            <td>{{ business.pol }}</td>
+            <td>{{ business.pod }}</td>
+            <td>{{ business.numctrs }} X {{ business.type_ctrs }}</td>
+            <td>{{ business.booking_no }}</td>
+            <td>{{ business.master_no }}</td>
+            <!--td>{{ business.first_hbl_no }}</td>
+            <td>{{ business.hbl_memo }}</td-->
+            <td>{{ business.num_hbls }} x HBL FCL/FCL</td>
+            <td>{{ business.container_no }}</td>
+            <td>{{ business.shipping_line }}</td>
+            <td>{{ business.freeddday }}</td>
+            <!--td>{{ business.cost_org }}</td>
+            <td>{{ business.sale_org }}</td>
+            <td>{{ business.set_org }}</td>
+            <td>{{ business.local_org }}</td>
+            <td>{{ business.venta_dest }}</td-->
+            <td>{{ business.costhbl_dest_description }}</td>
+            <!--td>{{ business.costhbl_dest }}</td>
+            <td>{{ business.costhbl_dest_status }}</td-->
+            <td>{{ business.topaid_org_description }}</td>
+            <!--td>{{ business.topaid_org }}</td>
+            <td>{{ business.topaid_status }}</td-->
+            <td>{{ business.toinvoice_dest_description }}</td>
+            <!--td>{{ business.toinvoice_dest }}</td>
+            <td>{{ business.toinvoice_dest_status }}</td-->
+            <td>{{ business.profit }}</td>
+            <!--td>{{ business.hbl_canjeado_status }}</td>
+            <td>{{ business.devolution_ctrs_inidate }}</td>
+            <td>{{ business.devolution_ctrs_findate }}</td-->
+            <td>{{ business.operation_status }}</td>
+            <!--td>{{ business.bl_type }}</td>
+            <td>{{ business.release_type }}</td-->
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+</form>
+
+</body>
+</html>

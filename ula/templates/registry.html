@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+</head>
+<body>
+这是用户注册界面
+
+      <form id="login-form" method="post" action="/polls/register/">
+          {% csrf_token %}
+                <table class="table">
+                    <tr>
+                        <td><label for="id_username">用户名：</label></td>
+                        <td><input id="id_username" name="user"
+                                   type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="id_password">密 码：</label></td>
+                        <td><input id="id_password" name="pwd"
+                                   type="password" class="form-control"></td>
+                    </tr>
+                </table>
+
+                <input type="submit" value="注册"
+                       class="btn btn-primary pull-right" />
+            </form>
+</body>
+</html>
