@@ -1,66 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-* {
-  box-sizing: border-box;
-}
-
-.menu {
-  float: none;
-  position: absolute;
-  width: 70%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.menu a {
-  background-color: #e5e5e5;
-  padding: 20px;
-  margin-top: 7px;
-  display: block;
-  width: 100%;
-  color: black;
-}
-
-.main {
-  float: left;
-  width: 60%;
-  padding: 0 20px;
-}
-
-.right {
-  background-color: #e5e5e5;
-  float: left;
-  width: 20%;
-  padding: 15px;
-  margin-top: 7px;
-  text-align: center;
-}
-
-@media only screen and (max-width: 620px) {
-  /* For mobile phones: */
-  .menu, .main, .right {
-    width: 100%;
-  }
-}
-</style>
+    <meta charset="UTF-8">
+    <title>登录</title>
 </head>
-<body style="font-family:Verdana;color:#aaaaaa;">
+<body>
+这是登陆界面
 
-<div style="background-color:#e5e5e5;padding:15px;text-align:center;">
-  <h1 style = "color:#000000">U.S. United Logistics Home Page</h1>
-</div>
+<form id="login-form" method="post" action="/login/">
+    {% csrf_token %}
+    <table class="table">
+        <tr>
+            <td><label for="id_username">用户名：</label></td>
+            <td><input id="id_username" name="user"
+                       type="text" class="form-control"></td>
+        </tr>
+        <tr>
+            <td><label for="id_password">密 码：</label></td>
+            <td><input id="id_password" name="pwd"
+                       type="password" class="form-control"></td>
+        </tr>
+    </table>
 
-<div style="overflow:auto">
-  <div class="menu">
-    <a href="imports">Imports</a>
-      <a href="exports">Exports</a>
-  </div>
-</div>
-
+    <input type="submit" value="Login"
+           class="btn btn-primary pull-right" />
+</form>
 </body>
 </html>

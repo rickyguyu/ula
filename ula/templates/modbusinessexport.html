@@ -260,7 +260,7 @@
     </script>
 </head>
 <body>
-<form id="delbusiness-form" method="post" action="/imports/delbusiness/">
+<form id="delbusiness-form" method="post" action="/exports/delbusiness/">
     {% csrf_token %}
     <input id="idbusinessfordelete" name="idbusinessfordelete" value="{{businessinfo.id}}"
            type="hidden" class="form-control">
@@ -281,7 +281,7 @@
     <input type="submit" value="Generar Pre-Alerta" class="btn btn-primary pull-right"/>
     <p></p>
 </form>
-<form id="newbusiness-form" method="post" action="/imports/saveBusinessImport/" enctype="multipart/form-data">
+<form id="newbusiness-form" method="post" action="/exports/saveBusinessExport/" enctype="multipart/form-data">
     <input id="userSelectBID" name="userSelectBID" value="{{businessinfo.id}}"
            type="hidden" class="form-control">
     {% csrf_token %}

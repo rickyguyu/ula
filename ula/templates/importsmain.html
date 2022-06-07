@@ -76,16 +76,16 @@
 <fieldset>
     <legend>Area de function:</legend>
 
-    <form id="import-form" name="import-form" method="post" action="import/">
+    <form id="import-form" name="import-form" method="post" action="/imports/import/">
         {% csrf_token %}
-        <input id="smtImpOrigen" name="smtImpOrigen" type="submit" value="Import Origen Data/起始港数据进口"
+        <input id="smtImpOrigen" name="smtImpOrigen" type="submit" value="Import Origen Data/起始港数据导出"
                class="btn btn-primary pull-right">
 
-        <input id="smtImpCompany" name="smtImpCompany" type="submit" value="Import Company Data/公司数据进口"
+        <input id="smtImpCompany" name="smtImpCompany" type="submit" value="Import Company Data/公司数据导出"
                class="btn btn-primary pull-right">
     </form>
     <p></p>
-    <form id="search-form" name="search-form" method="post" action="search/">
+    <form id="search-form" name="search-form" method="post" action="/imports/search/">
         {% csrf_token %}
 
         <lebel for="finish_estado">Incluye Registros Estados Finales:</lebel>
@@ -118,7 +118,7 @@
 
 
 <p></p>
-<form id="main-list" name="main-list" method="post" action="newBusinessImport/">
+<form id="main-list" name="main-list" method="post" action="/imports/newBusinessImport/">
     {% csrf_token %}
     <table>
         <tbody>

@@ -76,7 +76,7 @@
 <fieldset>
     <legend>Area de function:</legend>
 
-    <form id="export-form" name="export-form" method="post" action="export/">
+    <form id="export-form" name="export-form" method="post" action="/exports/export/">
         {% csrf_token %}
         <input id="smtExpOrigen" name="smtExpOrigen" type="submit" value="Export Origen Data/起始港数据导出"
                class="btn btn-primary pull-right">
@@ -85,7 +85,7 @@
                class="btn btn-primary pull-right">
     </form>
     <p></p>
-    <form id="search-form" name="search-form" method="post" action="search/">
+    <form id="search-form" name="search-form" method="post" action="/exports/search/">
         {% csrf_token %}
 
         <lebel for="finish_estado">Incluye Registros Estados Finales:</lebel>
@@ -118,7 +118,7 @@
 
 
 <p></p>
-<form id="main-list" name="main-list" method="post" action="newBusinessExport/">
+<form id="main-list" name="main-list" method="post" action="/exports/newBusinessExport/">
     {% csrf_token %}
     <table>
         <tbody>
