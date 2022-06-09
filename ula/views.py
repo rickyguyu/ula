@@ -307,131 +307,130 @@ def savebusinessimport(request):
         return HttpResponse("请输入数据")
 
 def savebusinessexport(request):
+    # id
     id = request.POST.get("id", "")
-    clientname = request.POST.get("clientname", "")
-    week = request.POST.get("week", "")
-    estimated_load_date = request.POST.get("estimated_load_date", None)
-    if estimated_load_date=="":
-        estimated_load_date=None
-    pre_etd = request.POST.get("pre_etd", None)
-    if pre_etd=="":
-        pre_etd=None
-    etd = request.POST.get("etd", None)
-    if etd == "":
-        etd = None
-    eta = request.POST.get("eta", None)
-    if eta == "":
-        eta = None
-    vessel_voyage = request.POST.get("vessel_voyage", "")
-    pol = request.POST.get("pol", "")
-    pod = request.POST.get("pod", "")
-    businessinfocol = request.POST.get("businessinfocol", "")
-    numctrs = request.POST.get("numctrs", "")
-    type_ctrs = request.POST.get("type_ctrs", "")
+    # vessel info
     booking_no = request.POST.get("booking_no", "")
-    master_no = request.POST.get("master_no", "")
-    first_hbl_no = request.POST.get("first_hbl_no", "")
-    hbl_memo = request.POST.get("hbl_memo", "")
-    num_hbls = request.POST.get("num_hbls", None)
-    if num_hbls == "":
-        num_hbls = None
-    container_no = request.POST.get("container_no", "")
     shipping_line = request.POST.get("shipping_line", "")
-    freeddday = request.POST.get("freeddday", None)
-    cost_org = request.POST.get("cost_org", None)
-    if cost_org == "":
-        cost_org = None
-    sale_org = request.POST.get("sale_org", None)
-    if sale_org == "":
-        sale_org = None
-    set_org = request.POST.get("set_org", None)
-    if set_org == "":
-        set_org = None
-    local_org = request.POST.get("local_org", None)
-    if local_org == "":
-        local_org = None
-    venta_dest = request.POST.get("venta_dest", None)
-    if venta_dest == "":
-        venta_dest = None
-    costhbl_dest_description = request.POST.get("costhbl_dest_description", "")
-    costhbl_dest = request.POST.get("costhbl_dest", None)
-    if costhbl_dest == "":
-        costhbl_dest = None
-    costhbl_dest_status = request.POST.get("costhbl_dest_status", "NO")
-    topaid_org_description = request.POST.get("topaid_org_description", "")
-    topaid_org = request.POST.get("topaid_org", None)
-    if topaid_org == "":
-        topaid_org = None
-    topaid_status = request.POST.get("topaid_status", "NO")
-    toinvoice_dest_description = request.POST.get("toinvoice_dest_description", "")
-    toinvoice_dest = request.POST.get("toinvoice_dest", None)
-    if toinvoice_dest == "":
-        toinvoice_dest = None
-    toinvoice_dest_status = request.POST.get("toinvoice_dest_status", "NO")
-    profit = request.POST.get("profit", None)
-    if profit == "":
-        profit = None
-    hbl_canjeado_status = request.POST.get("hbl_canjeado_status", "NO")
-    devolution_ctrs_inidate = request.POST.get("devolution_ctrs_inidate", None)
-    if devolution_ctrs_inidate == "":
-        devolution_ctrs_inidate = None
-    devolution_ctrs_findate = request.POST.get("devolution_ctrs_findate", None)
-    if devolution_ctrs_findate == "":
-        devolution_ctrs_findate = None
-    operation_status = request.POST.get("operation_status", "NO")
-    bl_type = request.POST.get("bl_type", "")
-    release_type = request.POST.get("release_type", "")
-    mblfile = request.FILES.get("mblfile", "")
-    hblfiles = request.FILES.get("hblfiles", "")
-    dp_voucher = request.FILES.get("dp_voucher", "")
-    dp_invoice = request.FILES.get("dp_invoice", "")
-    hp_voucher = request.FILES.get("hp_voucher", "")
-    hp_invoice = request.FILES.get("hp_invoice", "")
-    hbls_canjeados = request.FILES.get("hbls_canjeados", "")
-    income_voucher = request.FILES.get("income_voucher", "")
-    income_invoice = request.FILES.get("income_invoice", "")
-    hbls_firmados = request.FILES.get("hbls_firmados", "")
+    vessel_voyage = request.POST.get("vessel_voyage", "")
+    delivery_terminal = request.POST.get("delivery_terminal", "")
+    # port info
+    pol = request.POST.get("pol", "")
+    pol_sailing = request.POST.get("pol_sailing", "")
+    pod_discharge = request.POST.get("pod_discharge", "")
+    pod = request.POST.get("pod", "")
+    # date&time info
+    pickup_ctrs = request.POST.get("pickup_ctrs", "")
+    cutoff_docmatriz = request.POST.get("cutoff_docmatriz", "")
+    cutoff_vgm = request.POST.get("cutoff_vgm", "")
+    cargo_cutoff = request.POST.get("cargo_cutoff", "")
+    stacking_start = request.POST.get("stacking_start", "")
+    stacking_close = request.POST.get("stacking_close", "")
+    etd = request.POST.get("etd", "")
+    eta = request.POST.get("eta", "")
+    # weight&size info
+    tare = request.POST.get("tare", "")
+    gross_weight = request.POST.get("gross_weight", "")
+    net_weight = request.POST.get("net_weight", "")
+    # container&package info
+    package_type = request.POST.get("package_type", "")
+    type_ctrs = request.POST.get("type_ctrs", "")
+    qty = request.POST.get("qty", "")
+    id_number = request.POST.get("id_number", "")
+    seal_number = request.POST.get("seal_number", "")
+    total_packages = request.POST.get("total_packages", "")
+    commodity = request.POST.get("commodity", "")
+    hs_code = request.POST.get("hs_code", "")
+    pickup_dpto = request.POST.get("pickup_dpto", "")
+    pickup_ref = request.POST.get("pickup_ref", "")
+    products = request.POST.get("products", "")
+    pickup_ref = request.POST.get("pickup_ref", "")
+    # payment info
+    client_name = request.POST.get("client_name", "")
+    charge_code = request.POST.get("charge_code", "")
+    payment = request.POST.get("payment", "")
+    rateper = request.POST.get("rateper", "")
+    freightcharges = request.POST.get("freightcharges", "")
+    prepaid = request.POST.get("prepaid", "")
+    collect = request.POST.get("collect", "")
+    # shipper info
+    shipper_name = request.POST.get("shipper_name", "")
+    shipper_address = request.POST.get("shipper_address", "")
+    shipper_city = request.POST.get("shipper_city", "")
+    shipper_state = request.POST.get("shipper_state", "")
+    shipper_country = request.POST.get("shipper_country", "")
+    shipper_email = request.POST.get("shipper_email", "")
+    # consignee info
+    consignee_name = request.POST.get("consignee_name", "")
+    consignee_address = request.POST.get("consignee_address", "")
+    consignee_city = request.POST.get("consignee_city", "")
+    consignee_state = request.POST.get("consignee_state", "")
+    consignee_country = request.POST.get("consignee_country", "")
+    consignee_email = request.POST.get("consignee_email", "")
+    # notify info
+    notify_name = request.POST.get("notify_name", "")
+    notify_address = request.POST.get("notify_address", "")
+    notify_city = request.POST.get("notify_city", "")
+    notify_state = request.POST.get("notify_state", "")
+    notify_country = request.POST.get("notify_country", "")
+    notify_email = request.POST.get("notify_email", "")
+
+    # required data fields -- need them filled out to save properly
     if vessel_voyage and pol and pod and numctrs and type_ctrs and booking_no and shipping_line and freeddday and \
             costhbl_dest_status and topaid_status and toinvoice_dest_status and hbl_canjeado_status and operation_status:
-        if id: # 修改保存
+        if id: # for modify
+            # id
             businessinfo = Businessinfo.objects.get(id = id)
-            businessinfo.clientname=clientname
-            businessinfo.week=week
-            businessinfo.estimated_load_date=estimated_load_date
-            businessinfo.pre_etd=pre_etd
+            # vessel info
+            businessinfo.booking_no=booking_no
+            businessinfo.shipping_line=shipping_line
+            businessinfo.vessel_voyage=vessel_voyage
+            businessinfo.delivery_terminal=delivery_terminal
             businessinfo.etd=etd
             businessinfo.eta=eta
             businessinfo.vessel_voyage=vessel_voyage
+            # port info
             businessinfo.pol=pol
+            businessinfo.pol_sailing=pol_sailing
+            businessinfo.pod_discharge=pod_discharge
             businessinfo.pod=pod
-            businessinfo.businessinfocol=businessinfocol
-            businessinfo.numctrs=numctrs
+            # date info
+            businessinfo.pickup_ctrs=pickup_ctrs
+            businessinfo.cutoff_docmatriz=cutoff_docmatriz
+            businessinfo.cutoff_vgm=cutoff_vgm
+            businessinfo.cargo_cutoff=cargo_cutoff
+            businessinfo.stacking_start=stacking_start
+            businessinfo.stacking_close = stacking_close
+            businessinfo.etd = etd
+            businessinfo.eta=eta
+            businessinfo.tare=tare
+            businessinfo.gross_weight=gross_weight
+            businessinfo.size=size
+            businessinfo.net_weight=net_weight
+            # container and package info
+            businessinfo.package_type=package_type
             businessinfo.type_ctrs=type_ctrs
-            businessinfo.booking_no=booking_no
-            businessinfo.master_no=master_no
-            businessinfo.first_hbl_no = first_hbl_no
-            businessinfo.hbl_memo = hbl_memo
-            businessinfo.num_hbls=num_hbls
-            businessinfo.container_no=container_no
-            businessinfo.shipping_line=shipping_line
-            businessinfo.freeddday=freeddday
-            businessinfo.cost_org=cost_org
-            businessinfo.sale_org=sale_org
-            businessinfo.set_org=set_org
-            businessinfo.local_org=local_org
-            businessinfo.venta_dest=venta_dest
-            businessinfo.costhbl_dest_description=costhbl_dest_description
-            businessinfo.costhbl_dest=costhbl_dest
-            businessinfo.costhbl_dest_status=costhbl_dest_status
-            businessinfo.topaid_org_description=topaid_org_description
-            businessinfo.topaid_org=topaid_org
-            businessinfo.topaid_status=topaid_status
-            businessinfo.toinvoice_dest_description=toinvoice_dest_description
-            businessinfo.toinvoice_dest=toinvoice_dest
+            businessinfo.qty=qty
+            businessinfo.id_number=id_number
+            businessinfo.seal_number=seal_number
+            businessinfo.total_packages=total_packages
+            businessinfo.commodity=commodity
+            businessinfo.hs_code=hs_code
+            businessinfo.pickup_dpto=pickup_dpto
+            businessinfo.pickup_ref=pickup_ref
+            businessinfo.products=products
+            # payment info
+            businessinfo.client_name=client_name
             businessinfo.toinvoice_dest_status=toinvoice_dest_status
             businessinfo.profit=profit
-            businessinfo.hbl_canjeado_status=hbl_canjeado_status
-            businessinfo.devolution_ctrs_inidate=devolution_ctrs_inidate
+            # shipper info
+            businessinfo.shipper_name=shipper_name
+            businessinfo.shipper_address=shipper_address
+            businessinfo.shipper_city=shipper_city
+            businessinfo.shipper_state=shipper_state
+            businessinfo.shipper_country=shipper_country
+            businessinfo.shipper_email=shipper_email
+
             businessinfo.devolution_ctrs_findate=devolution_ctrs_findate
             businessinfo.operation_status=operation_status
             businessinfo.bl_type=bl_type
@@ -458,7 +457,7 @@ def savebusinessexport(request):
                 businessinfo.hbls_firmados = hbls_firmados
 
 
-        else: # 新增保存
+        else: # for a new save
             if len(Businessinfo.objects.all().order_by("-id")) == 0:
                 id = 1
             else:

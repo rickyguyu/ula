@@ -349,6 +349,19 @@
                             <option value="NINGBO">NINGBO</option>
                         </select> *
                         <br>
+                        <label for="pol_sailing">POL Sailing：</label>
+                        <select id="pol_sailing" name="pol_sailing" class="form-control" required>
+                            <option value="" selected>Pls Select POL</option>
+                            <option value="NINGBO">NINGBO</option>
+                        </select> *
+                        <br>
+                        <label for="pod_discharge">POD Discharge：</label>
+                        <select id="pod_discharge" name="pod_discharge" class="form-control" required>
+                            <option value="" selected>Pls Select POL</option>
+                            <option value="SAN ANTONIO">SAN ANTONIO</option>
+                            <option value="VALPARAISO">VALPARAISO</option>
+                        </select> *
+                        <br>
                         <label for="pod">POD/目的港：</label>
                         <select id="pod" name="pod" class="form-control" required>
                             <option value="" selected>Pls Select POD</option>
@@ -362,6 +375,8 @@
                         </textarea>
                         <script>
                             setSelected("pol","{{businessinfo.pol}}");
+                            setSelected("pol_sailing","{{Exportationinfo.pol_sailing}}");
+                            setSelected("pod_discharge","{{Exportationinfo.pol_discharge}}");
                             setSelected("pod","{{businessinfo.pod}}");
                             document.getElementById("businessinfocol").value = "{{businessinfo.businessinfocol}}";
 
@@ -393,6 +408,10 @@
                         <input id="master_no" name="master_no" value="{{businessinfo.master_no}}" type="text"
                                class="form-control">
                         <br>
+                        <label for="delivery_terminal">Delivery Terminal：</label>
+                        <input id="delivery_terminal" name="delivery_terminal" value="{{businessinfo.delivery_terminal}}" type="text"
+                               class="form-control" required> *
+                        <br>
                         <label>MBL File/主单文件:</label>
                         <a HREF="{{MEDIA_URL}}{{businessinfo.mblfile}}" download="">{{businessinfo.mblfile}}</a>
                         <br>
@@ -414,6 +433,27 @@
                         <label for="container_no">Container/箱号：</label>
                         <input id="container_no" name="container_no" value="{{businessinfo.container_no}}" type="text"
                                class="form-control">
+
+                        <br>
+                        <label for="commodity">Commodity：</label>
+                        <input id="commodity" name="commodity" value="{{businessinfo.commodity}}" type="text"
+                               class="form-control">
+
+                        <br>
+                        <label for="hs_code">HS Code：</label>
+                        <input id="hs_code" name="hs_code" value="{{businessinfo.hs_code}}" type="text"
+                               class="form-control">
+
+                        <br>
+                        <label for="pickup_dpto">Pickup dpto：</label>
+                        <input id="pickup_dpto" name="pickup_dpto" value="{{businessinfo.pickup_dpto}}" type="text"
+                               class="form-control">
+
+                        <br>
+                        <label for="pickup_ref">Pickup Ref：</label>
+                        <input id="pickup_ref" name="pickup_ref" value="{{businessinfo.pickup_ref}}" type="text"
+                               class="form-control">
+
                         <br>
                         <label for="shipping_line">Line/船司：</label>
                         <select id="shipping_line" name="shipping_line" class="form-control" required onchange={calCostHBLDestino();}>
@@ -449,6 +489,14 @@
                             <option value="目的港打印Emision En Destino">目的港打印Emision En Destino</option>
                             <option value="Tele-Release">Tele-Release</option>
                         </select>
+                        <br>
+                        <label for="charge_code">Charge Code：</label>
+                        <input id="charge_code" name="charge_code" value="{{businessinfo.charge_code}}" type="number"
+                               class="form-control" placeholder="ej...OCEAN FREIGHT">
+                        <br>
+                        <label for="payment">P/C：</label>
+                        <input id="payment" name="payment" value="{{businessinfo.payment}}" type="number"
+                               class="form-control" placeholder="ej...Pre-paid">
                         <script>
                             setSelected("shipping_line","{{businessinfo.shipping_line}}");
                             setSelected("bl_type","{{businessinfo.bl_type}}");
@@ -630,6 +678,35 @@
                         <a HREF="{{MEDIA_URL}}{{businessinfo.hbls_canjeados}}" download="">{{businessinfo.hbls_canjeados}}</a>
                         <br>
 
+                        <label for="pickup_ctrs">Pickup ctrs: </label>
+                        <input id="pickup_ctrs" name="pickup_ctrs" type="datetime-local" class="form-control">
+
+                        <br>
+
+                        <label for="cutoff_docmatriz">Cutoff Doc. Matriz: </label>
+                        <input id="cutoff_docmatriz" name="cutoff_docmatriz" type="datetime-local" class="form-control">
+
+                        <br>
+
+                        <label for="cutoff_vgm">Cutoff VGM: </label>
+                        <input id="cutoff_vgm" name="cutoff_vgm" type="datetime-local" class="form-control">
+
+                        <br>
+
+                        <label for="cargo_cutoff">Cargo Cutoff: </label>
+                        <input id="cargo_cutoff" name="cargo_cutoff" type="datetime-local" class="form-control">
+
+                        <br>
+
+                        <label for="stacking_start">Stacking Start: </label>
+                        <input id="stacking_start" name="stacking_start" type="datetime-local" class="form-control">
+
+                        <br>
+
+                        <label for="stacking_close">Stacking Close: </label>
+                        <input id="stacking_close" name="stacking_close" type="datetime-local" class="form-control">
+
+                        <br>
                         <label for="devolution_ctrs_inidate">INI Devol_Ctrs/目的港提柜日期：</label>
                         <input id="devolution_ctrs_inidate" name="devolution_ctrs_inidate" type="date"
                                class="form-control">

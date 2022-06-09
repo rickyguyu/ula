@@ -200,36 +200,67 @@
 
 <form id="newbusiness-form" method="post" action="/exports/saveBusinessExport/">
     {% csrf_token %}
-    <fieldset>
+    <fieldset display="inline-block">
         <legend>Business Information:</legend>
         <table align="left">
             <tbody>
             <tr>
                 <td>
                     <fieldset>
-                        <legend>CREATE A BUSINESS:</legend>
-                        <input id="id" name="id" type="hidden" class="form-control">
-                        <label for="clientname">Client/客户：</label>
-                        <select id="clientname" name="clientname" class="form-control" onchange={calCostLocal();}>
-                            <option value="" selected>Pls Select Clients</option>
-                            <option value="亚美ASIAMERIC">亚美ASIAMERIC</option>
-                            <option value="骏和WS CARGO">骏和WS CARGO</option>
-                            <option value="盛腾服装NUEVO SIGLO">盛腾服装NUEVO SIGLO</option>
-                            <option value="亚洲贸易HIPER ASIA">亚洲贸易HIPER ASIA</option>
-                            <option value="四叶草S-Y-C">四叶草S-Y-C</option>
-                            <option value="宾泉国际龚总KANG KANG">宾泉国际龚总KANG KANG</option>
-                            <option value="宾泉国际WATGEN">宾泉国际WATGEN</option>
-                            <option value="洪姐HONG">洪姐HONG</option>
-                        </select>
+                        <legend>Vessel Information:</legend>
+                        <label for="booking_no">Booking No：</label>
+                        <input id="booking_no" name="booking_no" type="text" class="form-control" required>*
                         <br>
-                        <label for="week">Week/周：</label>
-                        <input id="week" name="week" type="week" class="form-control">
+                        <label for="shipping_line">Carrier：</label>
+                        <input id="shipping_line" name="shipping_line" type="text" class="form-control" required>*
                         <br>
-                        <label for="estimated_load_date">ETL/预计装箱日期：</label>
-                        <input id="estimated_load_date" name="estimated_load_date" type="date" class="form-control">
+                        <label for="vessel_voyage">Vessel Voyage：</label>
+                        <input id="vessel_voyage" name="vessel_voyage" type="text" class="form-control" required>*
                         <br>
-                        <label for="pre_etd">ETD/预计开船日期：</label>
-                        <input id="pre_etd" name="pre_etd" type="date" class="form-control">
+                        <label for="delivery_terminal">Delivery Terminal：</label>
+                        <input id="delivery_terminal" name="delivery_terminal" type="text" class="form-control" required>*
+                    </fieldset>
+                </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <td>
+                    <fieldset>
+                        <legend>Port Information:</legend>
+                        <label for="pol">POL：</label>
+                        <input id="pol" name="pol" type="text" class="form-control"required>*
+                        <br>
+                        <label for="pol_sailing">POL Sailing：</label>
+                        <input id="pol_sailing" name="pol_sailing" type="text" class="form-control">
+                        <br>
+                        <label for="pod_discharge">POD Discharge：</label>
+                        <input id="pod_discharge" name="pod_discharge" type="text" class="form-control">
+                        <br>
+                        <label for="pod">POD：</label>
+                        <input id="pod" name="pod" type="text" class="form-control"required>*
+                        <br>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Date Information:</legend>
+                        <label for="pickup_ctrs">Pickup ctrs: </label>
+                        <input id="pickup_ctrs" name="pickup_ctrs" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="cutoff_docmatriz">Cutoff Doc. Matriz: </label>
+                        <input id="cutoff_docmatriz" name="cutoff_docmatriz" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="cutoff_vgm">Cutoff VGM: </label>
+                        <input id="cutoff_vgm" name="cutoff_vgm" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="cargo_cutoff">Cargo Cutoff: </label>
+                        <input id="cargo_cutoff" name="cargo_cutoff" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="stacking_start">Stacking Start: </label>
+                        <input id="stacking_start" name="stacking_start" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="stacking_close">Stacking Close: </label>
+                        <input id="stacking_close" name="stacking_close" type="datetime-local" class="form-control">
                         <br>
                         <label for="etd">ETD Real/实际开船日期：</label>
                         <input id="etd" name="etd" type="date" class="form-control">
@@ -237,100 +268,23 @@
                         <label for="eta">ETA/预计到港日期：</label>
                         <input id="eta" name="eta" type="date" class="form-control">
                         <br>
-                        <label for="vessel_voyage">Vessel Voyage/船名航次：</label>
-                        <input id="vessel_voyage" name="vessel_voyage" type="text" class="form-control" required> *
+                    </fieldset>
+                    <fieldset>
+                        <legend>Weight and Size Information:</legend>
+                        <label for="tare">Tare：</label>
+                        <input id="tare" name="tare" type="text" class="form-control">
                         <br>
-                        <label for="pol">POL/起运港：</label>
-                        <select id="pol" name="pol" class="form-control" required>
-                            <option value="" selected>Pls Select POL</option>
-                            <option value="NINGBO">NINGBO</option>
-                        </select> *
+                        <label for="gross_weight">Gross Weight：</label>
+                        <input id="gross_weight" name="gross_weight" type="text" class="form-control">
                         <br>
-                        <label for="pod">POD/目的港：</label>
-                        <select id="pod" name="pod" class="form-control" required>
-                            <option value="" selected>Pls Select POD</option>
-                            <option value="SAN ANTONIO">SAN ANTONIO</option>
-                            <option value="VALPARAISO">VALPARAISO</option>
-                        </select> *
+                        <label for="size">Container Dimensions：</label>
+                        <input id="size" name="size" type="text" class="form-control">
                         <br>
-                        <label for="businessinfocol"> Note/备注：</label>
-                        <textarea id="businessinfocol" name="businessinfocol" class="form-control" rows="4" cols="30"
-                                  placeholder="Please Input Descriptions...">
-                    </textarea>
+                        <label for="net_weight">Net Weight：</label>
+                        <input id="net_weight" name="net_weight" type="text" class="form-control">
                         <br>
-                        <label for="numctrs">Ctrs Numeber/箱量</label>
-                        <input id="numctrs" name="numctrs" type="number" class="form-control" size=2
-                               placeholder="ej...1"
-                               required> *
-                        <br>
-                        <label for="type_ctrs">Ctrs Type/箱型：</label>
-                        <select id="type_ctrs" name="type_ctrs" class="form-control" required>
-                            <option value="" selected>Pls Select Ctrs-Type</option>
-                            <option value="40HQ">40HQ</option>
-                            <option value="40NR">40NR</option>
-                            <option value="20GP">20GP</option>
-                        </select> *
-                        <br>
-                        <label for="booking_no">#Booking/订舱号：</label>
-                        <input id="booking_no" name="booking_no" type="text" class="form-control" required> *
-                        <br>
-                        <label for="master_no">#Master/主单号：</label>
-                        <input id="master_no" name="master_no" type="text" class="form-control">
-                        <br>
-                        <label for="first_hbl_no">#First HBL/首子单号:</label>
-                        <input id="first_hbl_no" name="first_hbl_no" type="text" class="form-control">
-                        <br>
-                        <label for="hbl_memo">HBL MEMO/子单备注:</label>
-                        <input id="hbl_memo" name="hbl_memo" type="text" class="form-control">
-                        <br>
-                        <label for="num_hbls">Num HBL/子单数量(FCL/FCL):</label>
-                        <input id="num_hbls" name="num_hbls" type="number" class="form-control" size=2
-                               placeholder="ej...1" onchange={calCostVentaDestino();}>
-                        <br>
-                        <label for="container_no">Container/箱号：</label>
-                        <input id="container_no" name="container_no" type="text" class="form-control">
-                        <br>
-                        <label for="shipping_line">Line/船司：</label>
-                        <select id="shipping_line" name="shipping_line" class="form-control" required onchange={calCostHBLDestino();}>
-                            <option value="" selected>Pls Select Ocean Lines</option>
-                            <option value="MSC">MSC</option>
-                            <option value="CMA">CMA</option>
-                            <option value="MSK">MSK</option>
-                            <option value="EMC">EMC</option>
-                            <option value="COSCO">COSCO</option>
-                            <option value="OOCL">OOCL</option>
-                            <option value="ONE">ONE</option>
-                            <option value="YML">YML</option>
-                            <option value="HPL">HPL</option>
-                        </select> *
-                        <br>
-                        <label for="freeddday">Free D&D/免箱期：</label>
-                        <input id="freeddday" name="freeddday" type="number" class="form-control" placeholder="ej...14"
-                               required> *
-                        <br>
-                        <label for="bl_type">BL Type/提单类型：</label>
-                        <select id="bl_type" name="bl_type" class="form-control">
-                            <option value="" selected>Pls Select BL Type</option>
-                            <option value="MBL">MBL</option>
-                            <option value="HBL">HBL</option>
-                        </select>
-                        <br>
-                        <label for="release_type">Release Type/放单类型：</label>
-                        <select id="release_type" name="release_type" class="form-control">
-                            <option value="" selected>Pls Select MBL Release Type</option>
-                            <option value="提单原件BL ORIGINAL">提单原件BL ORIGINAL</option>
-                            <option value="SWB">SWB</option>
-                            <option value="目的港打印Emision En Destino">目的港打印Emision En Destino</option>
-                            <option value="Tele-Release">Tele-Release</option>
-                        </select>
-
-                        <br>
-                        <p align="right">
-                        <input type="submit" value="Create/保存" class="btn btn-primary pull-right"/>
-                        </p>
                     </fieldset>
                 </td>
-            </tr>
             </tbody>
         </table>
 
@@ -339,92 +293,150 @@
             <tr>
                 <td>
                     <fieldset>
-                        <legend>Origen Operation information(China):</legend>
-                        <label for="cost_org">O.F. Cost/成本运价：</label>
-                        <input id="cost_org" name="cost_org" type="number" class="form-control"
-                               placeholder="ej...10000" onclick={calCostVentaDestino();} onchange={calCostVentaDestino();}>
+                        <legend>Container and Package Information:</legend>
+                        <label for="package_type">Package Type：</label>
+                        <input id="package_type" name="package_type" type="text" class="form-control"required>*
                         <br>
-                        <label for="sale_org">O.F. Sale/销售运价：</label>
-                        <input id="sale_org" name="sale_org" type="number" class="form-control"
-                               placeholder="ej...11000" onclick={calCostVentaDestino();} onchange={calCostVentaDestino();}>
+                        <select id="type_ctrs" name="type_ctrs" class="form-control" required>
+                            <option value="" selected>Pls Select Ctrs-Type</option>
+                            <option value="40HQ">40HQ</option>
+                            <option value="40NR">40HR</option>
+                            <option value="20GP">20GP</option>
+                        </select> *
                         <br>
-                        <label for="set_org">S.O.F. Cost Origin/结算运价：</label>
-                        <input id="set_org" name="set_org" type="number" class="form-control"
-                               placeholder="ej...10500" readonly>
+                        <label for="qty">Container Quantity：</label>
+                        <input id="qty" name="qty" type="text" class="form-control"required>*
                         <br>
-                        <label for="local_org">Local Cost Origin/起运港当地费用：</label>
-                        <input id="local_org" name="local_org" type="number" class="form-control"
-                               placeholder="ej...370" onchange={calCostVentaDestino();}>
+                        <label for="id_number">Container ID Number：</label>
+                        <input id="id_number" name="id_number" type="text" class="form-control"required>*
                         <br>
-                        <label for="topaid_org_description">Deal Payment Detail/结算价付款明细：</label>
-                        <input id="topaid_org_description" name="topaid_org_description" type="text"
-                               class="form-control" placeholder="ej...10500+370" readonly>
+                        <label for="seal_number">Seal Number：</label>
+                        <input id="seal_number" name="seal_number" type="text" class="form-control">
                         <br>
-                        <label for="topaid_org">Deal Payment Amount/结算价付款金额：</label>
-                        <input id="topaid_org" name="topaid_org" type="number" class="form-control" placeholder="ej...10870" readonly>
+                        <label for="total_packages">Total Packages：</label>
+                        <input id="total_packages" name="total_packages" type="text" class="form-control">
                         <br>
-                        <label for="topaid_status">* Deal Payment Status/结算价付款状态：</label>
-                        <input id="topaid_status" name="topaid_status" type="checkbox" value="YES" class="form-control">
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>HBL Operation information(Pluscargo):</legend>
-                        <label for="costhbl_dest_description">HBL Payment Detail/子单付款明细：</label>
-                        <input id="costhbl_dest_description" name="costhbl_dest_description" type="text"
-                               class="form-control" placeholder="ej...90+125+102" >
+                        <label for="commodity">Commodity (Category)：</label>
+                        <input id="commodity" name="commodity" type="text" class="form-control">
                         <br>
-                        <label for="costhbl_dest">HBL Payment Amount/子单付款金额：</label>
-                        <input id="costhbl_dest" name="costhbl_dest" type="number" class="form-control"
-                               placeholder="ej...317" onchange={calCostVentaDestino();}>
+                        <label for="hs_code">HS Code：</label>
+                        <input id="hs_code" name="hs_code" type="text" class="form-control">
                         <br>
-                        <label for="costhbl_dest_status">* HBL Payment Status/子单付款状态：</label>
-                        <input id="costhbl_dest_status" name="costhbl_dest_status" type="checkbox" value="YES"
-                               class="form-control">
+                        <label for="pickup_dpto">Pickup Dpto.：</label>
+                        <input id="pickup_dpto" name="pickup_dpto" type="text" class="form-control">
                         <br>
-                        <label for="hbl_canjeado_status">* HBL Canjeado Status/换单状态：</label>
-                        <input id="hbl_canjeado_status" name="hbl_canjeado_status" type="checkbox" value="YES"
-                               class="form-control">
+                        <label for="pickup_ref">Pickup Ref：</label>
+                        <input id="pickup_ref" name="pickup_ref" type="text" class="form-control">
+                        <br>
+                        <label for="products"> Products：</label>
+                        <br>
+                        <textarea id="products" name="products"
+                                  class="form-control" rows="10" cols="42" placeholder="Please Input Products' Description...">
+                        </textarea>
+                        <br>
                     </fieldset>
                     <fieldset>
-                        <legend>Management information(United Logistic Chile):</legend>
-                        <label for="venta_dest">O.F.D.V/目的港运价：</label>
-                        <input id="venta_dest" name="venta_dest" type="number" class="form-control"
-                               placeholder="ej...11100" onclick={document.getElementById("venta_dest").value=document.getElementById("sale_org").value;calCostVentaDestino();}
-                               onchange={calCostVentaDestino();}>
+                        <legend>Payment Information:</legend>
+                        <label for="client_name">Clint Name：</label>
+                        <input id="client_name" name="client_name" type="text" class="form-control" required>*
                         <br>
-                        <label for="toinvoice_dest_description">Inv. Income Detail/发票价收款明细：</label>
-                        <input id="toinvoice_dest_description" name="toinvoice_dest_description" type="text"
-                               class="form-control" placeholder="ej...11100+370+300+125" readonly>
+                        <label for="charge_code">Charge Code：</label>
+                        <input id="charge_code" name="charge_code" type="text" class="form-control">
                         <br>
-                        <label for="toinvoice_dest">Inv. Income Amount/发票价收款金额：</label>
-                        <input id="toinvoice_dest" name="toinvoice_dest" type="number" class="form-control" placeholder="ej...11895" readonly>
+                        <label for="payment">Payment：</label>
+                        <input id="payment" name="payment" type="text" class="form-control">
                         <br>
-                        <label for="profit">Profit/毛利：</label>
-                        <input id="profit" name="profit" type="number" class="form-control" placeholder="ej...708" readonly>
+                        <label for="rateper">Rate Per：</label>
+                        <input id="rateper" name="rateper" type="text" class="form-control">
                         <br>
-                        <label for="toinvoice_dest_status">* Inv. Income Status/发票价收款状态：</label>
-                        <input id="toinvoice_dest_status" name="toinvoice_dest_status" type="checkbox" value="YES"
-                               class="form-control">
-                    </fieldset>
-                    <fieldset>
-                        <legend>Operation Management information:</legend>
-                        <label for="devolution_ctrs_inidate">INI Devol_Ctrs/目的港提柜日期：</label>
-                        <input id="devolution_ctrs_inidate" name="devolution_ctrs_inidate" type="date"
-                               class="form-control">
+                        <label for="freightcharges">Freight and Charges：</label>
+                        <input id="freightcharges" name="freightcharges" type="text" class="form-control" placeholder="e.j. Total Flete">
                         <br>
-                        <label for="devolution_ctrs_findate">END Devol_Ctrs/目的港还柜日期：</label>
-                        <input id="devolution_ctrs_findate" name="devolution_ctrs_findate" type="date"
-                               class="form-control">
+                        <label for="prepaid">Prepaid：</label>
+                        <input id="prepaid" name="prepaid" type="text" class="form-control" placeholder="e.j. USD">
                         <br>
-                        <label for="operation_status">* Status Finnish Op./操作是否已经完成：</label>
-                        <input id="operation_status" name="operation_status" type="checkbox" value="YES"
-                               class="form-control">
+                        <label for="collect">Collect：</label>
+                        <input id="collect" name="collect" type="text" class="form-control">
+                        <br>
                     </fieldset>
                 </td>
             </tbody>
         </table>
 
-
+        <table align="left">
+            <tbody>
+            <tr>
+                <td>
+                    <fieldset>
+                        <legend>Shipper Information:</legend>
+                        <label for="shipper_name">Shipper Name：</label>
+                        <input id="shipper_name" name="shipper_name" type="text" class="form-control" required>*
+                        <br>
+                        <label for="shipper_address">Shipper Address：</label>
+                        <input id="shipper_address" name="shipper_address" type="text" class="form-control">
+                        <br>
+                        <label for="shipper_city">Shipper City：</label>
+                        <input id="shipper_city" name="shipper_city" type="text" class="form-control">
+                        <br>
+                        <label for="shipper_state">Shipper State：</label>
+                        <input id="shipper_state" name="shipper_state" type="text" class="form-control">
+                        <br>
+                        <label for="shipper_country">Shipper Country：</label>
+                        <input id="shipper_country" name="shipper_country" type="text" class="form-control">
+                        <br>
+                        <label for="shipper_email">Shipper Email：</label>
+                        <input id="shipper_email" name="shipper_email" type="text" class="form-control">
+                        <br>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Consignee Information:</legend>
+                        <label for="consignee_name">Consignee Name：</label>
+                        <input id="consignee_name" name="consignee_name" type="text" class="form-control" required>*
+                        <br>
+                        <label for="consignee_address">Consignee Code：</label>
+                        <input id="consignee_address" name="consignee_address" type="text" class="form-control">
+                        <br>
+                        <label for="consignee_city">Consignee City：</label>
+                        <input id="consignee_city" name="consignee_city" type="text" class="form-control">
+                        <br>
+                        <label for="consignee_state">Consignee State：</label>
+                        <input id="consignee_state" name="consignee_state" type="text" class="form-control">
+                        <br>
+                        <label for="consignee_country">Consignee Country：</label>
+                        <input id="consignee_country" name="consignee_country" type="text" class="form-control">
+                        <br>
+                        <label for="consignee_email">Consignee Email：</label>
+                        <input id="consignee_email" name="consignee_email" type="text" class="form-control">
+                        <br>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Notify Information:</legend>
+                        <label for="notify_name">Notify Name：</label>
+                        <input id="notify_name" name="notify_name" type="text" class="form-control" required>*
+                        <br>
+                        <label for="notify_address">Notify Code：</label>
+                        <input id="notify_address" name="notify_address" type="text" class="form-control">
+                        <br>
+                        <label for="notify_city">Notify City：</label>
+                        <input id="notify_city" name="notify_city" type="text" class="form-control">
+                        <br>
+                        <label for="notify_state">Notify State：</label>
+                        <input id="notify_state" name="notify_state" type="text" class="form-control">
+                        <br>
+                        <label for="notify_country">Notify Country：</label>
+                        <input id="notify_country" name="notify_country" type="text" class="form-control">
+                        <br>
+                        <label for="notify_email">Notify Email：</label>
+                        <input id="notify_email" name="notify_email" type="text" class="form-control">
+                        <br>
+                    </fieldset>
+                    <p align="right">
+                        <input type="submit" value="Create/保存" class="btn btn-primary pull-right"/>
+                    </p>
+                </td>
+            </tbody>
+        </table>
+        <br>
     </fieldset>
 
 </form>
