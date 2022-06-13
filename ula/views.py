@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 
-from .models import Businessinfo, ClienteInfo
+from .models import Businessinfo, ClienteInfo, Exportationinfo
 from .models import Userinfo
 from django.conf import settings
 from datetime import datetime
@@ -59,8 +59,8 @@ def newbusinessexport(request) :
     if userSelectUID == "": #新建
         return render(request, "newbusinessexport.html")
     else: # 修改
-        businessinfo = Businessinfo.objects.get(id=userSelectUID)
-        return render(request, "modbusinessexport.html", {"businessinfo": businessinfo})
+        exportinfo = Exportationinfo.objects.get(id=userSelectUID)
+        return render(request, "modbusinessexport.html", {"businessinfo": exportinfo})
 
 # Create your views here.
 
@@ -85,8 +85,9 @@ def register_view(request):
 #@user_passes_test(email_check)
 @login_required()
 def main_view(request):
-    businessinfos = Businessinfo.objects.filter(operation_status="NO").order_by("id")
-    return render(request, "main.html", {"businessLists": businessinfos})
+    # businessinfos = Businessinfo.objects.filter(operation_status="NO").order_by("id")
+    exportationinfo = Exportationinfo.objects.filter(operation_status="NO").order_by("id")
+    return render(request, "main.html", {"businessLists": exportationinfo})
 
 def savebusinessimport(request):
     id = request.POST.get("id", "")
@@ -331,6 +332,7 @@ def savebusinessexport(request):
     # weight&size info
     tare = request.POST.get("tare", "")
     gross_weight = request.POST.get("gross_weight", "")
+    size = request.POST.get("size", "")
     net_weight = request.POST.get("net_weight", "")
     # container&package info
     package_type = request.POST.get("package_type", "")
@@ -344,7 +346,6 @@ def savebusinessexport(request):
     pickup_dpto = request.POST.get("pickup_dpto", "")
     pickup_ref = request.POST.get("pickup_ref", "")
     products = request.POST.get("products", "")
-    pickup_ref = request.POST.get("pickup_ref", "")
     # payment info
     client_name = request.POST.get("client_name", "")
     charge_code = request.POST.get("charge_code", "")
@@ -376,150 +377,156 @@ def savebusinessexport(request):
     notify_email = request.POST.get("notify_email", "")
 
     # required data fields -- need them filled out to save properly
-    if vessel_voyage and pol and pod and numctrs and type_ctrs and booking_no and shipping_line and freeddday and \
-            costhbl_dest_status and topaid_status and toinvoice_dest_status and hbl_canjeado_status and operation_status:
+    if booking_no and shipping_line and delivery_terminal and  vessel_voyage and pol and pod and package_type\
+            and type_ctrs and qty and id_number and client_name and shipper_name and consignee_name and notify_name:
         if id: # for modify
             # id
-            businessinfo = Businessinfo.objects.get(id = id)
+            exporationinfo = Exportationinfo.objects.get(id = id)
             # vessel info
-            businessinfo.booking_no=booking_no
-            businessinfo.shipping_line=shipping_line
-            businessinfo.vessel_voyage=vessel_voyage
-            businessinfo.delivery_terminal=delivery_terminal
-            businessinfo.etd=etd
-            businessinfo.eta=eta
-            businessinfo.vessel_voyage=vessel_voyage
+            exporationinfo.booking_no=booking_no
+            exporationinfo.shipping_line=shipping_line
+            exporationinfo.vessel_voyage=vessel_voyage
+            exporationinfo.delivery_terminal=delivery_terminal
+            exporationinfo.etd=etd
+            exporationinfo.eta=eta
+            exporationinfo.vessel_voyage=vessel_voyage
             # port info
-            businessinfo.pol=pol
-            businessinfo.pol_sailing=pol_sailing
-            businessinfo.pod_discharge=pod_discharge
-            businessinfo.pod=pod
+            exporationinfo.pol=pol
+            exporationinfo.pol_sailing=pol_sailing
+            exporationinfo.pod_discharge=pod_discharge
+            exporationinfo.pod=pod
             # date info
-            businessinfo.pickup_ctrs=pickup_ctrs
-            businessinfo.cutoff_docmatriz=cutoff_docmatriz
-            businessinfo.cutoff_vgm=cutoff_vgm
-            businessinfo.cargo_cutoff=cargo_cutoff
-            businessinfo.stacking_start=stacking_start
-            businessinfo.stacking_close = stacking_close
-            businessinfo.etd = etd
-            businessinfo.eta=eta
-            businessinfo.tare=tare
-            businessinfo.gross_weight=gross_weight
-            businessinfo.size=size
-            businessinfo.net_weight=net_weight
+            exporationinfo.pickup_ctrs=pickup_ctrs
+            exporationinfo.cutoff_docmatriz=cutoff_docmatriz
+            exporationinfo.cutoff_vgm=cutoff_vgm
+            exporationinfo.cargo_cutoff=cargo_cutoff
+            exporationinfo.stacking_start=stacking_start
+            exporationinfo.stacking_close = stacking_close
+            exporationinfo.etd = etd
+            exporationinfo.eta=eta
+            exporationinfo.tare=tare
+            exporationinfo.gross_weight=gross_weight
+            exporationinfo.size=size
+            exporationinfo.net_weight=net_weight
             # container and package info
-            businessinfo.package_type=package_type
-            businessinfo.type_ctrs=type_ctrs
-            businessinfo.qty=qty
-            businessinfo.id_number=id_number
-            businessinfo.seal_number=seal_number
-            businessinfo.total_packages=total_packages
-            businessinfo.commodity=commodity
-            businessinfo.hs_code=hs_code
-            businessinfo.pickup_dpto=pickup_dpto
-            businessinfo.pickup_ref=pickup_ref
-            businessinfo.products=products
+            exporationinfo.package_type=package_type
+            exporationinfo.type_ctrs=type_ctrs
+            exporationinfo.qty=qty
+            exporationinfo.id_number=id_number
+            exporationinfo.seal_number=seal_number
+            exporationinfo.total_packages=total_packages
+            exporationinfo.commodity=commodity
+            exporationinfo.hs_code=hs_code
+            exporationinfo.pickup_dpto=pickup_dpto
+            exporationinfo.pickup_ref=pickup_ref
+            exporationinfo.products=products
             # payment info
-            businessinfo.client_name=client_name
-            businessinfo.toinvoice_dest_status=toinvoice_dest_status
-            businessinfo.profit=profit
+            exporationinfo.client_name=client_name
+            exporationinfo.charge_code=charge_code
+            exporationinfo.payment=payment
+            exporationinfo.rateper=rateper
+            exporationinfo.freightcharges=freightcharges
+            exporationinfo.prepaid=prepaid
+            exporationinfo.collect=collect
             # shipper info
-            businessinfo.shipper_name=shipper_name
-            businessinfo.shipper_address=shipper_address
-            businessinfo.shipper_city=shipper_city
-            businessinfo.shipper_state=shipper_state
-            businessinfo.shipper_country=shipper_country
-            businessinfo.shipper_email=shipper_email
-
-            businessinfo.devolution_ctrs_findate=devolution_ctrs_findate
-            businessinfo.operation_status=operation_status
-            businessinfo.bl_type=bl_type
-            businessinfo.release_type=release_type
-            if mblfile:
-                businessinfo.mblfile = mblfile
-            if hblfiles:
-                businessinfo.hblfiles = hblfiles
-            if dp_voucher:
-                businessinfo.dp_voucher = dp_voucher
-            if dp_invoice:
-                businessinfo.dp_invoice = dp_invoice
-            if hp_voucher:
-                businessinfo.hp_voucher = hp_voucher
-            if hp_invoice:
-                businessinfo.hp_invoice = hp_invoice
-            if hbls_canjeados:
-                businessinfo.hbls_canjeados = hbls_canjeados
-            if income_voucher:
-                businessinfo.income_voucher = income_voucher
-            if income_invoice:
-                businessinfo.income_invoice = income_invoice
-            if hbls_firmados:
-                businessinfo.hbls_firmados = hbls_firmados
-
+            exporationinfo.shipper_name=shipper_name
+            exporationinfo.shipper_address=shipper_address
+            exporationinfo.shipper_city=shipper_city
+            exporationinfo.shipper_state=shipper_state
+            exporationinfo.shipper_country=shipper_country
+            exporationinfo.shipper_email=shipper_email
+            # consignee info
+            exporationinfo.consignee_name=consignee_name
+            exporationinfo.consignee_address=consignee_address
+            exporationinfo.consignee_city=consignee_city
+            exporationinfo.consignee_state=consignee_state
+            exporationinfo.consignee_country=consignee_country
+            exporationinfo.consignee_email=consignee_email
+            # notify info
+            exporationinfo.notify_name=notify_name
+            exporationinfo.notify_address=notify_address
+            exporationinfo.notify_city=notify_city
+            exporationinfo.notify_state=notify_state
+            exporationinfo.notify_country=notify_country
+            exporationinfo.notify_email=notify_email
 
         else: # for a new save
-            if len(Businessinfo.objects.all().order_by("-id")) == 0:
+            if len(Exportationinfo.objects.all().order_by("-id")) == 0:
                 id = 1
             else:
-                id = Businessinfo.objects.all().order_by("-id")[0].id+1
-            businessinfo = Businessinfo( \
+                id = Exportationinfo.objects.all().order_by("-id")[0].id+1
+            exporationinfo = Businessinfo(
                 id = id,
-                clientname=clientname,
-                week=week,
-                estimated_load_date=estimated_load_date,
-                pre_etd=pre_etd,
-                etd=etd,
-                eta=eta,
-                vessel_voyage=vessel_voyage,
-                pol=pol,
-                pod=pod,
-                businessinfocol=businessinfocol,
-                numctrs=numctrs,
-                type_ctrs=type_ctrs,
+                # Vessel Info:
                 booking_no=booking_no,
-                master_no=master_no,
-                first_hbl_no = first_hbl_no,
-                hbl_memo = hbl_memo,
-                num_hbls=num_hbls,
-                container_no=container_no,
                 shipping_line=shipping_line,
-                freeddday=freeddday,
-                cost_org=cost_org,
-                sale_org=sale_org,
-                set_org=set_org,
-                local_org=local_org,
-                venta_dest=venta_dest,
-                costhbl_dest_description=costhbl_dest_description,
-                costhbl_dest=costhbl_dest,
-                costhbl_dest_status=costhbl_dest_status,
-                topaid_org_description=topaid_org_description,
-                topaid_org=topaid_org,
-                topaid_status=topaid_status,
-                toinvoice_dest_description=toinvoice_dest_description,
-                toinvoice_dest=toinvoice_dest,
-                toinvoice_dest_status=toinvoice_dest_status,
-                profit=profit,
-                hbl_canjeado_status=hbl_canjeado_status,
-                devolution_ctrs_inidate=devolution_ctrs_inidate,
-                devolution_ctrs_findate=devolution_ctrs_findate,
-                operation_status=operation_status,
-                bl_type=bl_type,
-                release_type=release_type,
-                mblfile=mblfile,
-                hblfiles=hblfiles,
-                dp_voucher=dp_voucher,
-                dp_invoice=dp_invoice,
-                hp_voucher=hp_voucher,
-                hp_invoice=hp_invoice,
-                hbls_canjeados=hbls_canjeados,
-                income_voucher = income_voucher,
-                income_invoice = income_invoice,
-                hbls_firmados = hbls_firmados,
+                vessel_voyage=vessel_voyage,
+                delivery_terminal=delivery_terminal,
+                # Port Info:
+                pol=pol,
+                pol_sailing=pol_sailing,
+                pod_discharge=pod_discharge,
+                pod=pod,
+                # Date Info:
+                pickup_ctrs=pickup_ctrs,
+                cutoff_docmatriz=cutoff_docmatriz,
+                cutoff_vgm=cutoff_vgm,
+                cargo_cutoff=cargo_cutoff,
+                stacking_start=stacking_start,
+                stacking_close=stacking_close,
+                etd = etd,
+                eta = eta,
+                # Weight/Size Info:
+                tare=tare,
+                gross_weight=gross_weight,
+                size=size,
+                net_weight=net_weight,
+                # Container/Package Info:
+                package_type=package_type,
+                type_ctrs=type_ctrs,
+                qty=qty,
+                id_number=id_number,
+                seal_number=seal_number,
+                total_packages=total_packages,
+                commodity=commodity,
+                hs_code=hs_code,
+                pickup_dpto=pickup_dpto,
+                pickup_ref=pickup_ref,
+                products=products,
+                # Payment Info:
+                client_name=client_name,
+                charge_code=charge_code,
+                payment=payment,
+                rateper=rateper,
+                freightcharges=freightcharges,
+                prepaid=prepaid,
+                collect=collect,
+                # Shipper Info:
+                shipper_name=shipper_name,
+                shipper_address=shipper_address,
+                shipper_city=shipper_city,
+                shipper_state=shipper_state,
+                shipper_country=shipper_country,
+                shipper_email=shipper_email,
+                # Consignee Info:
+                consignee_name=consignee_name,
+                consignee_address=consignee_address,
+                consignee_city=consignee_city,
+                consignee_state=consignee_state,
+                consignee_country = consignee_country,
+                consignee_email = consignee_email,
+                # Notify Info:
+                notify_name=notify_name,
+                notify_address=notify_address,
+                notify_city=notify_city,
+                notify_state=notify_state,
+                notify_country = notify_country,
+                notify_email = notify_email,
             )
 
-        businessinfo.save()
-        businessinfos = Businessinfo.objects.filter(operation_status="NO").order_by("id")
-        return render(request, "exportsmain.html", {"businessLists": businessinfos})
+        exporationinfo.save()
+        exporationinfo = Exportationinfo.objects.filter(operation_status="NO").order_by("id")
+        return render(request, "exportsmain.html", {"businessLists": exporationinfo})
     else: # 必填数据为空
         return HttpResponse("请输入数据")
 
