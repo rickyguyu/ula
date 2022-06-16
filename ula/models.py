@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 
 class Userinfo(models.Model):
@@ -84,8 +85,10 @@ class ClienteInfo(models.Model):
 
 
 class Exportationinfo(models.Model):
-    # Vessel Information - booking, carrier, vessel, delivery terminal
+    # Id and Op Status
     id = models.IntegerField(db_column='id', primary_key=True)  # Field name made lowercase.
+    operation_status = models.CharField(db_column='Operation_Status', default="NO", max_length=10)
+    # Vessel Information - booking, carrier, vessel, delivery terminal
     booking_no = models.CharField(db_column='Booking_No', max_length=45)  # Field name made lowercase.
     shipping_line = models.CharField(db_column='Shipping_Line', max_length=20)  # Field name made lowercase.
     vessel_voyage = models.CharField(db_column='Vessel_Voyage', max_length=45)  # Field name made lowercase.
@@ -98,16 +101,15 @@ class Exportationinfo(models.Model):
     pod = models.CharField(db_column='POD', max_length=20)  # Field name made lowercase.
 
     # Date Information
-    # Can change to char fields
     # Ricky wants to change Input Format - %d-%m-%Y %H:%M
-    pickup_ctrs = models.DateTimeField(db_column='pickup_ctrs', max_length=20)   # Field name made lowercase.
-    cutoff_docmatriz = models.DateTimeField(db_column='cutoff_docmatriz', max_length=20)
-    cutoff_vgm = models.DateTimeField(db_column='Cutoff_VGM', max_length=20)
-    cargo_cutoff = models.DateTimeField(db_column='Cargo_Cutoff', max_length=20)
-    stacking_start = models.DateTimeField(db_column='Stacking_Start', max_length=20)
-    stacking_close = models.DateTimeField(db_column='Stacking_Close', max_length=20)
-    etd = models.DateField(db_column='ETD', blank=True, null=True)  # Field name made lowercase.
-    eta = models.DateField(db_column='ETA', blank=True, null=True)  # Field name made lowercase.
+    pickup_ctrs = models.DateTimeField(blank=True, null=True, db_column='pickup_ctrs', max_length=20)   # Field name made lowercase.
+    cutoff_docmatriz = models.DateTimeField(blank=True, null=True, db_column='cutoff_docmatriz', max_length=20)
+    cutoff_vgm = models.DateTimeField(blank=True, null=True, db_column='Cutoff_VGM', max_length=20)
+    cargo_cutoff = models.DateTimeField(blank=True, null=True, db_column='Cargo_Cutoff', max_length=20)
+    stacking_start = models.DateTimeField(blank=True, null=True, db_column='Stacking_Start', max_length=20)
+    stacking_close = models.DateTimeField(blank=True, null=True, db_column='Stacking_Close', max_length=20)
+    etd = models.DateField(blank=True, null=True, db_column='ETD')  # Field name made lowercase.
+    eta = models.DateField(blank=True, null=True, db_column='ETA')  # Field name made lowercase.
 
     # Container and Package Information
     package_type = models.CharField(db_column='Package_Type/s', max_length= 50) # e.j. MAQUILLAJES
@@ -119,7 +121,7 @@ class Exportationinfo(models.Model):
     commodity = models.CharField(db_column='Commodity', max_length=100) # e.j. Carga General
     hs_code = models.CharField(db_column='HS_Code', max_length=25)
     pickup_dpto = models.CharField(db_column='Pickup_Dpto.', max_length=75)
-    pickup_ref = models.IntegerField(db_column='Pickup_Ref')
+    pickup_ref = models.IntegerField(db_column='Pickup_Ref', blank=True, null=True)
     products = models.CharField(db_column='Products', max_length=10000)
 
     # Weight and Size Information

@@ -10,7 +10,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 
-from .models import Businessinfo, ClienteInfo, Exportationinfo
+from .models import Businessinfo, ClienteInfo
+from .models import Exportationinfo
 from .models import Userinfo
 from django.conf import settings
 from datetime import datetime
@@ -44,7 +45,8 @@ def importsmain(request) :
     return render(request, 'importsmain.html')
 
 def exportsmain(request) :
-    return render(request, 'exportsmain.html')
+    exporationinfo = Exportationinfo.objects.filter(operation_status="NO").order_by("id")
+    return render(request, 'exportsmain.html', {"exportsLists": exporationinfo})
 
 def newbusinessimport(request):
     userSelectUID= request.POST.get("userSelectBID", "")
@@ -60,7 +62,7 @@ def newbusinessexport(request) :
         return render(request, "newbusinessexport.html")
     else: # 修改
         exportinfo = Exportationinfo.objects.get(id=userSelectUID)
-        return render(request, "modbusinessexport.html", {"businessinfo": exportinfo})
+        return render(request, "modbusinessexport.html", {"exportinfo": exportinfo})
 
 # Create your views here.
 
@@ -310,6 +312,9 @@ def savebusinessimport(request):
 def savebusinessexport(request):
     # id
     id = request.POST.get("id", "")
+    operation_status = request.POST.get("operation_status", "")
+    if operation_status == "":
+        operation_status = "NO"
     # vessel info
     booking_no = request.POST.get("booking_no", "")
     shipping_line = request.POST.get("shipping_line", "")
@@ -322,13 +327,29 @@ def savebusinessexport(request):
     pod = request.POST.get("pod", "")
     # date&time info
     pickup_ctrs = request.POST.get("pickup_ctrs", "")
+    if pickup_ctrs == "":
+        pickup_ctrs = None
     cutoff_docmatriz = request.POST.get("cutoff_docmatriz", "")
+    if cutoff_docmatriz == "":
+        cutoff_docmatriz = None
     cutoff_vgm = request.POST.get("cutoff_vgm", "")
+    if cutoff_vgm == "":
+        cutoff_vgm = None
     cargo_cutoff = request.POST.get("cargo_cutoff", "")
+    if cargo_cutoff == "":
+        cargo_cutoff = None
     stacking_start = request.POST.get("stacking_start", "")
+    if stacking_start == "":
+        stacking_start = None
     stacking_close = request.POST.get("stacking_close", "")
+    if stacking_close == "":
+        stacking_close = None
     etd = request.POST.get("etd", "")
+    if etd == "":
+        etd = None
     eta = request.POST.get("eta", "")
+    if eta == "":
+        eta = None
     # weight&size info
     tare = request.POST.get("tare", "")
     gross_weight = request.POST.get("gross_weight", "")
@@ -345,6 +366,8 @@ def savebusinessexport(request):
     hs_code = request.POST.get("hs_code", "")
     pickup_dpto = request.POST.get("pickup_dpto", "")
     pickup_ref = request.POST.get("pickup_ref", "")
+    if pickup_ref == "":
+        pickup_ref = None
     products = request.POST.get("products", "")
     # payment info
     client_name = request.POST.get("client_name", "")
@@ -377,11 +400,12 @@ def savebusinessexport(request):
     notify_email = request.POST.get("notify_email", "")
 
     # required data fields -- need them filled out to save properly
-    if booking_no and shipping_line and delivery_terminal and  vessel_voyage and pol and pod and package_type\
+    if booking_no and shipping_line and delivery_terminal and vessel_voyage and pol and pod and package_type\
             and type_ctrs and qty and id_number and client_name and shipper_name and consignee_name and notify_name:
         if id: # for modify
-            # id
+            # id and Op Status
             exporationinfo = Exportationinfo.objects.get(id = id)
+            exporationinfo.operation_status = operation_status
             # vessel info
             exporationinfo.booking_no=booking_no
             exporationinfo.shipping_line=shipping_line
@@ -452,11 +476,12 @@ def savebusinessexport(request):
 
         else: # for a new save
             if len(Exportationinfo.objects.all().order_by("-id")) == 0:
-                id = 1
+                id=1
             else:
-                id = Exportationinfo.objects.all().order_by("-id")[0].id+1
-            exporationinfo = Businessinfo(
-                id = id,
+                id=Exportationinfo.objects.all().order_by("-id")[0].id+1
+            exporationinfo = Exportationinfo(
+                id=id,
+                operation_status=operation_status,
                 # Vessel Info:
                 booking_no=booking_no,
                 shipping_line=shipping_line,
@@ -526,7 +551,7 @@ def savebusinessexport(request):
 
         exporationinfo.save()
         exporationinfo = Exportationinfo.objects.filter(operation_status="NO").order_by("id")
-        return render(request, "exportsmain.html", {"businessLists": exporationinfo})
+        return render(request, "exportsmain.html", {"exportsLists": exporationinfo})
     else: # 必填数据为空
         return HttpResponse("请输入数据")
 

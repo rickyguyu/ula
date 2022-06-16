@@ -45,8 +45,97 @@
 
 
 
+
     </style>
-    <script>
+
+    <script type="text/javascript">
+        function setSelected(selectID,value){
+            select = document.getElementById(selectID);
+                for (var i = 0; i < select.options.length; i++){
+                if (select.options[i].value == value){
+                    select.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+
+        function formatDate(dateID, dateString){
+            dateObj = document.getElementById(dateID);
+            var d = new Date(dateString);
+            month = ''+ (d.getMonth()+1);
+            day = ''+d.getDate();
+            year= d.getFullYear();
+
+           if (month.length < 2){
+                  month = '0'+ month;
+           }
+           if (day.length < 2){
+                day = '0'+ day;
+           }
+           dateString1 = [year,month,day].join('-');
+           dateObj = document.getElementById(dateID);
+           dateObj.value=dateString1;
+        }
+
+        function formatDateTime(dateTimeID, dateTimeString){
+            var d = new Date(dateTimeString);
+            hour = ''+ d.getHours();
+            minute = '' + d.getMinutes();
+            month = ''+ (d.getMonth()+1);
+            day = ''+d.getDate();
+            year= d.getFullYear();
+
+           if (month.length < 2){
+                  month = '0'+ month;
+           }
+           if (day.length < 2){
+                day = '0'+ day;
+           }
+           if (hour.length < 2){
+               hour = '0' + hour;
+           }
+           if (minute.length < 2){
+               hour = '0' + hour;
+           }
+           dateTimeString1 = [year,month,day].join('-');
+           dateTimeString2 = [hour,minute].join(':');
+           dateTimeString3 = dateString1.concat(dateTimeString2);
+           dateTimeObj = document.getElementById(dateTimeID);
+           dateTimeObj.value=dateString3;
+        }
+
+        function setCheckbox(checkTboxID, checkboxString){
+           checkboxObj = document.getElementById(checkboxID);
+           if (checkboxString =="YES"){
+              document.getElementById(checkboxID).checked = true;
+           }
+           if (checkboxString =="NO"){
+              document.getElementById(checkboxID).checked = false;
+           }
+        }
+
+        function uploadMultiFiles(filesID){
+            var fileObj=document.getElementById("filesID");
+            var formData=new FormData();
+            var fileList=fileObj.files;
+            console.log(fileList.length);
+            for (const file of inputFile.files) {
+                formData.append("files", file);
+            }
+            for(let i=0;i<fileList.length;i++) {
+                var file=fileList[i];
+                formData.append("file"+i,file);
+                console.log(file.name+file.lastModifiedDate);
+            }
+
+        }
+
+
+
+        function getShortFileName(longFilename){
+            return longFilename.substr(longFilename.lastIndexOf(longFilename)+1);
+        }
+
         function calCostVentaOrigen(){
             calCostLocal();
             calCostHBLDestino();
@@ -95,6 +184,7 @@
             addi_cost=0;
             document.getElementById("toinvoice_dest_description").value=document.getElementById("venta_dest").value;
             document.getElementById("toinvoice_dest").value = document.getElementById("venta_dest").value;
+
 
             if (document.getElementById("shipping_line").value=="MSC"){
                 document.getElementById("toinvoice_dest_description").value +="+300+125";
@@ -190,7 +280,7 @@
             document.getElementById("set_org").value = (parseFloat(sale_org)+parseFloat(cost_org))/2;
             document.getElementById("topaid_org").value=parseFloat(document.getElementById("set_org").value)+parseFloat(document.getElementById("local_org").value);
             document.getElementById("topaid_org_description").value = document.getElementById("set_org").value+"+"+document.getElementById("local_org").value;
-            //document.getElementById("venta_dest").value = document.getElementById("sale_org").value;
+            //document.getElementById("venta_dest").value = sale_org;
             calVenta();
         }
 
@@ -267,6 +357,16 @@
                         <br>
                         <label for="eta">ETA/预计到港日期：</label>
                         <input id="eta" name="eta" type="date" class="form-control">
+                        <script>
+                            formatDateTime("pickup_ctrs", {{exportationinfo.pickup_ctrs}});
+                            formatDateTime("cutoff_docmatriz", {{exportationinfo.cutoff_docmatriz}});
+                            formatDateTime("cutoff_vgm", {{exportationinfo.cutoff_vgm}});
+                            formatDateTime("cargo_cutoff", {{exportationinfo.cargo_cutoff}});
+                            formatDateTime("stacking_start", {{exportationinfo.stacking_start}});
+                            formatDateTime("stacking_close", {{exportationinfo.stacking_close}});
+                            formatDate("etd","{{exportationinfo.etd}}");
+                            formatDate("eta","{{exportationinfo.eta}}");
+                        </script>
                         <br>
                     </fieldset>
                     <fieldset>
@@ -430,6 +530,9 @@
                         <label for="notify_email">Notify Email：</label>
                         <input id="notify_email" name="notify_email" type="text" class="form-control">
                         <br>
+                        <label for="operation_status">* Status Finnish Op./操作是否已经完成：</label>
+                        <input id="operation_status" name="operation_status" type="checkbox" value="YES"
+                               class="form-control">
                     </fieldset>
                     <p align="right">
                         <input type="submit" value="Create/保存" class="btn btn-primary pull-right"/>

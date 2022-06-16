@@ -177,49 +177,36 @@
             <th>Release Type/放单类型</th-->
         </tr>
         <input id="userSelectBID" name="userSelectBID" value="" type="hidden" class="form-control">
-        {% for business in businessLists %}
+        {% for business in exportsLists %}
         <tr style="font-family:arial; font-size:11px"
             onclick={document.getElementById('userSelectBID').value={{business.id}};document.forms["main-list"].submit();}>
             <td>{{ business.id }}</td>
-            <td>{{ business.clientname }}</td>
-            <td>{{ business.week }}</td>
-            <!--td>{{ business.estimated_load_date }}</td>
-            <td>{{ business.pre_etd }}</td>
-            <td>{{ business.etd }}</td-->
-            <td>{{ business.eta }}</td>
-            <td>{{ business.vessel_voyage }}</td>
-            <td>{{ business.pol }}</td>
-            <td>{{ business.pod }}</td>
-            <td>{{ business.numctrs }} X {{ business.type_ctrs }}</td>
+            <td>{{ business.client_name }}</td>
             <td>{{ business.booking_no }}</td>
-            <td>{{ business.master_no }}</td>
-            <!--td>{{ business.first_hbl_no }}</td>
-            <td>{{ business.hbl_memo }}</td-->
-            <td>{{ business.num_hbls }} x HBL FCL/FCL</td>
-            <td>{{ business.container_no }}</td>
             <td>{{ business.shipping_line }}</td>
-            <td>{{ business.freeddday }}</td>
-            <!--td>{{ business.cost_org }}</td>
-            <td>{{ business.sale_org }}</td>
-            <td>{{ business.set_org }}</td>
-            <td>{{ business.local_org }}</td>
-            <td>{{ business.venta_dest }}</td-->
-            <td>{{ business.costhbl_dest_description }}</td>
-            <!--td>{{ business.costhbl_dest }}</td>
-            <td>{{ business.costhbl_dest_status }}</td-->
-            <td>{{ business.topaid_org_description }}</td>
-            <!--td>{{ business.topaid_org }}</td>
-            <td>{{ business.topaid_status }}</td-->
-            <td>{{ business.toinvoice_dest_description }}</td>
-            <!--td>{{ business.toinvoice_dest }}</td>
-            <td>{{ business.toinvoice_dest_status }}</td-->
-            <td>{{ business.profit }}</td>
-            <!--td>{{ business.hbl_canjeado_status }}</td>
-            <td>{{ business.devolution_ctrs_inidate }}</td>
-            <td>{{ business.devolution_ctrs_findate }}</td-->
+            <td>{{ business.vessel_voyage }}</td>
+            <td>{{ business.delivery_terminal }}</td>
+            <td>{{ business.pol }}</td>
+            <td>{{ business.pol_sailing }}</td>
+            <td>{{ business.pod_discharge }}</td>
+            <td>{{ business.pod }}</td>
+            <td>{{ business.pickup_ctrs}}</td>
+            <td>{{ business.cutoff_docmatriz }}</td>
+            <td>{{ business.cutoff_vgm }}</td>
+            <td>{{ business.cargo_cutoff }}</td>
+            <td>{{ business.stacking_start }}</td>
+            <td>{{ business.stacking_close }}</td>
+            <td>{{ business.etd }}</td>
+            <td>{{ business.eta }}</td>
+            <td>{{ business.type_ctrs }}</td>
+            <td>{{ business.qty }}</td>
+            <td>{{ business.commodity }}</td>
+            <td>{{ business.hs_code }}</td>
+            <td>{{ business.pickup_dpto }}</td>
+            <td>{{ business.pickup_ref }}</td>
+            <td>{{ business.charge_code }}</td>
+            <td>{{ business.payment }}</td>
             <td>{{ business.operation_status }}</td>
-            <!--td>{{ business.bl_type }}</td>
-            <td>{{ business.release_type }}</td-->
         </tr>
         {% endfor %}
 

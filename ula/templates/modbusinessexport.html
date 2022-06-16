@@ -262,27 +262,27 @@
 <body>
 <form id="delbusiness-form" method="post" action="/exports/delbusiness/">
     {% csrf_token %}
-    <input id="idbusinessfordelete" name="idbusinessfordelete" value="{{businessinfo.id}}"
+    <input id="idbusinessfordelete" name="idbusinessfordelete" value="{{exportinfo.id}}"
            type="hidden" class="form-control">
     <input type="submit" value="Delete/删除" class="btn btn-primary pull-right"/>
     <p></p>
 </form>
 <form id="prealerta-form" method="post" action="/prealerta/">
     {% csrf_token %}
-    <input id="idbusinessforprealerta" name="idbusinessforprealerta" value="{{businessinfo.id}}"
+    <input id="idbusinessforprealerta" name="idbusinessforprealerta" value="{{exportinfo.id}}"
            type="hidden" class="form-control">
 
-    <input id="toinv_desc_forprealerta" name="toinv_desc_forprealerta" value="{{businessinfo.toinvoice_dest_description}}"
+    <input id="toinv_desc_forprealerta" name="toinv_desc_forprealerta" value="{{exportinfo.toinvoice_dest_description}}"
            type="hidden" class="form-control">
 
-    <input id="toinv_forprealerta" name="toinv_forprealerta" value="{{businessinfo.toinvoice_dest}}"
+    <input id="toinv_forprealerta" name="toinv_forprealerta" value="{{exportinfo.toinvoice_dest}}"
            type="hidden" class="form-control">
 
     <input type="submit" value="Generar Pre-Alerta" class="btn btn-primary pull-right"/>
     <p></p>
 </form>
 <form id="newbusiness-form" method="post" action="/exports/saveBusinessExport/" enctype="multipart/form-data">
-    <input id="userSelectBID" name="userSelectBID" value="{{businessinfo.id}}"
+    <input id="userSelectBID" name="userSelectBID" value="{{exportinfo.id}}"
            type="hidden" class="form-control">
     {% csrf_token %}
     <fieldset>
@@ -295,7 +295,7 @@
                         <legend>MODIFY A BUSINESS:</legend>
                         <label for="id">N°/编号：</label>
                         <input readonly id="id" name="id"
-                               value="{{ businessinfo.id }}"
+                               value="{{ exportinfo.id }}"
                                type="text" class="form-control">
                         <br>
                         <label for="clientname">Client/客户：</label>
@@ -313,12 +313,12 @@
                             <option value="YAO">YAO</option>
                         </select>
                         <script>
-                            setSelected("clientname","{{businessinfo.clientname}}");
+                            setSelected("clientname","{{exportinfo.clientname}}");
 
                         </script>
                         <br>
                         <label for="week">Week/周：</label>
-                        <input id="week" name="week" value="{{businessinfo.week}}" type="week" class="form-control">
+                        <input id="week" name="week" value="{{exportinfo.week}}" type="week" class="form-control">
                         <br>
                         <label for="estimated_load_date">ETL/预计装箱日期：</label>
                         <input id="estimated_load_date" name="estimated_load_date" type="date" class="form-control">
@@ -332,15 +332,15 @@
                         <label for="eta">ETA/预计到港日期：</label>
                         <input id="eta" name="eta" type="date" class="form-control">
                         <script>
-                            formatDate("estimated_load_date","{{businessinfo.estimated_load_date}}");
-                            formatDate("pre_etd","{{businessinfo.pre_etd}}");
-                            formatDate("etd","{{businessinfo.etd}}");
-                            formatDate("eta","{{businessinfo.eta}}");
+                            formatDate("estimated_load_date","{{exportinfo.estimated_load_date}}");
+                            formatDate("pre_etd","{{exportinfo.pre_etd}}");
+                            formatDate("etd","{{exportinfo.etd}}");
+                            formatDate("eta","{{exportinfo.eta}}");
 
                         </script>
                         <br>
                         <label for="vessel_voyage">Vessel Voyage/船名航次：</label>
-                        <input id="vessel_voyage" name="vessel_voyage" value="{{ businessinfo.vessel_voyage }}"
+                        <input id="vessel_voyage" name="vessel_voyage" value="{{ exportinfo.vessel_voyage }}"
                                type="text" class="form-control" required> *
                         <br>
                         <label for="pol">POL/起运港：</label>
@@ -369,21 +369,21 @@
                             <option value="VALPARAISO">VALPARAISO</option>
                         </select> *
                         <br>
-                        <label for="businessinfocol"> Note/备注：</label>
-                        <textarea id="businessinfocol" name="businessinfocol"
+                        <label for="exportinfocol"> Note/备注：</label>
+                        <textarea id="exportinfocol" name="exportinfocol"
                                   class="form-control" rows="4" cols="30" placeholder="Please Input Descriptions...">
                         </textarea>
                         <script>
-                            setSelected("pol","{{businessinfo.pol}}");
+                            setSelected("pol","{{exportinfo.pol}}");
                             setSelected("pol_sailing","{{Exportationinfo.pol_sailing}}");
                             setSelected("pod_discharge","{{Exportationinfo.pol_discharge}}");
-                            setSelected("pod","{{businessinfo.pod}}");
-                            document.getElementById("businessinfocol").value = "{{businessinfo.businessinfocol}}";
+                            setSelected("pod","{{exportinfo.pod}}");
+                            document.getElementById("exportinfocol").value = "{{exportinfo.exportinfocol}}";
 
                         </script>
                         <br>
                         <label for="numctrs">Ctrs Numeber/箱量</label>
-                        <input id="numctrs" name="numctrs" value="{{businessinfo.numctrs}}" type="number"
+                        <input id="numctrs" name="numctrs" value="{{exportinfo.numctrs}}" type="number"
                                class="form-control" size=2
                                placeholder="ej...1"
                                required> *
@@ -396,62 +396,62 @@
                             <option value="20GP">20GP</option>
                         </select> *
                         <script>
-                            setSelected("type_ctrs","{{businessinfo.type_ctrs}}");
+                            setSelected("type_ctrs","{{exportinfo.type_ctrs}}");
 
                         </script>
                         <br>
                         <label for="booking_no">#Booking/订舱号：</label>
-                        <input id="booking_no" name="booking_no" value="{{businessinfo.booking_no}}"
+                        <input id="booking_no" name="booking_no" value="{{exportinfo.booking_no}}"
                                type="text" class="form-control" required> *
                         <br>
                         <label for="master_no">#Master/主单号：</label>
-                        <input id="master_no" name="master_no" value="{{businessinfo.master_no}}" type="text"
+                        <input id="master_no" name="master_no" value="{{exportinfo.master_no}}" type="text"
                                class="form-control">
                         <br>
                         <label for="delivery_terminal">Delivery Terminal：</label>
-                        <input id="delivery_terminal" name="delivery_terminal" value="{{businessinfo.delivery_terminal}}" type="text"
+                        <input id="delivery_terminal" name="delivery_terminal" value="{{exportinfo.delivery_terminal}}" type="text"
                                class="form-control" required> *
                         <br>
                         <label>MBL File/主单文件:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.mblfile}}" download="">{{businessinfo.mblfile}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.mblfile}}" download="">{{exportinfo.mblfile}}</a>
                         <br>
                         <label for="first_hbl_no">#First HBL/首子单号:</label>
-                        <input id="first_hbl_no" name="first_hbl_no" value="{{businessinfo.first_hbl_no}}" type="text" class="form-control">
+                        <input id="first_hbl_no" name="first_hbl_no" value="{{exportinfo.first_hbl_no}}" type="text" class="form-control">
                         <br>
                         <label for="hbl_memo">HBL MEMO/子单备注:</label>
-                        <input id="hbl_memo" name="hbl_memo" value="{{businessinfo.hbl_memo}}" type="text" class="form-control">
+                        <input id="hbl_memo" name="hbl_memo" value="{{exportinfo.hbl_memo}}" type="text" class="form-control">
                         <br>
 
                         <label for="num_hbls">Num HBL/子单数量(FCL/FCL):</label>
-                        <input id="num_hbls" name="num_hbls" value="{{businessinfo.num_hbls}}" type="number"
+                        <input id="num_hbls" name="num_hbls" value="{{exportinfo.num_hbls}}" type="number"
                                class="form-control" size=2
                                placeholder="ej...1" onchange={calCostVentaDestino();}>
                         <br>
                         <label>HBL Files/子单附件:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.hblfiles}}" download="">{{businessinfo.hblfiles}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.hblfiles}}" download="">{{exportinfo.hblfiles}}</a>
                         <br>
                         <label for="container_no">Container/箱号：</label>
-                        <input id="container_no" name="container_no" value="{{businessinfo.container_no}}" type="text"
+                        <input id="container_no" name="container_no" value="{{exportinfo.container_no}}" type="text"
                                class="form-control">
 
                         <br>
                         <label for="commodity">Commodity：</label>
-                        <input id="commodity" name="commodity" value="{{businessinfo.commodity}}" type="text"
+                        <input id="commodity" name="commodity" value="{{exportinfo.commodity}}" type="text"
                                class="form-control">
 
                         <br>
                         <label for="hs_code">HS Code：</label>
-                        <input id="hs_code" name="hs_code" value="{{businessinfo.hs_code}}" type="text"
+                        <input id="hs_code" name="hs_code" value="{{exportinfo.hs_code}}" type="text"
                                class="form-control">
 
                         <br>
                         <label for="pickup_dpto">Pickup dpto：</label>
-                        <input id="pickup_dpto" name="pickup_dpto" value="{{businessinfo.pickup_dpto}}" type="text"
+                        <input id="pickup_dpto" name="pickup_dpto" value="{{exportinfo.pickup_dpto}}" type="text"
                                class="form-control">
 
                         <br>
                         <label for="pickup_ref">Pickup Ref：</label>
-                        <input id="pickup_ref" name="pickup_ref" value="{{businessinfo.pickup_ref}}" type="text"
+                        <input id="pickup_ref" name="pickup_ref" value="{{exportinfo.pickup_ref}}" type="text"
                                class="form-control">
 
                         <br>
@@ -470,7 +470,7 @@
                         </select> *
                         <br>
                         <label for="freeddday">Free D&D/免箱期：</label>
-                        <input id="freeddday" name="freeddday" value="{{businessinfo.freeddday}}" type="number"
+                        <input id="freeddday" name="freeddday" value="{{exportinfo.freeddday}}" type="number"
                                class="form-control" placeholder="ej...14"
                                required> *
                         <br>
@@ -491,16 +491,16 @@
                         </select>
                         <br>
                         <label for="charge_code">Charge Code：</label>
-                        <input id="charge_code" name="charge_code" value="{{businessinfo.charge_code}}" type="number"
+                        <input id="charge_code" name="charge_code" value="{{exportinfo.charge_code}}" type="number"
                                class="form-control" placeholder="ej...OCEAN FREIGHT">
                         <br>
                         <label for="payment">P/C：</label>
-                        <input id="payment" name="payment" value="{{businessinfo.payment}}" type="number"
+                        <input id="payment" name="payment" value="{{exportinfo.payment}}" type="number"
                                class="form-control" placeholder="ej...Pre-paid">
                         <script>
-                            setSelected("shipping_line","{{businessinfo.shipping_line}}");
-                            setSelected("bl_type","{{businessinfo.bl_type}}");
-                            setSelected("release_type","{{businessinfo.release_type}}");
+                            setSelected("shipping_line","{{exportinfo.shipping_line}}");
+                            setSelected("bl_type","{{exportinfo.bl_type}}");
+                            setSelected("release_type","{{exportinfo.release_type}}");
 
                         </script>
                         <p></p>
@@ -531,44 +531,44 @@
                     <fieldset>
                         <legend>Origen Operation information(China):</legend>
                         <label for="cost_org">O.F. Cost/成本运价：</label>
-                        <input id="cost_org" name="cost_org" value="{{businessinfo.cost_org}}" type="number"
+                        <input id="cost_org" name="cost_org" value="{{exportinfo.cost_org}}" type="number"
                                class="form-control"
                                placeholder="ej...10000" onclick={calCostVentaDestino();} onchange={calCostVentaDestino();}>
                         <br>
                         <label for="sale_org">O.F. Sale/销售运价：</label>
-                        <input id="sale_org" name="sale_org" value="{{businessinfo.sale_org}}" type="number"
+                        <input id="sale_org" name="sale_org" value="{{exportinfo.sale_org}}" type="number"
                                class="form-control"
                                placeholder="ej...11000" onclick={calCostVentaDestino();} onchange={calCostVentaDestino();}>
                         <br>
                         <label for="set_org">S.O.F. Cost Origin/结算运价：</label>
-                        <input id="set_org" name="set_org" value="{{businessinfo.set_org}}" type="number"
+                        <input id="set_org" name="set_org" value="{{exportinfo.set_org}}" type="number"
                                class="form-control"
                                readonly>
                         <br>
                         <label for="local_org">Local Cost Origin/起运港当地费用：</label>
-                        <input id="local_org" name="local_org" value="{{businessinfo.local_org}}" type="number"
+                        <input id="local_org" name="local_org" value="{{exportinfo.local_org}}" type="number"
                                class="form-control" onchange={calCostVentaDestino();}>
                         <br>
                         <label for="topaid_org_description">Deal Payment Detail/结算价付款明细：</label>
                         <input id="topaid_org_description" name="topaid_org_description"
-                               value="{{businessinfo.topaid_org_description}}" type="text"
+                               value="{{exportinfo.topaid_org_description}}" type="text"
                                class="form-control" readonly>
                         <br>
                         <label for="topaid_org">Deal Payment Amount/结算价付款金额：</label>
-                        <input id="topaid_org" name="topaid_org" value="{{businessinfo.topaid_org}}" type="number"
+                        <input id="topaid_org" name="topaid_org" value="{{exportinfo.topaid_org}}" type="number"
                                class="form-control"
                                readonly>
                         <br>
                         <label>D.P. Voucher/结算付款凭证:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.dp_voucher}}" download="">{{businessinfo.dp_voucher}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.dp_voucher}}" download="">{{exportinfo.dp_voucher}}</a>
                         <br>
                         <label>D.P. Invoice/结算发票:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.dp_invoice}}" download="">{{businessinfo.dp_invoice}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.dp_invoice}}" download="">{{exportinfo.dp_invoice}}</a>
                         <br>
                         <label for="topaid_status">* Deal Payment Status/结算价付款状态：</label>
                         <input id="topaid_status" name="topaid_status" type="checkbox" value="YES" class="form-control">
                         <script>
-                               setCheckbox("topaid_status","{{businessinfo.topaid_status}}");
+                               setCheckbox("topaid_status","{{exportinfo.topaid_status}}");
 
                         </script>
                         <br>
@@ -584,15 +584,15 @@
                         <legend>HBL Operation information(Pluscargo):</legend>
                         <label for="costhbl_dest_description">HBL Payment Detail/子单付款明细：</label>
                         <input id="costhbl_dest_description" name="costhbl_dest_description"
-                               value="{{businessinfo.costhbl_dest_description}}" type="text"
+                               value="{{exportinfo.costhbl_dest_description}}" type="text"
                                class="form-control" placeholder="ej...90+125+102">
                         <br>
                         <label for="costhbl_dest">HBL Payment Amount/子单付款金额：</label>
-                        <input id="costhbl_dest" name="costhbl_dest" value="{{businessinfo.costhbl_dest}}" type="number"
+                        <input id="costhbl_dest" name="costhbl_dest" value="{{exportinfo.costhbl_dest}}" type="number"
                                class="form-control" onchange={calCostVentaDestino();}>
                         <br>
                         <label>H.P. Voucher/HBL付款凭证:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.hp_voucher}}" download="">{{businessinfo.hp_voucher}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.hp_voucher}}" download="">{{exportinfo.hp_voucher}}</a>
                         <br>
 
                         <label for="costhbl_dest_status">* HBL Payment Status/子单付款状态：</label>
@@ -600,18 +600,18 @@
                                class="form-control">
                         <br>
                         <label>H.P. Invoice/HBL发票:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.hp_invoice}}" download="">{{businessinfo.hp_invoice}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.hp_invoice}}" download="">{{exportinfo.hp_invoice}}</a>
                         <br>
                         <label>HBLs Canjeados/子单换单文件:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.hbls_canjeados}}" download="">{{businessinfo.hbls_canjeados}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.hbls_canjeados}}" download="">{{exportinfo.hbls_canjeados}}</a>
 
                         <br>
                         <label for="hbl_canjeado_status">* HBL Canjeado Status/换单状态：</label>
                         <input id="hbl_canjeado_status" name="hbl_canjeado_status" type="checkbox" value="YES"
                                class="form-control">
                         <script>
-                               setCheckbox("costhbl_dest_status","{{businessinfo.costhbl_dest_status}}");
-                               setCheckbox("hbl_canjeado_status","{{businessinfo.hbl_canjeado_status}}");
+                               setCheckbox("costhbl_dest_status","{{exportinfo.costhbl_dest_status}}");
+                               setCheckbox("hbl_canjeado_status","{{exportinfo.hbl_canjeado_status}}");
                         </script>
 
                         <br>
@@ -629,35 +629,35 @@
                     <fieldset>
                         <legend>Management information(United Logistic Chile):</legend>
                         <label for="venta_dest">O.F.D.V/目的港运价：</label>
-                        <input id="venta_dest" name="venta_dest" value="{{businessinfo.venta_dest}}" type="number"
+                        <input id="venta_dest" name="venta_dest" value="{{exportinfo.venta_dest}}" type="number"
                                class="form-control"
                                placeholder="ej...11100" onclick={document.getElementById("venta_dest").value=document.getElementById("sale_org").value;calCostVentaDestino();}
                                onchange={calCostVentaDestino();}>
                         <br>
                         <label for="toinvoice_dest_description">Inv. Income Detail/发票价收款明细：</label>
                         <input id="toinvoice_dest_description" name="toinvoice_dest_description"
-                               value="{{businessinfo.toinvoice_dest_description}}" type="text"
+                               value="{{exportinfo.toinvoice_dest_description}}" type="text"
                                class="form-control" placeholder="ej...11100+370+300+125" readonly>
                         <br>
                         <label for="toinvoice_dest">Inv. Income Amount/发票价收款金额：</label>
-                        <input id="toinvoice_dest" name="toinvoice_dest" value="{{businessinfo.toinvoice_dest}}"
+                        <input id="toinvoice_dest" name="toinvoice_dest" value="{{exportinfo.toinvoice_dest}}"
                                type="number" class="form-control" readonly>
                         <br>
                         <label>Rec. Income Voucher/收款凭证:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.income_voucher}}" download="">{{businessinfo.income_voucher}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.income_voucher}}" download="">{{exportinfo.income_voucher}}</a>
                         <br>
                         <label for="profit">Profit/毛利：</label>
-                        <input id="profit" name="profit" value="{{businessinfo.profit}}" type="number"
+                        <input id="profit" name="profit" value="{{exportinfo.profit}}" type="number"
                                class="form-control" readonly>
                         <br>
                         <label>Rec. Income Invoice/收款发票:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.income_invoice}}" download="">{{businessinfo.income_invoice}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.income_invoice}}" download="">{{exportinfo.income_invoice}}</a>
                         <br>
                         <label for="toinvoice_dest_status">* Inv. Income Status/发票价收款状态：</label>
                         <input id="toinvoice_dest_status" name="toinvoice_dest_status" type="checkbox" value="YES"
                                class="form-control">
                         <script>
-                               setCheckbox("toinvoice_dest_status","{{businessinfo.toinvoice_dest_status}}");
+                               setCheckbox("toinvoice_dest_status","{{exportinfo.toinvoice_dest_status}}");
 
                         </script>
                         <br>
@@ -671,11 +671,11 @@
                         <legend>Operation Management information:</legend>
 
                         <label>HBLs Firmados/子单签字文件:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.hbls_firmados}}" download="">{{businessinfo.hbls_firmados}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.hbls_firmados}}" download="">{{exportinfo.hbls_firmados}}</a>
 
                         <br>
                         <label>HBLs Canjeados/子单换单文件:</label>
-                        <a HREF="{{MEDIA_URL}}{{businessinfo.hbls_canjeados}}" download="">{{businessinfo.hbls_canjeados}}</a>
+                        <a HREF="{{MEDIA_URL}}{{exportinfo.hbls_canjeados}}" download="">{{exportinfo.hbls_canjeados}}</a>
                         <br>
 
                         <label for="pickup_ctrs">Pickup ctrs: </label>
@@ -719,9 +719,9 @@
                         <input id="operation_status" name="operation_status" type="checkbox" value="YES"
                                class="form-control">
                         <script>
-                               formatDate("devolution_ctrs_inidate","{{businessinfo.devolution_ctrs_inidate}}");
-                               formatDate("devolution_ctrs_findate","{{businessinfo.devolution_ctrs_findate}}");
-                               setCheckbox("operation_status","{{businessinfo.operation_status}}");
+                               formatDate("devolution_ctrs_inidate","{{exportinfo.devolution_ctrs_inidate}}");
+                               formatDate("devolution_ctrs_findate","{{exportinfo.devolution_ctrs_findate}}");
+                               setCheckbox("operation_status","{{exportinfo.operation_status}}");
 
                         </script>
                         <br>
