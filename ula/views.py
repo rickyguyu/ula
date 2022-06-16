@@ -548,8 +548,8 @@ def savebusinessexport(request):
                 notify_country = notify_country,
                 notify_email = notify_email,
             )
-
         exporationinfo.save()
+        # Re-Render the Main Page for Exports
         exporationinfo = Exportationinfo.objects.filter(operation_status="NO").order_by("id")
         return render(request, "exportsmain.html", {"exportsLists": exporationinfo})
     else: # 必填数据为空
@@ -566,10 +566,10 @@ def delbusinessimport(request):
 def delbusinessexport(request):
     idbusinessfordelete = request.POST.get("idbusinessfordelete", "")
     if idbusinessfordelete:
-        businessinfo = Businessinfo.objects.get(id=idbusinessfordelete)
-        businessinfo.delete()
-        businessinfos = Businessinfo.objects.filter(operation_status="NO").order_by("id")
-        return render(request, "exportsmain.html", {"businessLists": businessinfos})
+        exportationinfo = Exportationinfo.objects.get(id=idbusinessfordelete)
+        exportationinfo.delete()
+        exporationinfo = Exportationinfo.objects.filter(operation_status="NO").order_by("id")
+        return render(request, "exportsmain.html", {"exportsLists": exporationinfo})
 
 def prealerta(request):
     idbusinessforprealerta = request.POST.get("idbusinessforprealerta", "")
