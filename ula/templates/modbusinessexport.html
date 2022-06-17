@@ -281,6 +281,7 @@
     <input type="submit" value="Generar Pre-Alerta" class="btn btn-primary pull-right"/>
     <p></p>
 </form>
+
 <form id="newbusiness-form" method="post" action="/exports/saveBusinessExport/" enctype="multipart/form-data">
     <input id="userSelectBID" name="userSelectBID" value="{{exportinfo.id}}"
            type="hidden" class="form-control">
@@ -298,229 +299,122 @@
                                value="{{ exportinfo.id }}"
                                type="text" class="form-control">
                         <br>
-                        <label for="clientname">Client/客户：</label>
-                        <select id="clientname" name="clientname" class="form-control" onchange={calCostLocal();}>
-                            <option value="" selected>Pls Select Clients</option>
-                            <option value="亚美ASIAMERIC">亚美ASIAMERIC</option>
-                            <option value="骏和WS CARGO">骏和WS CARGO</option>
-                            <option value="盛腾服装NUEVO SIGLO">盛腾服装NUEVO SIGLO</option>
-                            <option value="亚洲贸易HIPER ASIA">亚洲贸易HIPER ASIA</option>
-                            <option value="四叶草S-Y-C">四叶草S-Y-C</option>
-                            <option value="宾泉国际龚总KANG KANG">宾泉国际龚总KANG KANG</option>
-                            <option value="宾泉国际WATGEN">宾泉国际WATGEN</option>
-                            <option value="洪姐HONG">洪姐HONG</option>
-                            <option value="OMAS">OMAS</option>
-                            <option value="YAO">YAO</option>
-                        </select>
-                        <script>
-                            setSelected("clientname","{{exportinfo.clientname}}");
-
-                        </script>
+                        <legend>Vessel Information:</legend>
+                        <label for="booking_no">Booking No：</label>
+                        <input id="booking_no" name="booking_no" value="{{ exportinfo.booking_no}}" type="text" class="form-control" required>*
                         <br>
-                        <label for="week">Week/周：</label>
-                        <input id="week" name="week" value="{{exportinfo.week}}" type="week" class="form-control">
+                        <label for="shipping_line">Carrier：</label>
+                        <input id="shipping_line" name="shipping_line" value="{{ exportinfo.shipping_line}}" type="text" class="form-control" required>*
                         <br>
-                        <label for="estimated_load_date">ETL/预计装箱日期：</label>
-                        <input id="estimated_load_date" name="estimated_load_date" type="date" class="form-control">
-                        <br>
-                        <label for="pre_etd">ETD/预计开船日期：</label>
-                        <input id="pre_etd" name="pre_etd" type="date" class="form-control">
-                        <br>
-                        <label for="etd">ETD Real/实际开船日期：</label>
-                        <input id="etd" name="etd" type="date" class="form-control">
-                        <br>
-                        <label for="eta">ETA/预计到港日期：</label>
-                        <input id="eta" name="eta" type="date" class="form-control">
-                        <script>
-                            formatDate("estimated_load_date","{{exportinfo.estimated_load_date}}");
-                            formatDate("pre_etd","{{exportinfo.pre_etd}}");
-                            formatDate("etd","{{exportinfo.etd}}");
-                            formatDate("eta","{{exportinfo.eta}}");
-
-                        </script>
-                        <br>
-                        <label for="vessel_voyage">Vessel Voyage/船名航次：</label>
-                        <input id="vessel_voyage" name="vessel_voyage" value="{{ exportinfo.vessel_voyage }}"
-                               type="text" class="form-control" required> *
-                        <br>
-                        <label for="pol">POL/起运港：</label>
-                        <select id="pol" name="pol" class="form-control" required>
-                            <option value="" selected>Pls Select POL</option>
-                            <option value="NINGBO">NINGBO</option>
-                        </select> *
-                        <br>
-                        <label for="pol_sailing">POL Sailing：</label>
-                        <select id="pol_sailing" name="pol_sailing" class="form-control" required>
-                            <option value="" selected>Pls Select POL</option>
-                            <option value="NINGBO">NINGBO</option>
-                        </select> *
-                        <br>
-                        <label for="pod_discharge">POD Discharge：</label>
-                        <select id="pod_discharge" name="pod_discharge" class="form-control" required>
-                            <option value="" selected>Pls Select POL</option>
-                            <option value="SAN ANTONIO">SAN ANTONIO</option>
-                            <option value="VALPARAISO">VALPARAISO</option>
-                        </select> *
-                        <br>
-                        <label for="pod">POD/目的港：</label>
-                        <select id="pod" name="pod" class="form-control" required>
-                            <option value="" selected>Pls Select POD</option>
-                            <option value="SAN ANTONIO">SAN ANTONIO</option>
-                            <option value="VALPARAISO">VALPARAISO</option>
-                        </select> *
-                        <br>
-                        <label for="exportinfocol"> Note/备注：</label>
-                        <textarea id="exportinfocol" name="exportinfocol"
-                                  class="form-control" rows="4" cols="30" placeholder="Please Input Descriptions...">
-                        </textarea>
-                        <script>
-                            setSelected("pol","{{exportinfo.pol}}");
-                            setSelected("pol_sailing","{{Exportationinfo.pol_sailing}}");
-                            setSelected("pod_discharge","{{Exportationinfo.pol_discharge}}");
-                            setSelected("pod","{{exportinfo.pod}}");
-                            document.getElementById("exportinfocol").value = "{{exportinfo.exportinfocol}}";
-
-                        </script>
-                        <br>
-                        <label for="numctrs">Ctrs Numeber/箱量</label>
-                        <input id="numctrs" name="numctrs" value="{{exportinfo.numctrs}}" type="number"
-                               class="form-control" size=2
-                               placeholder="ej...1"
-                               required> *
-                        <br>
-                        <label for="type_ctrs">Ctrs Type/箱型：</label>
-                        <select id="type_ctrs" name="type_ctrs" class="form-control" required>
-                            <option value="" selected>Pls Select Ctrs-Type</option>
-                            <option value="40HQ">40HQ</option>
-                            <option value="40NR">40HR</option>
-                            <option value="20GP">20GP</option>
-                        </select> *
-                        <script>
-                            setSelected("type_ctrs","{{exportinfo.type_ctrs}}");
-
-                        </script>
-                        <br>
-                        <label for="booking_no">#Booking/订舱号：</label>
-                        <input id="booking_no" name="booking_no" value="{{exportinfo.booking_no}}"
-                               type="text" class="form-control" required> *
-                        <br>
-                        <label for="master_no">#Master/主单号：</label>
-                        <input id="master_no" name="master_no" value="{{exportinfo.master_no}}" type="text"
-                               class="form-control">
+                        <label for="vessel_voyage">Vessel Voyage：</label>
+                        <input id="vessel_voyage" name="vessel_voyage" value="{{ exportinfo.vessel_voyage}}" type="text" class="form-control" required>*
                         <br>
                         <label for="delivery_terminal">Delivery Terminal：</label>
-                        <input id="delivery_terminal" name="delivery_terminal" value="{{exportinfo.delivery_terminal}}" type="text"
-                               class="form-control" required> *
-                        <br>
-                        <label>MBL File/主单文件:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.mblfile}}" download="">{{exportinfo.mblfile}}</a>
-                        <br>
-                        <label for="first_hbl_no">#First HBL/首子单号:</label>
-                        <input id="first_hbl_no" name="first_hbl_no" value="{{exportinfo.first_hbl_no}}" type="text" class="form-control">
-                        <br>
-                        <label for="hbl_memo">HBL MEMO/子单备注:</label>
-                        <input id="hbl_memo" name="hbl_memo" value="{{exportinfo.hbl_memo}}" type="text" class="form-control">
-                        <br>
-
-                        <label for="num_hbls">Num HBL/子单数量(FCL/FCL):</label>
-                        <input id="num_hbls" name="num_hbls" value="{{exportinfo.num_hbls}}" type="number"
-                               class="form-control" size=2
-                               placeholder="ej...1" onchange={calCostVentaDestino();}>
-                        <br>
-                        <label>HBL Files/子单附件:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.hblfiles}}" download="">{{exportinfo.hblfiles}}</a>
-                        <br>
-                        <label for="container_no">Container/箱号：</label>
-                        <input id="container_no" name="container_no" value="{{exportinfo.container_no}}" type="text"
-                               class="form-control">
-
-                        <br>
-                        <label for="commodity">Commodity：</label>
-                        <input id="commodity" name="commodity" value="{{exportinfo.commodity}}" type="text"
-                               class="form-control">
-
-                        <br>
-                        <label for="hs_code">HS Code：</label>
-                        <input id="hs_code" name="hs_code" value="{{exportinfo.hs_code}}" type="text"
-                               class="form-control">
-
-                        <br>
-                        <label for="pickup_dpto">Pickup dpto：</label>
-                        <input id="pickup_dpto" name="pickup_dpto" value="{{exportinfo.pickup_dpto}}" type="text"
-                               class="form-control">
-
-                        <br>
-                        <label for="pickup_ref">Pickup Ref：</label>
-                        <input id="pickup_ref" name="pickup_ref" value="{{exportinfo.pickup_ref}}" type="text"
-                               class="form-control">
-
-                        <br>
-                        <label for="shipping_line">Line/船司：</label>
-                        <select id="shipping_line" name="shipping_line" class="form-control" required onchange={calCostHBLDestino();}>
-                            <option value="" selected>Pls Select Ocean Lines</option>
-                            <option value="MSC">MSC</option>
-                            <option value="CMA">CMA</option>
-                            <option value="MSK">MSK</option>
-                            <option value="EMC">EMC</option>
-                            <option value="COSCO">COSCO</option>
-                            <option value="OOCL">OOCL</option>
-                            <option value="ONE">ONE</option>
-                            <option value="YML">YML</option>
-                            <option value="HPL">HPL</option>
-                        </select> *
-                        <br>
-                        <label for="freeddday">Free D&D/免箱期：</label>
-                        <input id="freeddday" name="freeddday" value="{{exportinfo.freeddday}}" type="number"
-                               class="form-control" placeholder="ej...14"
-                               required> *
-                        <br>
-                        <label for="bl_type">BL Type/提单类型：</label>
-                        <select id="bl_type" name="bl_type" class="form-control">
-                            <option value="" selected>Pls Select BL Type</option>
-                            <option value="MBL">MBL</option>
-                            <option value="HBL">HBL</option>
-                        </select>
-                        <br>
-                        <label for="release_type">Release Type/放单类型：</label>
-                        <select id="release_type" name="release_type" class="form-control">
-                            <option value="" selected>Pls Select MBL Release Type</option>
-                            <option value="提单原件BL ORIGINAL">提单原件BL ORIGINAL</option>
-                            <option value="SWB">SWB</option>
-                            <option value="目的港打印Emision En Destino">目的港打印Emision En Destino</option>
-                            <option value="Tele-Release">Tele-Release</option>
-                        </select>
-                        <br>
-                        <label for="charge_code">Charge Code：</label>
-                        <input id="charge_code" name="charge_code" value="{{exportinfo.charge_code}}" type="number"
-                               class="form-control" placeholder="ej...OCEAN FREIGHT">
-                        <br>
-                        <label for="payment">P/C：</label>
-                        <input id="payment" name="payment" value="{{exportinfo.payment}}" type="number"
-                               class="form-control" placeholder="ej...Pre-paid">
+                        <input id="delivery_terminal" name="delivery_terminal" value="{{ exportinfo.delivery_terminal}}" type="text" class="form-control" required>*
                         <script>
+                            setSelected("booking_no","{{exportinfo.booking_no}}");
                             setSelected("shipping_line","{{exportinfo.shipping_line}}");
-                            setSelected("bl_type","{{exportinfo.bl_type}}");
-                            setSelected("release_type","{{exportinfo.release_type}}");
-
+                            setSelected("vessel_voyage","{{exportinfo.vessel_voyage}}");
+                            setSelected("delivery_terminal","{{exportinfo.delivery_terminal}}");
                         </script>
-                        <p></p>
-                        <div align="right">
-                            <input type="submit" value="Modify/保存" class="btn btn-primary pull-right"/>
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Upload Bill of Lading Attachment:</legend>
-                        <label for="mblfile">Master BL File：</label>
-
-                        <input type="file" id="mblfile" name="mblfile" accept=".pdf">
-
-                        <br>
-                        <label for="hblfiles">House BL File：</label>
-                        <input type="file" id="hblfiles" name="hblfiles" accept=".zip,.pdf">
-
                     </fieldset>
                 </td>
             </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <td>
+                    <fieldset>
+                        <legend>Port Information:</legend>
+                        <label for="pol">POL：</label>
+                        <input id="pol" name="pol" value="{{ exportinfo.pol}}" type="text" class="form-control"required>*
+                        <br>
+                        <label for="pol_sailing">POL Sailing：</label>
+                        <input id="pol_sailing" name="pol_sailing" value="{{ exportinfo.pol_sailing}}" type="text" class="form-control">
+                        <br>
+                        <label for="pod_discharge">POD Discharge：</label>
+                        <input id="pod_discharge" name="pod_discharge" value="{{ exportinfo.pod_discharge}}" type="text" class="form-control">
+                        <br>
+                        <label for="pod">POD：</label>
+                        <input id="pod" name="pod" type="text" value="{{ exportinfo.pod}}" class="form-control"required>*
+                        <br>
+                        <script>
+                            setSelected("pol","{{exportinfo.pol}}");
+                            setSelected("pol_sailing","{{exportinfo.pol_sailing}}");
+                            setSelected("pod_discharge","{{exportinfo.pod_discharge}}");
+                            setSelected("pod","{{exportinfo.pod}}");
+                        </script>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Date Information:</legend>
+                        <label for="pickup_ctrs">Pickup ctrs: </label>
+                        <input id="pickup_ctrs" name="pickup_ctrs" value="{{ exportinfo.pickup_ctrs}}" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="cutoff_docmatriz">Cutoff Doc. Matriz: </label>
+                        <input id="cutoff_docmatriz" name="cutoff_docmatriz" value="{{ exportinfo.cutoff_docmatriz}}" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="cutoff_vgm">Cutoff VGM: </label>
+                        <input id="cutoff_vgm" name="cutoff_vgm" value="{{ exportinfo.cutoff_vgm}}" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="cargo_cutoff">Cargo Cutoff: </label>
+                        <input id="cargo_cutoff" name="cargo_cutoff" value="{{ exportinfo.cargo_cutoff}}" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="stacking_start">Stacking Start: </label>
+                        <input id="stacking_start" name="stacking_start" value="{{ exportinfo.stacking_start}}" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="stacking_close">Stacking Close: </label>
+                        <input id="stacking_close" name="stacking_close" value="{{ exportinfo.stacking_close}}" type="datetime-local" class="form-control">
+                        <br>
+                        <label for="etd">ETD Real/实际开船日期：</label>
+                        <input id="etd" name="etd" value="{{ exportinfo.etd}}" type="date" class="form-control">
+                        <br>
+                        <label for="eta">ETA/预计到港日期：</label>
+                        <input id="eta" name="eta" value="{{ exportinfo.eta}}" type="date" class="form-control">
+                        <script>
+                            setSelected("pickup_ctrs","{{exportinfo.pickup_ctrs}}");
+                            setSelected("cutoff_docmatriz","{{exportinfo.cutoff_docmatriz}}");
+                            setSelected("cutoff_vgm","{{exportinfo.cutoff_vgm}}");
+                            setSelected("cargo_cutoff","{{exportinfo.cargo_cutoff}}");
+                            setSelected("stacking_start","{{exportinfo.stacking_start}}");
+                            setSelected("stacking_close","{{exportinfo.stacking_close}}");
+                            setSelected("etd","{{exportinfo.etd}}");
+                            setSelected("eta","{{exportinfo.eta}}");
+                        </script>
+                        <script>
+                            formatDateTime("pickup_ctrs", {{exportationinfo.pickup_ctrs}});
+                            formatDateTime("cutoff_docmatriz", {{exportationinfo.cutoff_docmatriz}});
+                            formatDateTime("cutoff_vgm", {{exportationinfo.cutoff_vgm}});
+                            formatDateTime("cargo_cutoff", {{exportationinfo.cargo_cutoff}});
+                            formatDateTime("stacking_start", {{exportationinfo.stacking_start}});
+                            formatDateTime("stacking_close", {{exportationinfo.stacking_close}});
+                            formatDate("etd","{{exportationinfo.etd}}");
+                            formatDate("eta","{{exportationinfo.eta}}");
+                        </script>
+                        <br>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Weight and Size Information:</legend>
+                        <label for="tare">Tare：</label>
+                        <input id="tare" name="tare" value="{{ exportinfo.tare}}" type="text" class="form-control">
+                        <br>
+                        <label for="gross_weight">Gross Weight：</label>
+                        <input id="gross_weight" name="gross_weight" value="{{ exportinfo.gross_weight}}" type="text" class="form-control">
+                        <br>
+                        <label for="size">Container Dimensions：</label>
+                        <input id="size" name="size" value="{{ exportinfo.size}}" type="text" class="form-control">
+                        <br>
+                        <label for="net_weight">Net Weight：</label>
+                        <input id="net_weight" name="net_weight" value="{{ exportinfo.net_weight}}" type="text" class="form-control">
+                        <br>
+                        <script>
+                            setSelected("tare","{{exportinfo.tare}}");
+                            setSelected("gross_weight","{{exportinfo.gross_weight}}");
+                            setSelected("size","{{exportinfo.size}}");
+                            setSelected("net_weight","{{exportinfo.net_weight}}");
+                        </script>
+                    </fieldset>
+                </td>
             </tbody>
         </table>
 
@@ -529,212 +423,203 @@
             <tr>
                 <td>
                     <fieldset>
-                        <legend>Origen Operation information(China):</legend>
-                        <label for="cost_org">O.F. Cost/成本运价：</label>
-                        <input id="cost_org" name="cost_org" value="{{exportinfo.cost_org}}" type="number"
-                               class="form-control"
-                               placeholder="ej...10000" onclick={calCostVentaDestino();} onchange={calCostVentaDestino();}>
+                        <legend>Container and Package Information:</legend>
+                        <label for="package_type">Package Type：</label>
+                        <input id="package_type" name="package_type" value="{{ exportinfo.package_type}}" type="text" class="form-control"required>*
                         <br>
-                        <label for="sale_org">O.F. Sale/销售运价：</label>
-                        <input id="sale_org" name="sale_org" value="{{exportinfo.sale_org}}" type="number"
-                               class="form-control"
-                               placeholder="ej...11000" onclick={calCostVentaDestino();} onchange={calCostVentaDestino();}>
+                        <legend>Containers Type: </legend>
+                        <select id="type_ctrs" name="type_ctrs" class="form-control" required>
+                            <option value="" selected>Pls Select Ctrs-Type</option>
+                            <option value="40HQ">40HQ</option>
+                            <option value="40NR">40HR</option>
+                            <option value="20GP">20GP</option>
+                        </select> *
                         <br>
-                        <label for="set_org">S.O.F. Cost Origin/结算运价：</label>
-                        <input id="set_org" name="set_org" value="{{exportinfo.set_org}}" type="number"
-                               class="form-control"
-                               readonly>
+                        <label for="qty">Container Quantity：</label>
+                        <input id="qty" name="qty" value="{{ exportinfo.qty}}" type="text" class="form-control"required>*
                         <br>
-                        <label for="local_org">Local Cost Origin/起运港当地费用：</label>
-                        <input id="local_org" name="local_org" value="{{exportinfo.local_org}}" type="number"
-                               class="form-control" onchange={calCostVentaDestino();}>
+                        <label for="id_number">Container ID Number：</label>
+                        <input id="id_number" name="id_number" value="{{ exportinfo.id_number}}" type="text" class="form-control"required>*
                         <br>
-                        <label for="topaid_org_description">Deal Payment Detail/结算价付款明细：</label>
-                        <input id="topaid_org_description" name="topaid_org_description"
-                               value="{{exportinfo.topaid_org_description}}" type="text"
-                               class="form-control" readonly>
+                        <label for="seal_number">Seal Number：</label>
+                        <input id="seal_number" name="seal_number" value="{{ exportinfo.seal_number}}" type="text" class="form-control">
                         <br>
-                        <label for="topaid_org">Deal Payment Amount/结算价付款金额：</label>
-                        <input id="topaid_org" name="topaid_org" value="{{exportinfo.topaid_org}}" type="number"
-                               class="form-control"
-                               readonly>
+                        <label for="total_packages">Total Packages：</label>
+                        <input id="total_packages" name="total_packages" value="{{ exportinfo.total_packages}}" type="text" class="form-control">
                         <br>
-                        <label>D.P. Voucher/结算付款凭证:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.dp_voucher}}" download="">{{exportinfo.dp_voucher}}</a>
+                        <label for="commodity">Commodity (Category)：</label>
+                        <input id="commodity" name="commodity" value="{{ exportinfo.commodity}}" type="text" class="form-control">
                         <br>
-                        <label>D.P. Invoice/结算发票:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.dp_invoice}}" download="">{{exportinfo.dp_invoice}}</a>
+                        <label for="hs_code">HS Code：</label>
+                        <input id="hs_code" name="hs_code" value="{{ exportinfo.hs_code}}" type="text" class="form-control">
                         <br>
-                        <label for="topaid_status">* Deal Payment Status/结算价付款状态：</label>
-                        <input id="topaid_status" name="topaid_status" type="checkbox" value="YES" class="form-control">
+                        <label for="pickup_dpto">Pickup Dpto.：</label>
+                        <input id="pickup_dpto" name="pickup_dpto" value="{{ exportinfo.pickup_dpto}}" type="text" class="form-control">
+                        <br>
+                        <label for="pickup_ref">Pickup Ref：</label>
+                        <input id="pickup_ref" name="pickup_ref" type="text" class="form-control">
+                        <br>
+                        <label for="products"> Products：</label>
+                        <textarea id="products" name="products"
+                                  class="products" rows="10" cols="42" placeholder="Please Input Product Descriptions...">
+                        </textarea>
+                        <br>
                         <script>
-                               setCheckbox("topaid_status","{{exportinfo.topaid_status}}");
-
+                            document.getElementById("products").value = "{{exportinfo.products}}";
+                            setSelected("type_ctrs","{{exportinfo.type_ctrs}}");
+                            setSelected("package_type","{{exportinfo.package_type}}");
+                            setSelected("qty","{{exportinfo.qty}}");
+                            setSelected("id_number","{{exportinfo.id_number}}");
+                            setSelected("seal_number","{{exportinfo.seal_number}}");
+                            setSelected("total_packages","{{exportinfo.total_packages}}");
+                            setSelected("commodity","{{exportinfo.commodity}}");
+                            setSelected("hs_code","{{exportinfo.hs_code}}");
+                            setSelected("pickup_dpto","{{exportinfo.pickup_dpto}}");
+                            setSelected("pickup_ref","{{exportinfo.pickup_ref}}");
                         </script>
-                        <br>
-                        <label for="dp_voucher">Upload D.P. Voucher：</label>
-                        <input type="file" id="dp_voucher" name="dp_voucher" accept=".zip,.pdf">
-                        <br>
-                        <label for="dp_invoice">Upload D.P. Invoice：</label>
-                        <input type="file" id="dp_invoice" name="dp_invoice" accept=".zip,.pdf">
-
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>HBL Operation information(Pluscargo):</legend>
-                        <label for="costhbl_dest_description">HBL Payment Detail/子单付款明细：</label>
-                        <input id="costhbl_dest_description" name="costhbl_dest_description"
-                               value="{{exportinfo.costhbl_dest_description}}" type="text"
-                               class="form-control" placeholder="ej...90+125+102">
-                        <br>
-                        <label for="costhbl_dest">HBL Payment Amount/子单付款金额：</label>
-                        <input id="costhbl_dest" name="costhbl_dest" value="{{exportinfo.costhbl_dest}}" type="number"
-                               class="form-control" onchange={calCostVentaDestino();}>
-                        <br>
-                        <label>H.P. Voucher/HBL付款凭证:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.hp_voucher}}" download="">{{exportinfo.hp_voucher}}</a>
-                        <br>
-
-                        <label for="costhbl_dest_status">* HBL Payment Status/子单付款状态：</label>
-                        <input id="costhbl_dest_status" name="costhbl_dest_status" type="checkbox" value="YES"
-                               class="form-control">
-                        <br>
-                        <label>H.P. Invoice/HBL发票:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.hp_invoice}}" download="">{{exportinfo.hp_invoice}}</a>
-                        <br>
-                        <label>HBLs Canjeados/子单换单文件:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.hbls_canjeados}}" download="">{{exportinfo.hbls_canjeados}}</a>
-
-                        <br>
-                        <label for="hbl_canjeado_status">* HBL Canjeado Status/换单状态：</label>
-                        <input id="hbl_canjeado_status" name="hbl_canjeado_status" type="checkbox" value="YES"
-                               class="form-control">
-                        <script>
-                               setCheckbox("costhbl_dest_status","{{exportinfo.costhbl_dest_status}}");
-                               setCheckbox("hbl_canjeado_status","{{exportinfo.hbl_canjeado_status}}");
-                        </script>
-
-                        <br>
-                        <label for="hp_voucher">Upload H.P. Voucher：</label>
-                        <input type="file" id="hp_voucher" name="hp_voucher" accept=".zip,.pdf">
-
-                        <br>
-                        <label for="hp_invoice">Upload H.P. Invoice：</label>
-                        <input type="file" id="hp_invoice" name="hp_invoice" accept=".zip,.pdf">
-
-                        <br>
-                        <label for="hbls_canjeados">Upload HBLs Canjeados：</label>
-                        <input type="file" id="hbls_canjeados" name="hbls_canjeados" accept=".zip,.pdf">
                     </fieldset>
                     <fieldset>
-                        <legend>Management information(United Logistic Chile):</legend>
-                        <label for="venta_dest">O.F.D.V/目的港运价：</label>
-                        <input id="venta_dest" name="venta_dest" value="{{exportinfo.venta_dest}}" type="number"
-                               class="form-control"
-                               placeholder="ej...11100" onclick={document.getElementById("venta_dest").value=document.getElementById("sale_org").value;calCostVentaDestino();}
-                               onchange={calCostVentaDestino();}>
+                        <legend>Payment Information:</legend>
+                        <label for="client_name">Clint Name：</label>
+                        <input id="client_name" name="client_name" value="{{ exportinfo.client_name}}" type="text" class="form-control" required>*
                         <br>
-                        <label for="toinvoice_dest_description">Inv. Income Detail/发票价收款明细：</label>
-                        <input id="toinvoice_dest_description" name="toinvoice_dest_description"
-                               value="{{exportinfo.toinvoice_dest_description}}" type="text"
-                               class="form-control" placeholder="ej...11100+370+300+125" readonly>
+                        <label for="charge_code">Charge Code：</label>
+                        <input id="charge_code" name="charge_code" value="{{ exportinfo.charge_code}}" type="text" class="form-control">
                         <br>
-                        <label for="toinvoice_dest">Inv. Income Amount/发票价收款金额：</label>
-                        <input id="toinvoice_dest" name="toinvoice_dest" value="{{exportinfo.toinvoice_dest}}"
-                               type="number" class="form-control" readonly>
+                        <label for="payment">Payment：</label>
+                        <input id="payment" name="payment" value="{{ exportinfo.payment}}" type="text" class="form-control">
                         <br>
-                        <label>Rec. Income Voucher/收款凭证:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.income_voucher}}" download="">{{exportinfo.income_voucher}}</a>
+                        <label for="rateper">Rate Per：</label>
+                        <input id="rateper" name="rateper" value="{{ exportinfo.rateper}}" type="text" class="form-control">
                         <br>
-                        <label for="profit">Profit/毛利：</label>
-                        <input id="profit" name="profit" value="{{exportinfo.profit}}" type="number"
-                               class="form-control" readonly>
+                        <label for="freightcharges">Freight and Charges：</label>
+                        <input id="freightcharges" name="freightcharges" value="{{ exportinfo.freightcharges}}" type="text" class="form-control" placeholder="e.j. Total Flete">
                         <br>
-                        <label>Rec. Income Invoice/收款发票:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.income_invoice}}" download="">{{exportinfo.income_invoice}}</a>
+                        <label for="prepaid">Prepaid：</label>
+                        <input id="prepaid" name="prepaid" value="{{ exportinfo.prepaid}}" type="text" class="form-control" placeholder="e.j. USD">
                         <br>
-                        <label for="toinvoice_dest_status">* Inv. Income Status/发票价收款状态：</label>
-                        <input id="toinvoice_dest_status" name="toinvoice_dest_status" type="checkbox" value="YES"
-                               class="form-control">
+                        <label for="collect">Collect：</label>
+                        <input id="collect" name="collect" value="{{ exportinfo.collect}}" type="text" class="form-control">
+                        <br>
                         <script>
-                               setCheckbox("toinvoice_dest_status","{{exportinfo.toinvoice_dest_status}}");
-
+                            setSelected("client_name","{{exportinfo.client_name}}");
+                            setSelected("charge_code","{{exportinfo.charge_code}}");
+                            setSelected("payment","{{exportinfo.payment}}");
+                            setSelected("rateper","{{exportinfo.rateper}}");
+                            setSelected("freightcharges","{{exportinfo.freightcharges}}");
+                            setSelected("prepaid","{{exportinfo.prepaid}}");
+                            setSelected("collect","{{exportinfo.collect}}");
                         </script>
-                        <br>
-                        <label for="income_voucher">Upload Rec. Income Voucher：</label>
-                        <input type="file" id="income_voucher" name="income_voucher" accept=".zip,.pdf">
-                        <br>
-                        <label for="income_invoice">Upload Rec. Income Invoice：</label>
-                        <input type="file" id="income_invoice" name="income_invoice" accept=".zip,.pdf">
-                    </fieldset>
-                    <fieldset>
-                        <legend>Operation Management information:</legend>
-
-                        <label>HBLs Firmados/子单签字文件:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.hbls_firmados}}" download="">{{exportinfo.hbls_firmados}}</a>
-
-                        <br>
-                        <label>HBLs Canjeados/子单换单文件:</label>
-                        <a HREF="{{MEDIA_URL}}{{exportinfo.hbls_canjeados}}" download="">{{exportinfo.hbls_canjeados}}</a>
-                        <br>
-
-                        <label for="pickup_ctrs">Pickup ctrs: </label>
-                        <input id="pickup_ctrs" name="pickup_ctrs" type="datetime-local" class="form-control">
-
-                        <br>
-
-                        <label for="cutoff_docmatriz">Cutoff Doc. Matriz: </label>
-                        <input id="cutoff_docmatriz" name="cutoff_docmatriz" type="datetime-local" class="form-control">
-
-                        <br>
-
-                        <label for="cutoff_vgm">Cutoff VGM: </label>
-                        <input id="cutoff_vgm" name="cutoff_vgm" type="datetime-local" class="form-control">
-
-                        <br>
-
-                        <label for="cargo_cutoff">Cargo Cutoff: </label>
-                        <input id="cargo_cutoff" name="cargo_cutoff" type="datetime-local" class="form-control">
-
-                        <br>
-
-                        <label for="stacking_start">Stacking Start: </label>
-                        <input id="stacking_start" name="stacking_start" type="datetime-local" class="form-control">
-
-                        <br>
-
-                        <label for="stacking_close">Stacking Close: </label>
-                        <input id="stacking_close" name="stacking_close" type="datetime-local" class="form-control">
-
-                        <br>
-                        <label for="devolution_ctrs_inidate">INI Devol_Ctrs/目的港提柜日期：</label>
-                        <input id="devolution_ctrs_inidate" name="devolution_ctrs_inidate" type="date"
-                               class="form-control">
-                        <br>
-                        <label for="devolution_ctrs_findate">END Devol_Ctrs/目的港还柜日期：</label>
-                        <input id="devolution_ctrs_findate" name="devolution_ctrs_findate" type="date"
-                               class="form-control">
-                        <br>
-                        <label for="operation_status">* Status Finnish Op./操作是否已经完成：</label>
-                        <input id="operation_status" name="operation_status" type="checkbox" value="YES"
-                               class="form-control">
-                        <script>
-                               formatDate("devolution_ctrs_inidate","{{exportinfo.devolution_ctrs_inidate}}");
-                               formatDate("devolution_ctrs_findate","{{exportinfo.devolution_ctrs_findate}}");
-                               setCheckbox("operation_status","{{exportinfo.operation_status}}");
-
-                        </script>
-                        <br>
-                        <label for="hbls_firmapodos">Upload HBLs Firmados：</label>
-                        <input type="file" id="hbls_firmados" name="hbls_firmados" accept=".zip,.pdf">
-
-
                     </fieldset>
                 </td>
             </tbody>
         </table>
 
-
+        <table align="left">
+            <tbody>
+            <tr>
+                <td>
+                    <fieldset>
+                        <legend>Shipper Information:</legend>
+                        <label for="shipper_name">Shipper Name：</label>
+                        <input id="shipper_name" name="shipper_name" value="{{ exportinfo.shipper_name}}" type="text" class="form-control" required>*
+                        <br>
+                        <label for="shipper_address">Shipper Address：</label>
+                        <input id="shipper_address" name="shipper_address" value="{{ exportinfo.shipper_address}}" type="text" class="form-control">
+                        <br>
+                        <label for="shipper_city">Shipper City：</label>
+                        <input id="shipper_city" name="shipper_city" value="{{ exportinfo.shipper_city}}" type="text" class="form-control">
+                        <br>
+                        <label for="shipper_state">Shipper State：</label>
+                        <input id="shipper_state" name="shipper_state" value="{{ exportinfo.shipper_state}}" type="text" class="form-control">
+                        <br>
+                        <label for="shipper_country">Shipper Country：</label>
+                        <input id="shipper_country" name="shipper_country" value="{{ exportinfo.shipper_country}}" type="text" class="form-control">
+                        <br>
+                        <label for="shipper_email">Shipper Email：</label>
+                        <input id="shipper_email" name="shipper_email" value="{{ exportinfo.shipper_email}}" type="text" class="form-control">
+                        <br>
+                        <script>
+                            setSelected("shipper_name","{{exportinfo.shipper_name}}");
+                            setSelected("shipper_address","{{exportinfo.shipper_address}}");
+                            setSelected("shipper_city","{{exportinfo.shipper_city}}");
+                            setSelected("shipper_state","{{exportinfo.shipper_state}}");
+                            setSelected("shipper_country","{{exportinfo.shipper_country}}");
+                            setSelected("shipper_email","{{exportinfo.shipper_email}}");
+                        </script>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Consignee Information:</legend>
+                        <label for="consignee_name">Consignee Name：</label>
+                        <input id="consignee_name" name="consignee_name" value="{{ exportinfo.consignee_name}}" type="text" class="form-control" required>*
+                        <br>
+                        <label for="consignee_address">Consignee Code：</label>
+                        <input id="consignee_address" name="consignee_address" value="{{ exportinfo.consignee_address}}" type="text" class="form-control">
+                        <br>
+                        <label for="consignee_city">Consignee City：</label>
+                        <input id="consignee_city" name="consignee_city" value="{{ exportinfo.consignee_city}}" type="text" class="form-control">
+                        <br>
+                        <label for="consignee_state">Consignee State：</label>
+                        <input id="consignee_state" name="consignee_state" value="{{ exportinfo.consignee_state}}" type="text" class="form-control">
+                        <br>
+                        <label for="consignee_country">Consignee Country：</label>
+                        <input id="consignee_country" name="consignee_country" value="{{ exportinfo.consignee_country}}" type="text" class="form-control">
+                        <br>
+                        <label for="consignee_email">Consignee Email：</label>
+                        <input id="consignee_email" name="consignee_email" value="{{ exportinfo.consignee_email}}" type="text" class="form-control">
+                        <br>
+                        <script>
+                            setSelected("consignee_name","{{exportinfo.consignee_name}}");
+                            setSelected("consignee_address","{{exportinfo.consignee_address}}");
+                            setSelected("consignee_city","{{exportinfo.consignee_city}}");
+                            setSelected("consignee_state","{{exportinfo.consignee_state}}");
+                            setSelected("consignee_country","{{exportinfo.consignee_country}}");
+                            setSelected("consignee_email","{{exportinfo.consignee_email}}");
+                        </script>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Notify Information:</legend>
+                        <label for="notify_name">Notify Name：</label>
+                        <input id="notify_name" name="notify_name" value="{{ exportinfo.notify_name}}" type="text" class="form-control" required>*
+                        <br>
+                        <label for="notify_address">Notify Code：</label>
+                        <input id="notify_address" name="notify_address" value="{{ exportinfo.notify_address}}" type="text" class="form-control">
+                        <br>
+                        <label for="notify_city">Notify City：</label>
+                        <input id="notify_city" name="notify_city" value="{{ exportinfo.notify_city}}" type="text" class="form-control">
+                        <br>
+                        <label for="notify_state">Notify State：</label>
+                        <input id="notify_state" name="notify_state" value="{{ exportinfo.notify_state}}" type="text" class="form-control">
+                        <br>
+                        <label for="notify_country">Notify Country：</label>
+                        <input id="notify_country" name="notify_country" value="{{ exportinfo.notify_country}}" type="text" class="form-control">
+                        <br>
+                        <label for="notify_email">Notify Email：</label>
+                        <input id="notify_email" name="notify_email" value="{{ exportinfo.notify_email}}" type="text" class="form-control">
+                        <br>
+                        <script>
+                            setSelected("notify_name","{{exportinfo.notify_name}}");
+                            setSelected("notify_address","{{exportinfo.notify_address}}");
+                            setSelected("notify_city","{{exportinfo.notify_city}}");
+                            setSelected("notify_state","{{exportinfo.notify_state}}");
+                            setSelected("notify_country","{{exportinfo.notify_country}}");
+                            setSelected("notify_email","{{exportinfo.notify_email}}");
+                        </script>
+                        <label for="operation_status">* Status Finnish Op./操作是否已经完成：</label>
+                        <input id="operation_status" name="operation_status" value="{{ exportinfo.operation_status}}" type="checkbox" value="YES"
+                               class="form-control">
+                        <script>
+                            setSelected("operation_status","{{exportinfo.operation_status}}");
+                        </script>
+                    </fieldset>
+                    <div align="right">
+                        <input type="submit" value="Modify/保存" class="btn btn-primary pull-right"/>
+                    </div>
+                    </fieldset>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </fieldset>
 
 </form>

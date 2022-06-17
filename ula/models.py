@@ -122,7 +122,7 @@ class Exportationinfo(models.Model):
     hs_code = models.CharField(db_column='HS_Code', max_length=25)
     pickup_dpto = models.CharField(db_column='Pickup_Dpto.', max_length=75)
     pickup_ref = models.IntegerField(db_column='Pickup_Ref', blank=True, null=True)
-    products = models.CharField(db_column='Products', max_length=10000)
+    products = models.CharField(blank=True, null=True, db_column='Products', max_length=10000)
 
     # Weight and Size Information
     tare = models.CharField(db_column='Tare', max_length=20)
