@@ -571,17 +571,15 @@ def delbusinessexport(request):
         exporationinfo = Exportationinfo.objects.filter(operation_status="NO").order_by("id")
         return render(request, "exportsmain.html", {"exportsLists": exporationinfo})
 
-def prealerta(request):
+def exportsprealerta(request):
     idbusinessforprealerta = request.POST.get("idbusinessforprealerta", "")
-    businessinfo = Businessinfo.objects.get(id=idbusinessforprealerta)
-    clienteInfo = ClienteInfo.objects.get(id=businessinfo.clientname)
-    clientename=clienteInfo.clientname
+    businessinfo= Exportationinfo.objects.get(id=idbusinessforprealerta)
+    clientename=businessinfo.clientname
     container_no=Businessinfo.objects.get(id=idbusinessforprealerta).container_no;
 
 
     deta=datetime.strptime(str(businessinfo.eta),"%Y-%m-%d")
     deta1=timedelta(days=-14)
-    dateline=deta+deta1
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     # response = HttpResponse(content_type='application/vnd.ms-excel')
@@ -593,74 +591,12 @@ def prealerta(request):
     newsize=(145,32)
     img.width, img.height = newsize
     sheet.add_image(img,"B4")
-    sheet["C12"] = clienteInfo.clientname
-    sheet["C13"] = clienteInfo.clientrut
-    sheet["C14"] = clienteInfo.clientgiro
-    sheet["C15"] = clienteInfo.clientaddress
-    sheet["C16"] = clienteInfo.clientstate
-    sheet["F16"] = clienteInfo.clientcity
-    sheet["C17"] = clienteInfo.clientcontact
-    sheet["I12"] = str(datetime.today().date())
-
-    sheet["D22"] ="Flete Maritimo "+ businessinfo.shipping_line+ " Line " + str(businessinfo.numctrs) +"X"+ businessinfo.type_ctrs
-    pricesList=businessinfo.toinvoice_dest_description.split("+")
-    i=0
-    totalprice = 0
-    for i in range(len(pricesList)):
-        if (i==0):
-            sheet["B23"] = businessinfo.numctrs
-            sheet["C23"] = "Ctr"
-            sheet["D23"] = "BL " + businessinfo.booking_no + " / CTR: " + businessinfo.container_no
-            sheet["D24"] = businessinfo.vessel_voyage
-            sheet["D25"] = businessinfo.pol + " - " + businessinfo.pod
-            sheet["H23"] = float(pricesList[0])
-            sheet["I23"] = sheet["H23"].value
-            totalprice +=float(pricesList[0])
-        elif (i==1):
-            sheet["B27"] = businessinfo.numctrs
-            sheet["C27"] = "Ctr"
-            sheet["D27"] = "Logistics at Destination:"
-            sheet["D28"] = "Handling + Apertura + Emision BL + Carta de Responsabilidad"
-            sheet["H27"] = float(pricesList[1])
-            sheet["I27"] = sheet["H27"].value
-            totalprice += float(pricesList[1])
-        elif (i == 2):
-            sheet["B29"] = businessinfo.numctrs
-            sheet["C29"] = "Ctr"
-            sheet["D29"] = "DTHC"
-            sheet["H29"] = float(pricesList[2])
-            sheet["I29"] = sheet["H29"].value
-            totalprice += float(pricesList[2])
-        elif (i == 3):
-            sheet["B30"] = businessinfo.numctrs
-            sheet["C30"] = "Ctr"
-            sheet["D30"] = "EXTRA HBL/ORIGINAL FEE/GATE IN FEE"
-            sheet["H30"] = float(pricesList[3])
-            sheet["I30"] = sheet["H30"].value
-            totalprice += float(pricesList[3])
-        else:
-            print("Have more prices...")
-            totalprice += float(pricesList[i])
-
-
-        i += 1
-
-    sheet["D32"]="Amount payable US"+ '${:,.0f}'.format(totalprice)
-    sheet["D33"] = "Please pay our dollar account below"
-
-    sheet["D35"] = "Payment should be executed before " + str(dateline.date())
-
-    sheet["B39"] = "美元(大写)金额: "
-    sheet["D39"] = totalprice
-
-    sheet["I38"] = totalprice
-    sheet["I42"] = totalprice
-
-    sheet["C50"] = ""
-    sheet["C51"] = ""
-    sheet["C52"] = ""
-
-    sheet["F50"] = ""
+    sheet["C12"] = businessinfo.client_name
+    sheet["C13"] = businessinfo.client_rut
+    sheet["C14"] = businessinfo.client_giro
+    sheet["C13"] = businessinfo.clientaddress
+    sheet["C14"] = businessinfo.clientcity
+    sheet["F16"] = businessinfo.clientstate
 
 
 

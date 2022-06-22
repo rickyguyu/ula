@@ -130,9 +130,19 @@ class Exportationinfo(models.Model):
     size = models.CharField(db_column='Container_Size', max_length=10) # e.j. CB3/M3
     net_weight = models.CharField(db_column='Net_weight', max_length=20)
 
-    # Payment Information
+    # Client and Payment Info
+    # Client Info
     client_name = models.CharField(db_column='Client_Name', max_length=45, blank=True,
                                   null=True)  # Field name made lowercase.
+    client_rut = models.CharField(db_column='Client_Rut', max_length=20)
+    client_giro = models.CharField(db_column='Client_Giro', default=None, max_length=200)
+    client_address = models.CharField(db_column='Client_Address', max_length=75)
+    client_city = models.CharField(db_column='Client_City', max_length=75)
+    client_state = models.CharField(db_column='Client_State/Province', max_length= 50)
+    client_country = models.CharField(db_column='Client_Country', max_length=75)
+    client_email = models.CharField(db_column='Client_Email', max_length=50)
+
+    # Rest of Payment Info
     charge_code = models.CharField(db_column='Charge_Code', max_length=75)
     payment = models.CharField(db_column='Payment', max_length=20)
     rateper = models.CharField(db_column='Rateper', max_length=20, blank=True, null=True)

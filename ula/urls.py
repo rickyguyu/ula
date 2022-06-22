@@ -24,7 +24,8 @@ urlpatterns = [
     path('imports/delbusiness/', views.delbusinessimport),
     path('exports/delbusiness/', views.delbusinessexport),
 
-    # From Ricky
-    path('prealerta/', views.prealerta),
+    path('exportprealerta/', views.exportsprealerta),
+    # path('/importprealerta/', views.importsprealerta),
+
     path('profile/', views.profile)
 ]

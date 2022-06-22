@@ -267,7 +267,7 @@
     <input type="submit" value="Delete/删除" class="btn btn-primary pull-right"/>
     <p></p>
 </form>
-<form id="prealerta-form" method="post" action="/prealerta/">
+<form id="prealerta-form" method="post" action="/exportprealerta/">
     {% csrf_token %}
     <input id="idbusinessforprealerta" name="idbusinessforprealerta" value="{{exportinfo.id}}"
            type="hidden" class="form-control">
@@ -481,7 +481,28 @@
                     <fieldset>
                         <legend>Payment Information:</legend>
                         <label for="client_name">Clint Name：</label>
-                        <input id="client_name" name="client_name" value="{{ exportinfo.client_name}}" type="text" class="form-control" required>*
+                        <input id="client_name" name="client_name" type="text" class="form-control" required>*
+                        <br>
+                        <label for="client_rut">Clint RUT：</label>
+                        <input id="client_rut" name="client_rut" type="text" class="form-control" required>*
+                        <br>
+                        <label for="client_giro">Clint Giro：</label>
+                        <input id="client_giro" name="client_giro" type="text" class="form-control" required>*
+                        <br>
+                        <label for="client_address">Client Address：</label>
+                        <input id="client_address" name="client_address" type="text" class="form-control">
+                        <br>
+                        <label for="client_city">Client City：</label>
+                        <input id="client_city" name="client_city" type="text" class="form-control">
+                        <br>
+                        <label for="client_state">Client State：</label>
+                        <input id="client_state" name="client_state" type="text" class="form-control">
+                        <br>
+                        <label for="client_country">Client Country：</label>
+                        <input id="client_country" name="client_country" type="text" class="form-control">
+                        <br>
+                        <label for="client_email">Client Email：</label>
+                        <input id="client_email" name="client_email" type="text" class="form-control" required>*
                         <br>
                         <label for="charge_code">Charge Code：</label>
                         <input id="charge_code" name="charge_code" value="{{ exportinfo.charge_code}}" type="text" class="form-control">
