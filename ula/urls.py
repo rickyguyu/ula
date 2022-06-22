@@ -23,6 +23,7 @@ urlpatterns = [
     path('imports/import/', views.importbusiness, name='import'),
     path('imports/delbusiness/', views.delbusinessimport),
     path('exports/delbusiness/', views.delbusinessexport),
+    path('exportbooking/', views.exportsbooking),
 
     path('exportprealerta/', views.exportsprealerta),
     # path('/importprealerta/', views.importsprealerta),

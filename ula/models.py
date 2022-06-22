@@ -127,7 +127,7 @@ class Exportationinfo(models.Model):
     # Weight and Size Information
     tare = models.CharField(db_column='Tare', max_length=20)
     gross_weight = models.CharField(db_column='Gross_Weight', max_length=15)
-    size = models.CharField(db_column='Container_Size', max_length=10) # e.j. CB3/M3
+    size = models.CharField(db_column='Container_Size', max_length=30) # e.j. CB3/M3
     net_weight = models.CharField(db_column='Net_weight', max_length=20)
 
     # Client and Payment Info
@@ -144,10 +144,10 @@ class Exportationinfo(models.Model):
 
     # Rest of Payment Info
     charge_code = models.CharField(db_column='Charge_Code', max_length=75)
-    payment = models.CharField(db_column='Payment', max_length=20)
+    payment_type = models.CharField(db_column='Payment', max_length=20) #Type of payment
     rateper = models.CharField(db_column='Rateper', max_length=20, blank=True, null=True)
     freightcharges = models.CharField(db_column='FreightCharges', max_length=20)
-    prepaid = models.CharField(db_column='Prepaid', max_length=10)
+    prepaid = models.CharField(db_column='Prepaid', max_length=15)
     collect = models.CharField(db_column='Collect', max_length=20, blank=True, null=True)
 
     # Shipper Information

@@ -267,6 +267,14 @@
     <input type="submit" value="Delete/删除" class="btn btn-primary pull-right"/>
     <p></p>
 </form>
+<form id="booking-form" method="post" action="/exportbooking/">
+    {% csrf_token %}
+    <input id="idbusinessforbooking" name="idbusinessforbooking" value="{{exportinfo.id}}"
+           type="hidden" class="form-control">
+
+    <input type="submit" value="Generate Booking" class="btn btn-primary pull-right"/>
+    <p></p>
+</form>
 <form id="prealerta-form" method="post" action="/exportprealerta/">
     {% csrf_token %}
     <input id="idbusinessforprealerta" name="idbusinessforprealerta" value="{{exportinfo.id}}"
@@ -278,7 +286,7 @@
     <input id="toinv_forprealerta" name="toinv_forprealerta" value="{{exportinfo.toinvoice_dest}}"
            type="hidden" class="form-control">
 
-    <input type="submit" value="Generar Pre-Alerta" class="btn btn-primary pull-right"/>
+    <input type="submit" value="Generate Pre-Alerta" class="btn btn-primary pull-right"/>
     <p></p>
 </form>
 
@@ -507,8 +515,8 @@
                         <label for="charge_code">Charge Code：</label>
                         <input id="charge_code" name="charge_code" value="{{ exportinfo.charge_code}}" type="text" class="form-control">
                         <br>
-                        <label for="payment">Payment：</label>
-                        <input id="payment" name="payment" value="{{ exportinfo.payment}}" type="text" class="form-control">
+                        <label for="payment_type">Payment (Type)：</label>
+                        <input id="payment_type" name="payment_type" value="{{ exportinfo.payment_type}}" type="text" class="form-control">
                         <br>
                         <label for="rateper">Rate Per：</label>
                         <input id="rateper" name="rateper" value="{{ exportinfo.rateper}}" type="text" class="form-control">

@@ -371,6 +371,13 @@ def savebusinessexport(request):
     products = request.POST.get("products", "")
     # payment info
     client_name = request.POST.get("client_name", "")
+    client_rut = request.POST.get("client_rut", "")
+    client_giro = request.POST.get("client_giro", "")
+    client_address = request.POST.get("client_address", "")
+    client_city = request.POST.get("client_city", "")
+    client_state = request.POST.get("client_state", "")
+    client_country = request.POST.get("client_country", "")
+    client_email = request.POST.get("client_email", "")
     charge_code = request.POST.get("charge_code", "")
     payment = request.POST.get("payment", "")
     rateper = request.POST.get("rateper", "")
@@ -446,6 +453,13 @@ def savebusinessexport(request):
             exporationinfo.products=products
             # payment info
             exporationinfo.client_name=client_name
+            exporationinfo.client_rut=client_rut
+            exporationinfo.client_giro=client_giro
+            exporationinfo.client_address=client_address
+            exporationinfo.client_city=client_city
+            exporationinfo.client_state=client_state
+            exporationinfo.client_country=client_country
+            exporationinfo.client_country=client_country
             exporationinfo.charge_code=charge_code
             exporationinfo.payment=payment
             exporationinfo.rateper=rateper
@@ -520,6 +534,13 @@ def savebusinessexport(request):
                 products=products,
                 # Payment Info:
                 client_name=client_name,
+                client_rut=client_rut,
+                client_giro=client_giro,
+                client_address=client_address,
+                client_city=client_city,
+                client_state=client_state,
+                client_country=client_country,
+                client_email=client_email,
                 charge_code=charge_code,
                 payment=payment,
                 rateper=rateper,
@@ -555,6 +576,7 @@ def savebusinessexport(request):
     else: # 必填数据为空
         return HttpResponse("请输入数据")
 
+
 def delbusinessimport(request):
     idbusinessfordelete = request.POST.get("idbusinessfordelete", "")
     if idbusinessfordelete:
@@ -571,11 +593,72 @@ def delbusinessexport(request):
         exporationinfo = Exportationinfo.objects.filter(operation_status="NO").order_by("id")
         return render(request, "exportsmain.html", {"exportsLists": exporationinfo})
 
+def exportsbooking(request):
+    idbusinessforbooking = request.POST.get("idbusinessforbooking", "")
+    businessinfo= Exportationinfo.objects.get(id=idbusinessforbooking)
+    if businessinfo.booking_no and businessinfo.id_number and businessinfo.client_name\
+            and businessinfo.client_address and businessinfo.client_city and businessinfo.client_country\
+            and businessinfo.client_rut and businessinfo.booking_no and businessinfo.shipping_line and businessinfo.vessel_voyage\
+            and businessinfo.delivery_terminal and businessinfo.pol and businessinfo.pol_sailing and businessinfo.pod_discharge\
+            and businessinfo.pod and businessinfo.pickup_ctrs and businessinfo.cutoff_docmatriz and businessinfo.cutoff_vgm\
+            and businessinfo.cargo_cutoff and businessinfo.stacking_start and businessinfo.stacking_close and businessinfo.etd\
+            and businessinfo.eta and businessinfo.qty and businessinfo.type_ctrs and businessinfo.commodity and businessinfo.hs_code\
+            and businessinfo.pickup_dpto and businessinfo.pickup_ref and businessinfo.charge_code and businessinfo.prepaid:
+        clientname=businessinfo.client_name
+        container_no=Exportationinfo.objects.get(id=idbusinessforbooking).id_number
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        # response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=BOOKING_'+ str(businessinfo.booking_no)+ "_"+ container_no +"_"+clientname + "_"+ str(datetime.today().month)+'.'+str(datetime.today().day)+'.xlsx'
+
+        wb = load_workbook(filename="."+settings.STATIC_URL+"Template/tBooking.xlsx") #, read_only=True
+        sheet = wb.get_sheet_by_name("BOOKING")
+        # Header
+        sheet["E2"] = str(datetime.today().month)+'-'+str(datetime.today().day)+'-'+str(datetime.today().year)
+        sheet["A10"] = businessinfo.client_name
+        sheet["A11"] = businessinfo.client_address + "," + businessinfo.client_city + " - " + businessinfo.client_country
+        sheet["A12"] = "RUT:" + businessinfo.client_rut
+        # Main Section 1
+        sheet["B15"] = ":" + businessinfo.booking_no
+        sheet["E15"] = ":" + businessinfo.shipping_line
+        sheet["B16"] = ":" + businessinfo.vessel_voyage
+        sheet["B17"] = ":" + businessinfo.delivery_terminal
+        # Main Section 2
+        sheet["B19"] = ":" + businessinfo.pol
+        sheet["B20"] = ":" + businessinfo.pol_sailing
+        sheet["B21"] = ":" + businessinfo.pod_discharge
+        sheet["B22"] = ":" + businessinfo.pod
+        # Main Section 3
+        sheet["B24"] = ":" + businessinfo.pickup_ctrs
+        sheet["B25"] = ":" + businessinfo.cutoff_docmatriz
+        sheet["B26"] = ":" + businessinfo.cutoff_vgm
+        sheet["B27"] = ":" + businessinfo.cargo_cutoff
+        sheet["B28"] = ":" + businessinfo.stacking_start
+        sheet["B29"] = ":" + businessinfo.stacking_close
+        sheet["B30"] = ":" + businessinfo.etd
+        sheet["B31"] = ":" + businessinfo.eta
+        # Main Section 4
+        sheet["B33"] = ":" + businessinfo.qty + "X" + businessinfo.type_ctrs
+        sheet["B34"] = ":" + businessinfo.commodity
+        sheet["B35"] = ":" + businessinfo.hs_code
+        sheet["B36"] = ":" + businessinfo.pickup_dpto
+        sheet["B37"] = ":" + businessinfo.pickup_ref
+        # Main Section 5
+        sheet["B40"] = ":" + businessinfo.charge_code
+        sheet["B41"] = ":" + businessinfo.prepaid
+        sheet["B42"] = ":" + businessinfo.qty
+
+        wb.save(response)
+        return response
+    else:
+        return HttpResponse("Missing Information")
+
+
 def exportsprealerta(request):
     idbusinessforprealerta = request.POST.get("idbusinessforprealerta", "")
     businessinfo= Exportationinfo.objects.get(id=idbusinessforprealerta)
     clientename=businessinfo.clientname
-    container_no=Businessinfo.objects.get(id=idbusinessforprealerta).container_no;
+    container_no=Exportationinfo.objects.get(id=idbusinessforprealerta).container_no;
 
 
     deta=datetime.strptime(str(businessinfo.eta),"%Y-%m-%d")
@@ -591,12 +674,74 @@ def exportsprealerta(request):
     newsize=(145,32)
     img.width, img.height = newsize
     sheet.add_image(img,"B4")
-    sheet["C12"] = businessinfo.client_name
-    sheet["C13"] = businessinfo.client_rut
-    sheet["C14"] = businessinfo.client_giro
-    sheet["C13"] = businessinfo.clientaddress
-    sheet["C14"] = businessinfo.clientcity
-    sheet["F16"] = businessinfo.clientstate
+    sheet["C12"] = clienteInfo.clientname
+    sheet["C13"] = clienteInfo.clientrut
+    sheet["C14"] = clienteInfo.clientgiro
+    sheet["C15"] = clienteInfo.clientaddress
+    sheet["C16"] = clienteInfo.clientstate
+    sheet["F16"] = clienteInfo.clientcity
+    sheet["C17"] = clienteInfo.clientcontact
+    sheet["I12"] = str(datetime.today().date())
+
+    sheet["D22"] ="Flete Maritimo "+ businessinfo.shipping_line+ " Line " + str(businessinfo.numctrs) +"X"+ businessinfo.type_ctrs
+    pricesList=businessinfo.toinvoice_dest_description.split("+")
+    i=0
+    totalprice = 0
+    for i in range(len(pricesList)):
+        if (i==0):
+            sheet["B23"] = businessinfo.numctrs
+            sheet["C23"] = "Ctr"
+            sheet["D23"] = "BL " + businessinfo.booking_no + " / CTR: " + businessinfo.container_no
+            sheet["D24"] = businessinfo.vessel_voyage
+            sheet["D25"] = businessinfo.pol + " - " + businessinfo.pod
+            sheet["H23"] = float(pricesList[0])
+            sheet["I23"] = sheet["H23"].value
+            totalprice +=float(pricesList[0])
+        elif (i==1):
+            sheet["B27"] = businessinfo.numctrs
+            sheet["C27"] = "Ctr"
+            sheet["D27"] = "Logistics at Destination:"
+            sheet["D28"] = "Handling + Apertura + Emision BL + Carta de Responsabilidad"
+            sheet["H27"] = float(pricesList[1])
+            sheet["I27"] = sheet["H27"].value
+            totalprice += float(pricesList[1])
+        elif (i == 2):
+            sheet["B29"] = businessinfo.numctrs
+            sheet["C29"] = "Ctr"
+            sheet["D29"] = "DTHC"
+            sheet["H29"] = float(pricesList[2])
+            sheet["I29"] = sheet["H29"].value
+            totalprice += float(pricesList[2])
+        elif (i == 3):
+            sheet["B30"] = businessinfo.numctrs
+            sheet["C30"] = "Ctr"
+            sheet["D30"] = "EXTRA HBL/ORIGINAL FEE/GATE IN FEE"
+            sheet["H30"] = float(pricesList[3])
+            sheet["I30"] = sheet["H30"].value
+            totalprice += float(pricesList[3])
+        else:
+            print("Have more prices...")
+            totalprice += float(pricesList[i])
+
+
+        i += 1
+
+    sheet["D32"]="Amount payable US"+ '${:,.0f}'.format(totalprice)
+    sheet["D33"] = "Please pay our dollar account below"
+
+    sheet["D35"] = "Payment should be executed before " + str(dateline.date())
+
+    sheet["B39"] = "美元(大写)金额: "
+    sheet["D39"] = totalprice
+
+    sheet["I38"] = totalprice
+    sheet["I42"] = totalprice
+
+    sheet["C50"] = ""
+    sheet["C51"] = ""
+    sheet["C52"] = ""
+
+    sheet["F50"] = ""
 
 
 
