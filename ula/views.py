@@ -62,6 +62,7 @@ def newbusinessexport(request) :
         return render(request, "newbusinessexport.html")
     else: # 修改
         exportinfo = Exportationinfo.objects.get(id=userSelectUID)
+        print(exportinfo.pickup_ctrs)
         return render(request, "modbusinessexport.html", {"exportinfo": exportinfo})
 
 # Create your views here.
@@ -459,7 +460,7 @@ def savebusinessexport(request):
             exporationinfo.client_city=client_city
             exporationinfo.client_state=client_state
             exporationinfo.client_country=client_country
-            exporationinfo.client_country=client_country
+            exporationinfo.client_email=client_email
             exporationinfo.charge_code=charge_code
             exporationinfo.payment=payment
             exporationinfo.rateper=rateper

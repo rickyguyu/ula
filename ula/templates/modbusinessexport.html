@@ -76,6 +76,37 @@
            dateObj.value=dateString1;
         }
 
+        function formatDateTime(dateTimeID, dateTimeString){
+            var d = new Date(dateTimeString);
+            hour = ''+ d.getHours();
+            minute = '' + d.getMinutes();
+            month = ''+ (d.getMonth()+1);
+            day = ''+d.getDate();
+            year= d.getFullYear();
+
+           if (month.length < 2){
+                  month = '0'+ month;
+           }
+           if (day.length < 2){
+                day = '0'+ day;
+           }
+           if (hour.length < 2){
+               hour = '0' + hour;
+           }
+           if (minute.length < 2){
+               hour = '0' + hour;
+           }
+           dateTimeString1 = [year,month,day].join('-');
+           t = "T";
+           dateTimeString2 = [hour,minute].join(':');
+           dateTimeString3 = dateTimeString1.concat(t);
+           dateTimeString4 = dateTimeString3.concat(dateTimeString3);
+           alert(dateTimeString);
+           dateTimeObj = document.getElementById(dateTimeID);
+           dateTimeObj.value=dateString4;
+
+        }
+
         function setCheckbox(checkboxID, checkboxString){
            checkboxObj = document.getElementById(checkboxID);
            if (checkboxString =="YES"){
@@ -357,47 +388,38 @@
                     <fieldset>
                         <legend>Date Information:</legend>
                         <label for="pickup_ctrs">Pickup ctrs: </label>
-                        <input id="pickup_ctrs" name="pickup_ctrs" value="{{ exportinfo.pickup_ctrs}}" type="datetime-local" class="form-control">
+                        <input id="pickup_ctrs" name="pickup_ctrs" type="datetime-local" class="form-control">
                         <br>
                         <label for="cutoff_docmatriz">Cutoff Doc. Matriz: </label>
-                        <input id="cutoff_docmatriz" name="cutoff_docmatriz" value="{{ exportinfo.cutoff_docmatriz}}" type="datetime-local" class="form-control">
+                        <input id="cutoff_docmatriz" name="cutoff_docmatriz" type="datetime-local" class="form-control">
                         <br>
                         <label for="cutoff_vgm">Cutoff VGM: </label>
-                        <input id="cutoff_vgm" name="cutoff_vgm" value="{{ exportinfo.cutoff_vgm}}" type="datetime-local" class="form-control">
+                        <input id="cutoff_vgm" name="cutoff_vgm" type="datetime-local" class="form-control">
                         <br>
                         <label for="cargo_cutoff">Cargo Cutoff: </label>
-                        <input id="cargo_cutoff" name="cargo_cutoff" value="{{ exportinfo.cargo_cutoff}}" type="datetime-local" class="form-control">
+                        <input id="cargo_cutoff" name="cargo_cutoff" type="datetime-local" class="form-control">
                         <br>
                         <label for="stacking_start">Stacking Start: </label>
-                        <input id="stacking_start" name="stacking_start" value="{{ exportinfo.stacking_start}}" type="datetime-local" class="form-control">
+                        <input id="stacking_start" name="stacking_start" type="datetime-local" class="form-control">
                         <br>
                         <label for="stacking_close">Stacking Close: </label>
-                        <input id="stacking_close" name="stacking_close" value="{{ exportinfo.stacking_close}}" type="datetime-local" class="form-control">
+                        <input id="stacking_close" name="stacking_close" type="datetime-local" class="form-control">
                         <br>
                         <label for="etd">ETD Real/实际开船日期：</label>
-                        <input id="etd" name="etd" value="{{ exportinfo.etd}}" type="date" class="form-control">
+                        <input id="etd" name="etd" type="date" class="form-control">
                         <br>
                         <label for="eta">ETA/预计到港日期：</label>
-                        <input id="eta" name="eta" value="{{ exportinfo.eta}}" type="date" class="form-control">
+                        <input id="eta" name="eta" type="date" class="form-control">
                         <script>
-                            setSelected("pickup_ctrs","{{exportinfo.pickup_ctrs}}");
-                            setSelected("cutoff_docmatriz","{{exportinfo.cutoff_docmatriz}}");
-                            setSelected("cutoff_vgm","{{exportinfo.cutoff_vgm}}");
-                            setSelected("cargo_cutoff","{{exportinfo.cargo_cutoff}}");
-                            setSelected("stacking_start","{{exportinfo.stacking_start}}");
-                            setSelected("stacking_close","{{exportinfo.stacking_close}}");
-                            setSelected("etd","{{exportinfo.etd}}");
-                            setSelected("eta","{{exportinfo.eta}}");
-                        </script>
-                        <script>
-                            formatDateTime("pickup_ctrs", {{exportationinfo.pickup_ctrs}});
-                            formatDateTime("cutoff_docmatriz", {{exportationinfo.cutoff_docmatriz}});
-                            formatDateTime("cutoff_vgm", {{exportationinfo.cutoff_vgm}});
-                            formatDateTime("cargo_cutoff", {{exportationinfo.cargo_cutoff}});
-                            formatDateTime("stacking_start", {{exportationinfo.stacking_start}});
-                            formatDateTime("stacking_close", {{exportationinfo.stacking_close}});
-                            formatDate("etd","{{exportationinfo.etd}}");
-                            formatDate("eta","{{exportationinfo.eta}}");
+                            formatDate("eta","{{exportinfo.eta}}");
+                            formatDate("etd","{{exportinfo.etd}}");
+                            formatDateTime("pickup_ctrs","{{exportinfo.pickup_ctrs}}");
+                            formatDateTime("cutoff_docmatriz","{{exportinfo.cutoff_docmatriz}}");
+                            formatDateTime("cutoff_vgm","{{exportinfo.cutoff_vgm}}");
+                            formatDateTime("cargo_cutoff","{{exportinfo.cargo_cutoff}}");
+                            formatDateTime("stacking_start","{{exportinfo.stacking_start}}");
+                            formatDateTime("stacking_close","{{exportinfo.stacking_close}}");
+
                         </script>
                         <br>
                     </fieldset>
@@ -489,28 +511,28 @@
                     <fieldset>
                         <legend>Payment Information:</legend>
                         <label for="client_name">Clint Name：</label>
-                        <input id="client_name" name="client_name" type="text" class="form-control" required>*
+                        <input id="client_name" name="client_name" value="{{ exportinfo.client_name}}" type="text" class="form-control" required>*
                         <br>
                         <label for="client_rut">Clint RUT：</label>
-                        <input id="client_rut" name="client_rut" type="text" class="form-control" required>*
+                        <input id="client_rut" name="client_rut" value="{{ exportinfo.client_rut}}" type="text" class="form-control" required>*
                         <br>
                         <label for="client_giro">Clint Giro：</label>
-                        <input id="client_giro" name="client_giro" type="text" class="form-control" required>*
+                        <input id="client_giro" name="client_giro" value="{{ exportinfo.client_giro}}" type="text" class="form-control" required>*
                         <br>
                         <label for="client_address">Client Address：</label>
-                        <input id="client_address" name="client_address" type="text" class="form-control">
+                        <input id="client_address" name="client_address" value="{{ exportinfo.client_address}}" type="text" class="form-control">
                         <br>
                         <label for="client_city">Client City：</label>
-                        <input id="client_city" name="client_city" type="text" class="form-control">
+                        <input id="client_city" name="client_city" value="{{ exportinfo.client_city}}" type="text" class="form-control">
                         <br>
                         <label for="client_state">Client State：</label>
-                        <input id="client_state" name="client_state" type="text" class="form-control">
+                        <input id="client_state" name="client_state" value="{{ exportinfo.client_state}}" type="text" class="form-control">
                         <br>
                         <label for="client_country">Client Country：</label>
-                        <input id="client_country" name="client_country" type="text" class="form-control">
+                        <input id="client_country" name="client_country" value="{{ exportinfo.client_country}}" type="text" class="form-control">
                         <br>
                         <label for="client_email">Client Email：</label>
-                        <input id="client_email" name="client_email" type="text" class="form-control" required>*
+                        <input id="client_email" name="client_email" value="{{ exportinfo.client_email}}" type="text" class="form-control" required>*
                         <br>
                         <label for="charge_code">Charge Code：</label>
                         <input id="charge_code" name="charge_code" value="{{ exportinfo.charge_code}}" type="text" class="form-control">
@@ -531,7 +553,6 @@
                         <input id="collect" name="collect" value="{{ exportinfo.collect}}" type="text" class="form-control">
                         <br>
                         <script>
-                            setSelected("client_name","{{exportinfo.client_name}}");
                             setSelected("charge_code","{{exportinfo.charge_code}}");
                             setSelected("payment","{{exportinfo.payment}}");
                             setSelected("rateper","{{exportinfo.rateper}}");
@@ -641,6 +662,7 @@
                             setSelected("operation_status","{{exportinfo.operation_status}}");
                         </script>
                     </fieldset>
+                    <fieldset>
                     <div align="right">
                         <input type="submit" value="Modify/保存" class="btn btn-primary pull-right"/>
                     </div>
